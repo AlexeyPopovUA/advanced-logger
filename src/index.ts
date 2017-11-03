@@ -1,1 +1,3 @@
-export { Example } from "./Example";
+import UniversalLogger from "./UniversalLogger";
+
+export default UniversalLogger;
