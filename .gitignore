@@ -1,0 +1,5 @@
+# Created by .ignore support plugin (hsz.mobi)
+/coverage/
+/dist/
+/node_modules/
+/.idea/
