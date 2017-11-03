@@ -1,22 +1,32 @@
 import IUniversalLoggerConfiguration from "./interface/IUniversalLoggerConfiguration";
 import ServiceFacade from "./ServiceFacade";
+import StrategyFacade from "./StrategyFacade";
 
+/**
+ * Uses different strategies to submit logs to log server via Service facade.
+ */
 export default class UniversalLogger {
-    private facade: ServiceFacade;
     private configuration: IUniversalLoggerConfiguration;
+    private facade: ServiceFacade;
+    private strategy: StrategyFacade;
 
     constructor(configuration: IUniversalLoggerConfiguration) {
         this.configuration = configuration;
-
-        // todo Check this.configuration.strategy value to determine the strategy
 
         this.facade = new ServiceFacade({
             serviceConfiguration: this.configuration.serviceConfiguration,
             serviceType: this.configuration.serviceType
         });
+
+        this.strategy = new StrategyFacade({
+            // todo Review this dependency on facade
+            facade: this.facade,
+            strategyType: configuration.strategyType
+        });
     }
 
     public initialize(): Promise<any> {
+        // todo Review this dependency on facade
         return this.facade.initService(this.configuration.serviceConfiguration);
     }
 
@@ -25,11 +35,16 @@ export default class UniversalLogger {
     }
 
     public log(log: any): void {
-        // send via strategy to facade
+        this.strategy.log(log);
     }
 
+    /**
+     * Forces log sending for all strategyType types
+     * @return {Promise<any>}
+     */
     public sendAllLogs(): Promise<any> {
-        return Promise.resolve();
+        // send via strategyType to facade
+        return this.strategy.sendAllLogs();
     }
 
     public destroy(): void {

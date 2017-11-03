@@ -8,12 +8,17 @@ export default class SumologicService implements IService {
     }
 
     public initialize(config: any): Promise<any> {
-        // implement direct connection with API or SDK
+        // TODO Implement direct connection with API or SDK
         return Promise.resolve();
     }
 
     public sendAllLogs(logs: any[]): Promise<any> {
-        // implement direct communication with API or SDK
+        // TODO Implement direct communication with API or SDK
         return Promise.resolve();
+    }
+
+    public preparePayload(logs: any[]): any {
+        // TODO implement it (concatenate json strings with newline delimeter)
+        return logs;
     }
 }

@@ -6,6 +6,7 @@ export default class ServiceFacade {
     private service: IService;
     private serviceType: string;
     private serviceConfiguration: any;
+    private logs: any[];
 
     constructor(config: IFacadeConfiguration) {
         this.serviceType = config.serviceType;
@@ -15,12 +16,18 @@ export default class ServiceFacade {
     public initService(config: any): Promise<any> {
         if (this.serviceType === "SUMOLOGIC") {
             this.service = new SumologicService(config);
+        } else {
+            throw new Error("Unsupported service");
         }
 
         return this.service.initialize(config);
     }
 
-    public sendAll(logs: any[]): Promise<any> {
-        return this.service.sendAllLogs(logs);
+    public log(log: any) {
+        this.logs.push(log);
+    }
+
+    public sendAllLogs(): Promise<any> {
+        return this.service.sendAllLogs(this.service.preparePayload(this.logs));
     }
 }

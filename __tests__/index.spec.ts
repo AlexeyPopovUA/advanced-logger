@@ -16,7 +16,7 @@ describe("index", () => {
             logger = new Logger({
                 serviceConfiguration: {},
                 serviceType: "SUMOLOGIC",
-                strategy: StrategyEnum.ON_REQUEST
+                strategyType: StrategyEnum.ON_REQUEST
             });
         }).not.toThrow();
 
@@ -27,7 +27,7 @@ describe("index", () => {
         const logger = new Logger({
             serviceConfiguration: {},
             serviceType: "SUMOLOGIC",
-            strategy: StrategyEnum.ON_REQUEST
+            strategyType: StrategyEnum.ON_REQUEST
         });
 
         logger.initialize()
