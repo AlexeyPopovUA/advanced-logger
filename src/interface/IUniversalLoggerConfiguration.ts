@@ -1,9 +1,6 @@
-import IService from "./IService";
-
 export default interface IUniversalLoggerConfiguration {
+    serviceType: string;
+    serviceConfiguration?: any;
     strategy: string;
-
     groupable?: boolean;
-
-    loggingService: IService;
 }
