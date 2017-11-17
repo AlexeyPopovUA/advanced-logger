@@ -29,7 +29,7 @@ export default class LogStore {
 
     public add(log: any): void {
         this.logs.add(log);
-        this.addObserver.next(log);
+        this.addObserver.next(this.size());
     }
 
     public clear(): void {

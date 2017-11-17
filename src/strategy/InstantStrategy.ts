@@ -1,7 +1,7 @@
 import {Observable, Observer} from "@reactivex/rxjs";
 import IStrategy from "./../interface/IStrategy";
 
-export default class OnRequestStrategy implements IStrategy {
+export default class InstantStrategy implements IStrategy {
     public sendObservable: Observable;
 
     private sendObserver: Observer;
@@ -13,7 +13,7 @@ export default class OnRequestStrategy implements IStrategy {
     }
 
     public onAdd(info?: any): void {
-        // Ignore log list change
+        this.sendAll();
     }
 
     public onClear(): void {

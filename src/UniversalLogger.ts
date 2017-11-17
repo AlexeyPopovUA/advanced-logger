@@ -1,3 +1,4 @@
+import IStrategy from "./interface/IStrategy";
 import IUniversalLoggerConfiguration from "./interface/IUniversalLoggerConfiguration";
 import LogStore from "./LogStore";
 import ServiceFacade from "./ServiceFacade";
@@ -9,7 +10,7 @@ import OnRequestStrategy from "./strategy/OnRequestStrategy";
 export default class UniversalLogger {
     private configuration: IUniversalLoggerConfiguration;
     private facade: ServiceFacade;
-    private strategy: OnRequestStrategy;
+    private strategy: IStrategy;
     private logStore: LogStore;
 
     constructor(configuration: IUniversalLoggerConfiguration) {
@@ -22,6 +23,12 @@ export default class UniversalLogger {
 
         this.logStore = new LogStore();
         this.strategy = new OnRequestStrategy();
+
+        // todo Where is it better to subscribe?
+        this.logStore.addObservable.subscribe({
+            error: error => console.error(error),
+            next: () => this.strategy.onAdd({ count: this.logStore.size()})
+        });
 
         this.strategy.sendObservable.subscribe({
             error: error => console.error(error),
@@ -44,7 +51,6 @@ export default class UniversalLogger {
 
     /**
      * Forces log sending for all strategyType types
-     * @return {Promise<any>}
      */
     public sendAllLogs(): void {
         this.strategy.sendAll();
