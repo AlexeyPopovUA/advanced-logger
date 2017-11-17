@@ -1,7 +1,7 @@
 import IUniversalLoggerConfiguration from "./interface/IUniversalLoggerConfiguration";
 import LogStore from "./LogStore";
 import ServiceFacade from "./ServiceFacade";
-import StrategyFacade from "./StrategyFacade";
+import OnRequestStrategy from "./strategy/OnRequestStrategy";
 
 /**
  * Uses different strategies to submit logs to log server via Service facade.
@@ -9,7 +9,7 @@ import StrategyFacade from "./StrategyFacade";
 export default class UniversalLogger {
     private configuration: IUniversalLoggerConfiguration;
     private facade: ServiceFacade;
-    private strategy: StrategyFacade;
+    private strategy: OnRequestStrategy;
     private logStore: LogStore;
 
     constructor(configuration: IUniversalLoggerConfiguration) {
@@ -20,14 +20,13 @@ export default class UniversalLogger {
             serviceType: this.configuration.serviceType
         });
 
-        // todo Replace with a new approach
-        this.strategy = new StrategyFacade({
-            // todo Review this dependency on facade
-            facade: this.facade,
-            strategyType: configuration.strategyType
-        });
-
         this.logStore = new LogStore();
+        this.strategy = new OnRequestStrategy();
+
+        this.strategy.sendObservable.subscribe({
+            error: error => console.error(error),
+            next: () => this.facade.sendAllLogs()
+        });
     }
 
     public initialize(): Promise<any> {
@@ -47,10 +46,8 @@ export default class UniversalLogger {
      * Forces log sending for all strategyType types
      * @return {Promise<any>}
      */
-    public sendAllLogs(): Promise<any> {
-        // Todo subscribe to strategy event
-        // send via strategyType to facade
-        return this.strategy.sendAllLogs();
+    public sendAllLogs(): void {
+        this.strategy.sendAll();
     }
 
     public destroy(): void {

@@ -1,21 +1,26 @@
-import IStrategy from "../interface/IStrategy";
-import IStrategyConfig from "../interface/IStrategyConfig";
-import ServiceFacade from "../ServiceFacade";
+import {Observable, Observer} from "@reactivex/rxjs";
+import IStrategy from "./../interface/IStrategy";
 
 export default class OnRequestStrategy implements IStrategy {
-    public facade: ServiceFacade;
+    public sendObservable: Observable;
 
-    private config: IStrategyConfig;
+    private sendObserver: Observer;
 
-    constructor(config: IStrategyConfig) {
-        this.config = config;
+    constructor() {
+        this.sendObservable = Observable.create(observer => {
+            this.sendObserver = observer;
+        });
     }
 
-    public log(log: any): void {
-        this.facade.log(log);
+    public onAdd(): void {
+        // Ignore log list change
     }
 
-    public sendAllLogs(): Promise<any> {
-        return this.facade.sendAllLogs();
+    public onClear(): void {
+        // Ignore log list change
+    }
+
+    public sendAll(): void {
+        this.sendObserver.next();
     }
 }

@@ -1,9 +1,7 @@
-import ServiceFacade from "../ServiceFacade";
-
 export default interface IStrategy {
-    facade: ServiceFacade;
+    onAdd(): void;
 
-    log(log: any): void;
+    onClear(): void;
 
-    sendAllLogs(): Promise<any>;
+    sendAll(): void;
 }
