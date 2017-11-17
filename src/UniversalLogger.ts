@@ -1,4 +1,5 @@
 import IUniversalLoggerConfiguration from "./interface/IUniversalLoggerConfiguration";
+import LogStore from "./LogStore";
 import ServiceFacade from "./ServiceFacade";
 import StrategyFacade from "./StrategyFacade";
 
@@ -9,6 +10,7 @@ export default class UniversalLogger {
     private configuration: IUniversalLoggerConfiguration;
     private facade: ServiceFacade;
     private strategy: StrategyFacade;
+    private logStore: LogStore;
 
     constructor(configuration: IUniversalLoggerConfiguration) {
         this.configuration = configuration;
@@ -18,11 +20,14 @@ export default class UniversalLogger {
             serviceType: this.configuration.serviceType
         });
 
+        // todo Replace with a new approach
         this.strategy = new StrategyFacade({
             // todo Review this dependency on facade
             facade: this.facade,
             strategyType: configuration.strategyType
         });
+
+        this.logStore = new LogStore();
     }
 
     public initialize(): Promise<any> {
@@ -35,7 +40,7 @@ export default class UniversalLogger {
     }
 
     public log(log: any): void {
-        this.strategy.log(log);
+        this.logStore.add(log);
     }
 
     /**
@@ -43,11 +48,12 @@ export default class UniversalLogger {
      * @return {Promise<any>}
      */
     public sendAllLogs(): Promise<any> {
+        // Todo subscribe to strategy event
         // send via strategyType to facade
         return this.strategy.sendAllLogs();
     }
 
     public destroy(): void {
-        // destroy all descendants
+        // todo Destroy all dependencies
     }
 }
