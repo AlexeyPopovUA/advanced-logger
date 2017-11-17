@@ -1,6 +1,6 @@
 {
   "name": "universal-logger",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Example git project that is used for typescript libraries as a starter pack",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -61,7 +61,9 @@
     "webpack": "^3.8.1",
     "webpack-node-externals": "^1.6.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@reactivex/rxjs": "^5.5.2"
+  },
   "jest": {
     "transform": {
       ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
