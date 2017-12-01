@@ -5,6 +5,44 @@ export default class SumologicService implements IService {
 
     constructor(config: any) {
         this.config = config;
+
+        // TODO Review these Sumologic configs and adopt them to the service
+        // default connection config
+        /*"endpoint": config.url,
+        "sessionKey": config.sessionKey*/
+
+        // default task config
+        /*
+        {
+            "Domain": document.domain,
+            "UserAgent": navigator.userAgent,
+            "Channel": "albelli",
+            "BuildVersion": window["environment"] ? window["environment"]["build"] : 0,
+            "Platform": utils.getCurrentPlatform(),
+            "Article": "",
+            "StoredProductId": null,
+            "Severity": LogLevel.DEBUG,
+            "Data": "",
+            "Timestamp": "",
+            "Exception": "",
+            "Message": "",
+            "Category": "",
+            "ErrorId": 0,
+            "CloneInGroupCounter": 1
+        }
+        */
+
+        // custom task config
+        /*
+        {
+            "Severity": data["level"],
+            "Data": data["data"],
+            "Message": data["message"],
+            "Category": data["category"],
+            "Exception": data["exception"],
+            "Timestamp": new Date().toISOString()
+        }
+        */
     }
 
     public initialize(config: any): Promise<any> {
