@@ -1,8 +1,8 @@
-import {StrategyEnum} from "../enum/StrategyEnum";
+import IService from "./IService";
+import IStrategy from "./IStrategy";
 
 export default interface IUniversalLoggerConfiguration {
-    serviceType: string;
-    serviceConfiguration?: any;
-    strategyType: StrategyEnum;
+    service: IService;
+    strategy: IStrategy;
     groupable?: boolean;
 }

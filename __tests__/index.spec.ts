@@ -1,37 +1,28 @@
 "use strict";
 
 import "jest";
-import {StrategyEnum} from "../src/enum/StrategyEnum";
-import Logger from "../src/index";
+import {service} from "../src";
+import {strategy} from "../src";
+import {UniversalLogger} from "../src";
+
+const SumologicService = service.SumologicService;
+const OnRequestStrategy = strategy.OnRequestStrategy;
 
 describe("index", () => {
     it("Should export Logger", () => {
-        expect(typeof Logger).toBe("function");
+        expect(typeof UniversalLogger).toBe("function");
     });
 
     it("Should be able to create a new Logger instance", () => {
         let logger;
 
         expect(() => {
-            logger = new Logger({
-                serviceConfiguration: {},
-                serviceType: "SUMOLOGIC",
-                strategyType: StrategyEnum.ON_REQUEST
+            logger = new UniversalLogger({
+                service: new SumologicService({}),
+                strategy: new OnRequestStrategy()
             });
         }).not.toThrow();
 
         expect(logger).toBeTruthy();
-    });
-
-    it("Should be able to init the Logger instance", (done) => {
-        const logger = new Logger({
-            serviceConfiguration: {},
-            serviceType: "SUMOLOGIC",
-            strategyType: StrategyEnum.ON_REQUEST
-        });
-
-        logger.initialize()
-            .then(() => done())
-            .catch((e) => done(e));
     });
 });

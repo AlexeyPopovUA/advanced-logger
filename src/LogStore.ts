@@ -29,7 +29,10 @@ export default class LogStore {
 
     public add(log: any): void {
         this.logs.add(log);
-        this.addObserver.next(this.size());
+        this.addObserver.next({
+            logCount: this.getRealLogCount(),
+            recordCount: this.size()
+        });
     }
 
     public clear(): void {
@@ -46,7 +49,7 @@ export default class LogStore {
     }
 
     public getRealLogCount(): number {
-        // todo Take into account the "groupped" counter
+        // todo Take into account the "grouped" counter. Optimize calculation speed using caching in add method
         return this.logs.size;
     }
 }
