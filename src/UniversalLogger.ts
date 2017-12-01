@@ -47,7 +47,13 @@ export default class UniversalLogger {
     }
 
     public destroy(): void {
-        // todo Destroy all dependencies
+        this.logStore.destroy();
+        this.logStore = null;
+        this.strategy.destroy();
+        this.strategy = null;
+        this.service.destroy();
+        this.service = null;
+        this.configuration = null;
     }
 
     private onAddError(error: Error): void {

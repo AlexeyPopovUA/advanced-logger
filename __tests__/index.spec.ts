@@ -13,8 +13,15 @@ const OnRequestStrategy = strategy.OnRequestStrategy;
 const sandBox = sinon.sandbox.create();
 
 describe("index", () => {
+    let logger: UniversalLogger;
+
     afterEach(() => {
         sandBox.restore();
+
+        if (logger) {
+            logger.destroy();
+            logger = null;
+        }
     });
 
     it("Should export Logger", () => {
@@ -22,8 +29,6 @@ describe("index", () => {
     });
 
     it("Should be able to create a new Logger instance", () => {
-        let logger;
-
         expect(() => {
             logger = new UniversalLogger({
                 service: new SumologicService({}),
@@ -40,7 +45,7 @@ describe("index", () => {
             done();
         });
 
-        const logger = new UniversalLogger({
+        logger = new UniversalLogger({
             service: new SumologicService({}),
             strategy: new OnRequestStrategy()
         });

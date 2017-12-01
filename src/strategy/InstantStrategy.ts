@@ -23,4 +23,10 @@ export default class InstantStrategy implements IStrategy {
     public sendAll(info?: any): void {
         this.sendObserver.next();
     }
+
+    public destroy(): void {
+        this.sendObserver.complete();
+        this.sendObserver = null;
+        this.sendObservable = null;
+    }
 }

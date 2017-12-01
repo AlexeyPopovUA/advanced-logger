@@ -1,6 +1,7 @@
 import {Observable, Observer} from "@reactivex/rxjs";
+import IDestructable from "./interface/IDestructable";
 
-export default class LogStore {
+export default class LogStore implements IDestructable {
     /**
      * Subscribe in order to receive "add" event
      */
@@ -51,5 +52,20 @@ export default class LogStore {
     public getRealLogCount(): number {
         // todo Take into account the "grouped" counter. Optimize calculation speed using caching in add method
         return this.logs.size;
+    }
+
+    public destroy(): void {
+        this.logs.clear();
+
+        if (this.addObserver) {
+            this.addObserver.complete();
+        }
+
+        if (this.clearObserver) {
+            this.clearObserver.complete();
+        }
+
+        this.addObservable = null;
+        this.clearObservable = null;
     }
 }

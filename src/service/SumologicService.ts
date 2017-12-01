@@ -21,4 +21,8 @@ export default class SumologicService implements IService {
         // TODO implement it (concatenate json strings with newline delimeter)
         return Promise.resolve(logs);
     }
+
+    public destroy(): void {
+        this.config = null;
+    }
 }
