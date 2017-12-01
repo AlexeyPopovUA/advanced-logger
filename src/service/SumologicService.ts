@@ -19,6 +19,6 @@ export default class SumologicService implements IService {
 
     public preparePayload(logs: any[]): any {
         // TODO implement it (concatenate json strings with newline delimeter)
-        return logs;
+        return Promise.resolve(logs);
     }
 }

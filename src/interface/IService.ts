@@ -3,5 +3,5 @@ export default interface IUniversalLoggerConfiguration {
 
     sendAllLogs(logs: any[]): Promise<any>;
 
-    preparePayload(logs: any[]): any;
+    preparePayload(logs: any[]): Promise<any>;
 }

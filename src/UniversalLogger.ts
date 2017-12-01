@@ -20,25 +20,18 @@ export default class UniversalLogger {
 
         // todo Where is it better to subscribe?
         this.logStore.addObservable.subscribe({
-            error: error => console.error(error),
-            next: info => this.strategy.onAdd(info)
+            error: this.onAddError.bind(this),
+            next: this.onAddSuccess.bind(this)
+        });
+
+        this.logStore.clearObservable.subscribe({
+            error: this.onClearError.bind(this),
+            next: this.onClearSuccess.bind(this)
         });
 
         this.strategy.sendObservable.subscribe({
-            error: error => console.error(error),
-            next: () => {
-                const logs = this.logStore.getAll();
-
-                this.service
-                    .sendAllLogs(this.service.preparePayload(logs))
-                    // todo What happens if new logs arrive before the old ones are successfully sent?
-                    // Do we need temporary sending buffer?
-                    .then(() => this.logStore.clear())
-                    .catch(error => {
-                        console.log(error);
-                        // todo Retry sending logs
-                    });
-            }
+            error: this.onSendError.bind(this),
+            next: this.onSendSuccess.bind(this)
         });
     }
 
@@ -55,5 +48,39 @@ export default class UniversalLogger {
 
     public destroy(): void {
         // todo Destroy all dependencies
+    }
+
+    private onAddError(error: Error): void {
+        console.error(error);
+    }
+
+    private onAddSuccess(info: any) {
+        this.strategy.onAdd(info);
+    }
+
+    private onClearError(error: Error): void {
+        console.error(error);
+    }
+
+    private onClearSuccess(info: any) {
+        this.strategy.onClear();
+    }
+
+    private onSendError(error: Error): void {
+        console.error(error);
+    }
+
+    private onSendSuccess(): void {
+        const logs = this.logStore.getAll();
+
+        this.service.preparePayload(logs)
+            .then(preparedLogs => this.service.sendAllLogs(preparedLogs))
+            // todo What happens if new logs arrive before the old ones are successfully sent?
+            // Do we need temporary sending buffer?
+            .then(() => this.logStore.clear())
+            .catch(error => {
+                console.log(error);
+                // todo Retry sending logs
+            });
     }
 }
