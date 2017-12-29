@@ -1,10 +1,14 @@
+import * as assign from "lodash/assign";
 import IService from "./../interface/IService";
+import postRequest from "./../util/http";
 
 export default class SumologicService implements IService {
-    private config: any;
+    private serviceConfig: {sourceCategory: string, host: string, url: string};
+    private defaultLogConfig: any;
 
-    constructor(config: any) {
-        this.config = config;
+    constructor(config: {serviceConfig: any, defaultLogConfig: any}) {
+        this.serviceConfig = config.serviceConfig;
+        this.defaultLogConfig = config.defaultLogConfig;
 
         // TODO Review these Sumologic configs and adopt them to the service
         // default connection config
@@ -46,21 +50,24 @@ export default class SumologicService implements IService {
     }
 
     public initialize(config: any): Promise<any> {
-        // TODO Implement direct connection with API or SDK
         return Promise.resolve();
     }
 
     public sendAllLogs(logs: any[]): Promise<any> {
-        // TODO Implement direct communication with API or SDK
-        return Promise.resolve();
+
+        return this.preparePayload(logs)
+            .then(payload => postRequest(this.serviceConfig, payload));
     }
 
-    public preparePayload(logs: any[]): any {
-        // TODO implement it (concatenate json strings with newline delimeter)
-        return Promise.resolve(logs);
+    public preparePayload(logs: any[]): Promise<any> {
+        const resultList = logs.map(log => JSON.stringify(assign({}, this.defaultLogConfig, log)));
+        const result = resultList.join("\n");
+
+        return Promise.resolve(result);
     }
 
     public destroy(): void {
-        this.config = null;
+        this.serviceConfig = null;
+        this.defaultLogConfig = null;
     }
 }

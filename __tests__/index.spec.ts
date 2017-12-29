@@ -15,6 +15,11 @@ const sandBox = sinon.sandbox.create();
 describe("index", () => {
     let logger: UniversalLogger;
 
+    const config = {
+        defaultLogConfig: {},
+        serviceConfig: {}
+    };
+
     afterEach(() => {
         sandBox.restore();
 
@@ -31,7 +36,7 @@ describe("index", () => {
     it("Should be able to create a new Logger instance", () => {
         expect(() => {
             logger = new UniversalLogger({
-                service: new SumologicService({}),
+                service: new SumologicService(config),
                 strategy: new OnRequestStrategy()
             });
         }).not.toThrow();
@@ -43,10 +48,11 @@ describe("index", () => {
         sandBox.stub(SumologicService.prototype, "sendAllLogs").callsFake(logs => {
             expect(logs.length).toBe(2);
             done();
+            return Promise.reject("This is a deliberate error throwing");
         });
 
         logger = new UniversalLogger({
-            service: new SumologicService({}),
+            service: new SumologicService(config),
             strategy: new OnRequestStrategy()
         });
 

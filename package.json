@@ -58,12 +58,15 @@
     "ts-loader": "^2.3.3",
     "tslint": "^5.8.0",
     "tslint-loader": "^3.5.3",
-    "typescript": "^2.6.1",
+    "typescript": "^2.6.2",
     "webpack": "^3.8.1",
     "webpack-node-externals": "^1.6.0"
   },
   "dependencies": {
-    "@reactivex/rxjs": "^5.5.2"
+    "@reactivex/rxjs": "^5.5.2",
+    "lodash": "^4.17.4",
+    "request": "^2.83.0",
+    "request-promise-native": "^1.0.5"
   },
   "jest": {
     "transform": {

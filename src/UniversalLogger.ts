@@ -76,17 +76,17 @@ export default class UniversalLogger {
         console.error(error);
     }
 
+    // todo Review methods naming
     private onSendSuccess(): void {
         const logs = this.logStore.getAll();
 
-        this.service.preparePayload(logs)
-            .then(preparedLogs => this.service.sendAllLogs(preparedLogs))
+        this.service.sendAllLogs(logs)
             // todo What happens if new logs arrive before the old ones are successfully sent?
             // Do we need temporary sending buffer?
             .then(() => this.logStore.clear())
             .catch(error => {
                 console.log(error);
-                // todo Retry sending logs
+                // todo Retry sending logs here or in the strategy
             });
     }
 }
