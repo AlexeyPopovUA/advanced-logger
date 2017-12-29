@@ -62,12 +62,6 @@ describe("SumologicService", () => {
             {test: "test321"}
         ];
 
-        sandBox.stub(SumologicService.prototype, "sendAllLogs").callsFake(logs => {
-            expect(logs.length).toBe(2);
-            done();
-            return Promise.reject("This is a deliberate error throwing");
-        });
-
         service = new SumologicService(config);
         service.sendAllLogs(testLogs)
             .then(() => done())
