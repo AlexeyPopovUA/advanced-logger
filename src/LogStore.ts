@@ -1,18 +1,19 @@
-import {Observable, Observer} from "@reactivex/rxjs";
+import {Observable} from "rxjs/Observable";
+import {Observer} from "rxjs/Observer";
 import IDestructable from "./interface/IDestructable";
 
 export default class LogStore implements IDestructable {
     /**
      * Subscribe in order to receive "add" event
      */
-    public addObservable: Observable;
+    public addObservable: Observable<any>;
     /**
      * Subscribe in order to receive "cleared" event
      */
-    public clearObservable: Observable;
+    public clearObservable: Observable<any>;
 
-    private addObserver: Observer;
-    private clearObserver: Observer;
+    private addObserver: Observer<any>;
+    private clearObserver: Observer<any>;
 
     private logs: Set<any>;
 
@@ -38,7 +39,7 @@ export default class LogStore implements IDestructable {
 
     public clear(): void {
         this.logs.clear();
-        this.clearObserver.next();
+        this.clearObserver.next(null);
     }
 
     public getAll(): any[] {

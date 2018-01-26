@@ -1,8 +1,8 @@
-import {Observable} from "@reactivex/rxjs";
+import {Observable} from "rxjs/Observable";
 import IDestructable from "./IDestructable";
 
 export default interface IStrategy extends IDestructable {
-    sendObservable: Observable;
+    sendObservable: Observable<any>;
 
     onAdd(info?: any): void;
 

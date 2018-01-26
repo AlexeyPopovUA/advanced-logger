@@ -1,8 +1,9 @@
-import {Observable, Observer} from "@reactivex/rxjs";
+import {Observable} from "rxjs/Observable";
+import {Observer} from "rxjs/Observer";
 import IStrategy from "./../interface/IStrategy";
 
 export default class OnBundleSizeStrategy implements IStrategy {
-    public sendObservable: Observable;
+    public sendObservable: Observable<any>;
 
     /**
      * @todo Take it from config
@@ -10,7 +11,7 @@ export default class OnBundleSizeStrategy implements IStrategy {
      */
     public MAX_BUNDLE_SIZE: number = 100;
 
-    private sendObserver: Observer;
+    private sendObserver: Observer<any>;
 
     constructor() {
         this.sendObservable = Observable.create(observer => {
@@ -20,7 +21,7 @@ export default class OnBundleSizeStrategy implements IStrategy {
 
     public onAdd(info: any): void {
         if (info && info.count >= this.MAX_BUNDLE_SIZE) {
-            this.sendObserver.next();
+            this.sendObserver.next(null);
         } else {
             console.log("Not enough logs so far");
         }
@@ -31,7 +32,7 @@ export default class OnBundleSizeStrategy implements IStrategy {
     }
 
     public sendAll(info?: any): void {
-        this.sendObserver.next();
+        this.sendObserver.next(null);
     }
 
     public destroy(): void {

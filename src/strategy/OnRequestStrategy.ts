@@ -1,10 +1,11 @@
-import {Observable, Observer} from "@reactivex/rxjs";
+import {Observable} from "rxjs/Observable";
+import {Observer} from "rxjs/Observer";
 import IStrategy from "./../interface/IStrategy";
 
 export default class OnRequestStrategy implements IStrategy {
-    public sendObservable: Observable;
+    public sendObservable: Observable<any>;
 
-    private sendObserver: Observer;
+    private sendObserver: Observer<any>;
 
     constructor() {
         this.sendObservable = Observable.create(observer => {
@@ -21,7 +22,7 @@ export default class OnRequestStrategy implements IStrategy {
     }
 
     public sendAll(info?: any): void {
-        this.sendObserver.next();
+        this.sendObserver.next(null);
     }
 
     public destroy(): void {
