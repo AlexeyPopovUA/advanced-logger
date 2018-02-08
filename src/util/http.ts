@@ -1,4 +1,4 @@
-import * as request from "request-promise-native";
+import * as http from "http";
 
 function nodePostRequest(
     serviceConfig: {
@@ -9,19 +9,34 @@ function nodePostRequest(
     },
     payload: string): Promise<any> {
 
+    // todo Set url properties from config
     const postOptions = {
         body: payload,
-        headers: {
-            "Content-Type": "application/json",
-            "X-Sumo-Category": serviceConfig.sourceCategory,
-            "X-Sumo-Host": serviceConfig.host,
-            "X-Sumo-Name": serviceConfig.sourceName || ""
-        },
         method: "POST",
-        uri: serviceConfig.url
+        hostname: "hostname",
+        port: 1234,
+        path: "/pathname",
     };
 
-    return request(postOptions);
+    return new Promise((resolve, reject) => {
+        const req = http.request(postOptions, (res) => {
+            console.log(`STATUS: ${res.statusCode}`);
+            console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+            res.setEncoding("utf8");
+            res.on("end", () => {
+                console.log("result");
+                resolve("result!");
+            });
+        });
+
+        req.setHeader("Content-Type", "application/json");
+        req.setHeader("X-Sumo-Category", serviceConfig.sourceCategory);
+        req.setHeader("X-Sumo-Host", serviceConfig.host);
+        req.setHeader("X-Sumo-Name", serviceConfig.sourceName || "");
+
+        req.on("error", e => reject(e));
+        req.end();
+    });
 }
 
 export default function postRequest(...args): Promise<any> {

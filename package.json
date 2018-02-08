@@ -62,9 +62,7 @@
     "webpack-node-externals": "^1.6.0"
   },
   "dependencies": {
-    "lodash": "^4.17.4",
-    "request": "^2.83.0",
-    "request-promise-native": "^1.0.5"
+    "lodash": "^4.17.4"
   },
   "jest": {
     "transform": {
