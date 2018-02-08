@@ -1,9 +1,8 @@
-import {Observable} from "rxjs/Observable";
-import {Observer} from "rxjs/Observer";
+import {EventEmitter} from "events";
 import IStrategy from "./../interface/IStrategy";
 
 export default class OnBundleSizeStrategy implements IStrategy {
-    public sendObservable: Observable<any>;
+    public eventEmitter: EventEmitter;
 
     /**
      * @todo Take it from config
@@ -11,17 +10,13 @@ export default class OnBundleSizeStrategy implements IStrategy {
      */
     public MAX_BUNDLE_SIZE: number = 100;
 
-    private sendObserver: Observer<any>;
-
     constructor() {
-        this.sendObservable = Observable.create(observer => {
-            this.sendObserver = observer;
-        });
+        this.eventEmitter = new EventEmitter();
     }
 
     public onAdd(info: any): void {
         if (info && info.count >= this.MAX_BUNDLE_SIZE) {
-            this.sendObserver.next(null);
+            this.eventEmitter.emit("send");
         } else {
             console.log("Not enough logs so far");
         }
@@ -32,12 +27,11 @@ export default class OnBundleSizeStrategy implements IStrategy {
     }
 
     public sendAll(info?: any): void {
-        this.sendObserver.next(null);
+        this.eventEmitter.emit("send");
     }
 
     public destroy(): void {
-        this.sendObserver.complete();
-        this.sendObserver = null;
-        this.sendObservable = null;
+        this.eventEmitter.removeAllListeners();
+        this.eventEmitter = null;
     }
 }

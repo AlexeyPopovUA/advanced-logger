@@ -25,10 +25,8 @@
     "url": "https://github.com/AlexeyPopovUA/universal-logger.git"
   },
   "keywords": [
-    "example",
     "typescript",
     "library",
-    "starter",
     "webpack",
     "browserify",
     "dts-bundle",
@@ -36,7 +34,6 @@
     "tslint",
     "jest",
     "tsloader",
-    "boilerplate",
     "ts-loader"
   ],
   "author": "Oleksii Popov",
@@ -67,8 +64,7 @@
   "dependencies": {
     "lodash": "^4.17.4",
     "request": "^2.83.0",
-    "request-promise-native": "^1.0.5",
-    "rxjs": "^5.5.6"
+    "request-promise-native": "^1.0.5"
   },
   "jest": {
     "transform": {

@@ -1,16 +1,11 @@
-import {Observable} from "rxjs/Observable";
-import {Observer} from "rxjs/Observer";
+import {EventEmitter} from "events";
 import IStrategy from "./../interface/IStrategy";
 
 export default class OnRequestStrategy implements IStrategy {
-    public sendObservable: Observable<any>;
-
-    private sendObserver: Observer<any>;
+    public eventEmitter: EventEmitter;
 
     constructor() {
-        this.sendObservable = Observable.create(observer => {
-            this.sendObserver = observer;
-        });
+        this.eventEmitter = new EventEmitter();
     }
 
     public onAdd(info?: any): void {
@@ -22,12 +17,11 @@ export default class OnRequestStrategy implements IStrategy {
     }
 
     public sendAll(info?: any): void {
-        this.sendObserver.next(null);
+        this.eventEmitter.emit("send");
     }
 
     public destroy(): void {
-        this.sendObserver.complete();
-        this.sendObserver = null;
-        this.sendObservable = null;
+        this.eventEmitter.removeAllListeners();
+        this.eventEmitter = null;
     }
 }

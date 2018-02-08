@@ -28,26 +28,18 @@ describe("LogStore", () => {
     it("Should be able to emmit 'add' event when a new log is added", done => {
         logStore = new LogStore();
 
-        logStore.addObservable.subscribe({
-            error: err => done(err),
-            next: () => done()
-        });
+        logStore.eventEmitter.on("add", () => done());
+        logStore.eventEmitter.on("error", err => done(err));
 
         logStore.add({test: "123"});
     });
 
-    // todo Use 'scan' in order to test multiple event firing
-
     it("Should be able to emmit 'cleared' event when all logs are removed", done => {
         logStore = new LogStore();
 
-        logStore.clearObservable.subscribe({
-            error: err => done(err),
-            next: () => done()
-        });
+        logStore.eventEmitter.on("clear", () => done());
+        logStore.eventEmitter.on("error", err => done(err));
 
         logStore.clear();
     });
-
-    // todo Use 'scan' in order to test multiple event firing
 });

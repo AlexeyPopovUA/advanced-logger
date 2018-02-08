@@ -19,20 +19,12 @@ export default class UniversalLogger {
         this.service = this.configuration.service;
 
         // todo Where is it better to subscribe?
-        this.logStore.addObservable.subscribe({
-            error: this.onAddError.bind(this),
-            next: this.onAddSuccess.bind(this)
-        });
+        this.logStore.eventEmitter.on("add", this.onAdd.bind(this));
+        this.logStore.eventEmitter.on("clear", this.onClear.bind(this));
+        this.logStore.eventEmitter.on("error", this.onStoreError.bind(this));
 
-        this.logStore.clearObservable.subscribe({
-            error: this.onClearError.bind(this),
-            next: this.onClearSuccess.bind(this)
-        });
-
-        this.strategy.sendObservable.subscribe({
-            error: this.onSendError.bind(this),
-            next: this.onSendSuccess.bind(this)
-        });
+        this.strategy.eventEmitter.on("send", this.onSend.bind(this));
+        this.strategy.eventEmitter.on("error", this.onStrategyError.bind(this));
     }
 
     public log(log: any): void {
@@ -56,28 +48,24 @@ export default class UniversalLogger {
         this.configuration = null;
     }
 
-    private onAddError(error: Error): void {
+    private onStoreError(error: Error): void {
         console.error(error);
     }
 
-    private onAddSuccess(info: any) {
+    private onAdd(info: any) {
         this.strategy.onAdd(info);
     }
 
-    private onClearError(error: Error): void {
-        console.error(error);
-    }
-
-    private onClearSuccess(info: any) {
+    private onClear(info: any) {
         this.strategy.onClear();
     }
 
-    private onSendError(error: Error): void {
+    private onStrategyError(error: Error): void {
         console.error(error);
     }
 
     // todo Review methods naming
-    private onSendSuccess(): void {
+    private onSend(): void {
         const logs = this.logStore.getAll();
 
         this.service.sendAllLogs(logs)
