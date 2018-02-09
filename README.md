@@ -1,6 +1,14 @@
 # advanced-logger
 
 [![Quality Gate](https://sonarcloud.io/api/badges/gate?key=advanced-logger)](https://sonarcloud.io/dashboard/index/advanced-logger)
+[![Coverage](https://sonarcloud.io/api/badges/measure?key=advanced-logger&metric=coverage)](https://sonarcloud.io/dashboard/index/advanced-logger)
+[![Skipped Tests](https://sonarcloud.io/api/badges/measure?key=advanced-logger&metric=skipped_tests)](https://sonarcloud.io/dashboard/index/advanced-logger)
+[![Function Complexity](https://sonarcloud.io/api/badges/measure?key=advanced-logger&metric=function_complexity)](https://sonarcloud.io/dashboard/index/advanced-logger)
+[![Bugs](https://sonarcloud.io/api/badges/measure?key=advanced-logger&metric=bugs)](https://sonarcloud.io/dashboard/index/advanced-logger)
+[![Code Smells](https://sonarcloud.io/api/badges/measure?key=advanced-logger&metric=code_smells)](https://sonarcloud.io/dashboard/index/advanced-logger)
+[![Vulnerabilities](https://sonarcloud.io/api/badges/measure?key=advanced-logger&metric=vulnerabilities)](https://sonarcloud.io/dashboard/index/advanced-logger)
+[![Maintainability](https://sonarcloud.io/api/badges/measure?key=advanced-logger&metric=new_maintainability_rating)](https://sonarcloud.io/dashboard/index/advanced-logger)
+[![Reliability](https://sonarcloud.io/api/badges/measure?key=advanced-logger&metric=new_reliability_rating)](https://sonarcloud.io/dashboard/index/advanced-logger)
 
 Used https://github.com/DxCx/ts-library-starter repository as a start point for the library
 
