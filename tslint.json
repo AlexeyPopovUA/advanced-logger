@@ -2,8 +2,10 @@
 	"extends": "tslint:recommended",
 	"rules": {
 		"no-console": false,
+		"no-var-requires": false,
 		"trailing-comma": false,
 		"arrow-parens": false,
-		"object-literal-sort-keys": false
+		"object-literal-sort-keys": false,
+		"comment-format": false
 	}
 }
