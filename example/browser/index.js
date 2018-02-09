@@ -24,7 +24,8 @@ window.addEventListener("load", () => {
     const serviceConfig = {
         //todo Replace with a real URL
         url: "https://www.google.nl",
-        host: "universalLoggerTest",
+        sourceName: "universalLoggerTest",
+        host: "universal-logger",
         sourceCategory: "AP/SB/oet/html5"
     };
 
