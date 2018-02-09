@@ -1,7 +1,7 @@
 {
   "name": "universal-logger",
   "version": "1.0.3",
-  "description": "Example git project that is used for typescript libraries as a starter pack",
+  "description": "Universal logger module extendable with plugins",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "jam": {
