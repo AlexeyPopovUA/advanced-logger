@@ -22,11 +22,11 @@ function nodePostRequest(
     return new Promise((resolve, reject) => {
         const req = https.request(postOptions, response => {
             console.log(`STATUS: ${response.statusCode}`);
-            console.warn(`response:`, response);
+            //console.warn(`response:`, response);
             resolve({});
         });
 
-        req.setDefaultEncoding("utf8");
+        //req.setDefaultEncoding("utf8");
         req.setHeader("Content-Type", "application/json");
         req.setHeader("X-Sumo-Category", serviceConfig.sourceCategory);
         req.setHeader("X-Sumo-Host", serviceConfig.host);
