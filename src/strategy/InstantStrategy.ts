@@ -9,15 +9,17 @@ export default class InstantStrategy implements IStrategy {
     }
 
     public onAdd(info?: any): void {
-        this.sendAll();
+        this.eventEmitter.emit("send");
+        console.log("InstantStrategy#sent");
     }
 
     public onClear(): void {
         // Ignore log list change
+        console.log("InstantStrategy#cleared");
     }
 
     public sendAll(info?: any): void {
-        this.eventEmitter.emit("send");
+        // This strategy sends all logs separately
     }
 
     public destroy(): void {

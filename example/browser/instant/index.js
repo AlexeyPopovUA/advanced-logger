@@ -36,7 +36,7 @@ window.addEventListener("load", () => {
         strategy: new strategy.InstantStrategy()
     });
 
-    logger.log({test: "instant log x"});
-    logger.log({test: "instant log xx"});
-    logger.log({test: "instant log xxx"});
+    logger.log({test: "instant log u1"});
+    logger.log({test: "instant log u2"});
+    logger.log({test: "instant log u3"});
 });

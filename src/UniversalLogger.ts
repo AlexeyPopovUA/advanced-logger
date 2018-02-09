@@ -64,14 +64,13 @@ export default class UniversalLogger {
         console.error(error);
     }
 
-    // todo Review methods naming
     private onSend(): void {
         const logs = this.logStore.getAll();
 
+        // We need to clear store as soon as we received request to send all logs
+        this.logStore.clear();
+
         this.service.sendAllLogs(logs)
-            // todo What happens if new logs arrive before the old ones are successfully sent?
-            // Do we need temporary sending buffer?
-            .then(() => this.logStore.clear())
             .catch(error => {
                 console.log(error);
                 // todo Retry sending logs here or in the strategy

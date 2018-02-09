@@ -54,9 +54,11 @@ export default class SumologicService implements IService {
     }
 
     public sendAllLogs(logs: any[]): Promise<any> {
-
         return this.preparePayload(logs)
-            .then(payload => postRequest(this.serviceConfig, payload));
+            .then(payload => {
+                console.log("SumologicService#sendAllLogs -> ", logs);
+                return postRequest(this.serviceConfig, payload);
+            });
     }
 
     public preparePayload(logs: any[]): Promise<any> {

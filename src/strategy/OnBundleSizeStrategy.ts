@@ -24,6 +24,7 @@ export default class OnBundleSizeStrategy implements IStrategy {
 
     public onClear(): void {
         // Ignore log list change
+        console.log("OnBundleSizeStrategy#cleared");
     }
 
     public sendAll(info?: any): void {
