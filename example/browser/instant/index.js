@@ -33,13 +33,10 @@ window.addEventListener("load", () => {
 
     const logger = new UniversalLogger({
         service: new service.SumologicService(config),
-        strategy: new strategy.OnRequestStrategy()
+        strategy: new strategy.InstantStrategy()
     });
 
-    logger.log({test: "test123"});
-    logger.log({test: "test321"});
-
-    console.log(logger);
-
-    logger.sendAllLogs();
+    logger.log({test: "instant log x"});
+    logger.log({test: "instant log xx"});
+    logger.log({test: "instant log xxx"});
 });
