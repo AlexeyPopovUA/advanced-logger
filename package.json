@@ -1,7 +1,7 @@
 {
-  "name": "universal-logger",
+  "name": "advanced-logger",
   "version": "1.0.3",
-  "description": "Universal logger module extendable with plugins",
+  "description": "Advanced logger module extendable with plugins. Works in nodejs and browsers",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "jam": {
@@ -25,6 +25,11 @@
     "url": "https://github.com/AlexeyPopovUA/universal-logger.git"
   },
   "keywords": [
+    "logger",
+    "advanced-logger",
+    "logger-plugin",
+    "sumologic",
+    "strategy",
     "typescript",
     "library",
     "webpack",

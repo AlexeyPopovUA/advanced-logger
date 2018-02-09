@@ -1,6 +1,6 @@
-# universal-logger
+# advanced-logger
 
-[![Quality Gate](https://sonarcloud.io/api/badges/gate?key=universal-logger)](https://sonarcloud.io/dashboard/index/universal-logger)
+[![Quality Gate](https://sonarcloud.io/api/badges/gate?key=advanced-logger)](https://sonarcloud.io/dashboard/index/advanced-logger)
 
 Used https://github.com/DxCx/ts-library-starter repository as a start point for the library
 
