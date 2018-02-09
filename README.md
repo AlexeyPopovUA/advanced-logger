@@ -10,6 +10,7 @@
 [![Vulnerabilities](https://sonarcloud.io/api/badges/measure?key=advanced-logger&metric=vulnerabilities)](https://sonarcloud.io/dashboard/index/advanced-logger)
 [![Maintainability](https://sonarcloud.io/api/badges/measure?key=advanced-logger&metric=new_maintainability_rating)](https://sonarcloud.io/dashboard/index/advanced-logger)
 [![Reliability](https://sonarcloud.io/api/badges/measure?key=advanced-logger&metric=new_reliability_rating)](https://sonarcloud.io/dashboard/index/advanced-logger)
+[![Greenkeeper badge](https://badges.greenkeeper.io/AlexeyPopovUA/universal-logger.svg)](https://greenkeeper.io/)
 
 Used https://github.com/DxCx/ts-library-starter repository as a start point for the library
 
