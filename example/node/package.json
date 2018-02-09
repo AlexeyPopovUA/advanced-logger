@@ -1,0 +1,14 @@
+{
+  "name": "local-node-example",
+  "version": "1.0.0",
+  "description": "Example of advance-logger ussage",
+  "main": "instant.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Oleksii Popov",
+  "license": "MIT",
+  "dependencies": {
+    "advanced-logger": "^1.0.3"
+  }
+}

@@ -1,4 +1,4 @@
-const {UniversalLogger, service, strategy} = require('./../../dist/index');
+const {UniversalLogger, service, strategy} = require('advanced-logger');
 
 const defaultLogConfig = {
     Domain: "logger-test-domain",

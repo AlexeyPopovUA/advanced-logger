@@ -3,5 +3,6 @@
 /dist/
 /node_modules/
 /.idea/**
-/universal-logger-*.tgz
+/advanced-logger-*.tgz
 /.scannerwork/
+example/node/node_modules/

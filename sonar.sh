@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
 sonar-scanner \
-  -Dsonar.projectKey=universal-logger \
+  -Dsonar.projectKey=advanced-logger \
+  -Dsonar.projectVersion=1.0.4 \
+  -Dsonar.sourceEncoding=UTF-8 \
   -Dsonar.organization=alexeypopovua-github \
   -Dsonar.sources=./src \
   -Dsonar.tests=./__tests__ \
