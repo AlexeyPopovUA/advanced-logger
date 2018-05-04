@@ -2,17 +2,14 @@
   "name": "advanced-logger",
   "version": "1.0.4",
   "description": "Advanced logger module extendable with plugins. Works in nodejs and browsers",
-  "main": "dist/index.js",
+  "main": "dist/node/universal-logger.node.min.js",
+  "unpkg": "dist/browser/universal-logger.browser.min.js",
   "typings": "dist/index.d.ts",
-  "jam": {
-    "main": "./dist/index.browser.js"
-  },
-  "browser": {
-    "dist/index.js": "./dist/index.browser.js"
-  },
   "scripts": {
-    "build": "webpack || echo not ok",
-    "build-prod": "webpack --config webpack.config.prod.js",
+    "build": "npm run build-prod",
+    "build-prod": "npm run build-prod-browser && npm run build-prod-node",
+    "build-prod-browser": "webpack --config webpack.config.prod.js --env.prod=1  --env.target=browser",
+    "build-prod-node": "webpack --config webpack.config.prod.js --env.prod=1  --env.target=node",
     "test": "jest",
     "test:watch": "npm test -- --watch",
     "coverage": "npm test -- --coverage --no-cache",
@@ -51,23 +48,22 @@
     "@types/es6-promise": "0.0.33",
     "@types/jest": "^21.1.5",
     "@types/node": "^8.0.47",
-    "browserify": "^14.4.0",
+    "awesome-typescript-loader": "^5.0.0",
     "delete-empty": "^1.0.1",
     "dts-bundle": "^0.7.3",
     "jest": "^21.2.1",
     "sinon": "^4.1.2",
+    "source-map-loader": "^0.2.3",
     "standard-version": "^4.2.0",
     "ts-jest": "^20.0.10",
     "ts-loader": "^2.3.3",
-    "tslint": "^5.8.0",
-    "tslint-loader": "^3.5.3",
-    "typescript": "^2.6.2",
-    "uglifyify": "^4.0.5",
-    "webpack": "^3.10.0",
-    "webpack-node-externals": "^1.6.0"
+    "tslint": "^5.10.0",
+    "typescript": "^2.8.3",
+    "webpack": "^4.6.0",
+    "webpack-cli": "^2.1.2"
   },
   "dependencies": {
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.10"
   },
   "jest": {
     "transform": {

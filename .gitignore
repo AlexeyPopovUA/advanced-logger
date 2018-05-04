@@ -6,3 +6,4 @@
 /advanced-logger-*.tgz
 /.scannerwork/
 example/node/node_modules/
+example/node/package-lock.json
