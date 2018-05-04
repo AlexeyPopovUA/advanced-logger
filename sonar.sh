@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-sonar-scanner \
+exec sonar-scanner \
   -Dsonar.projectKey=advanced-logger \
   -Dsonar.projectVersion=1.0.5 \
   -Dsonar.sourceEncoding=UTF-8 \
