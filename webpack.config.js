@@ -1,118 +1,66 @@
-var nodeExternals = require('webpack-node-externals');
-var webpack = require('webpack');
-var browserify = require('browserify');
-var path = require('path');
-var fs = require('fs');
-var os = require('os');
-var deleteEmpty = require('delete-empty');
-var PACKAGE_FILE = JSON.parse(fs.readFileSync(path.join(__dirname, 'package.json'), 'utf-8'));
-var LIB_NAME = PACKAGE_FILE.name;
+const path = require('path');
 
-/* helper function to get into build directory */
-var libPath = function(name) {
-  if ( undefined === name ) {
-    return 'dist';
-  }
+const exportLibraryName = "advancedLogger";
+const getPostfix = mode => mode === "production" ? ".min" : "";
+const getFolderPostfix = mode => mode === "development" === true ? "-debug" : "";
+const getTargetFolder = target => target === 'browser' ? 'browser' : 'node';
 
-  return path.join('dist', name);
-}
+module.exports = env => {
+    console.log(env);
 
-/* helper to clean leftovers */
-var outputCleanup = function(dir) {
-  if (false == fs.existsSync(libPath())){
-    return;
-  }
+    const mode = env.prod === 1 ? 'production' : 'development';
+    const watch = env.watch === 1;
 
-  var list = fs.readdirSync(dir);
-  for(var i = 0; i < list.length; i++) {
-    var filename = path.join(dir, list[i]);
-    var stat = fs.statSync(filename);
+    const browserConf = {
+        mode,
+        outputFile: `advanced-logger.browser${getPostfix(mode)}.js`,
+        outputFolder: `${getTargetFolder(env.target)}${getFolderPostfix(mode)}`,
+        target: 'web',
+        libraryTarget: 'window'
+    };
 
-    if(filename == '.' || filename == '..') {
-      // pass these files
-      } else if(stat.isDirectory()) {
-        // outputCleanup recursively
-        outputCleanup(filename, false);
-      } else {
-        // rm fiilename
-        fs.unlinkSync(filename);
-      }
-  }
-  fs.rmdirSync(dir);
-};
+    const nodeConf = {
+        mode,
+        outputFile: `advanced-logger.node${getPostfix(mode)}.js`,
+        outputFolder: `${getTargetFolder(env.target)}${getFolderPostfix(mode)}`,
+        target: 'node',
+        libraryTarget: 'commonjs2'
+    };
 
-/* precentage handler is used to hook build start and ending */
-var percentage_handler = function handler(percentage, msg) {
-  if ( 0 === percentage ) {
-    /* Build Started */
-    outputCleanup(libPath());
-    console.log('Build started... Good luck!');
-  } else if ( 1.0 === percentage ) {
-    // TODO: No Error detection. :(
-    create_browser_version(webpack_opts.output.filename);
-  }
-}
+    // todo Reuse the same *conf object
+    const config = env.target === 'browser' ? browserConf : nodeConf;
 
-var webpack_opts = {
-  entry: './src/index.ts',
-  target: 'node',
-  output: {
-    filename: libPath('index.js'),
-    libraryTarget: 'commonjs2'
-  },
-  resolve: {
-    extensions: ['.ts', '.js'],
-    modules: [
-      'node_modules',
-      'src',
-    ]
-  },
-  module: {
-    loaders: [
-      {
-        enforce: 'pre',
-        test: /\.ts$/,
-        loader: 'tslint-loader',
-        exclude: /node_modules/,
-      }, {
-        test: /\.ts$/,
-        loader: 'ts-loader',
-        exclude: [
-          /node_modules/
-        ],
-      },
-    ],
-  },
-  externals: [nodeExternals()],
-  plugins: [
-    new webpack.optimize.UglifyJsPlugin(),
-    new webpack.LoaderOptionsPlugin({
-      options: {
-        tslint: {
-          emitErrors: true,
-          failOnHint: true
+    const libPath = (name = browserConf.outputFolder, target = browserConf.target) => path.join(target, name);
+
+    // configuration object for webpack
+    return {
+        entry: './src/index.ts',
+        target: config.target,
+        output: {
+            library: exportLibraryName,
+            filename: libPath(config.outputFile, config.outputFolder),
+            libraryTarget: config.libraryTarget
+        },
+        devtool: "sourcemaps",
+        watch,
+        watchOptions: {
+            aggregateTimeout: 300,
+            poll: 1000,
+            ignored: /node_modules/
+        },
+        mode: config.mode,
+        resolve: {
+            extensions: ['.ts', '.js'],
+            modules: [
+                'node_modules',
+                'src',
+            ]
+        },
+        module: {
+            rules: [
+                {test: /\.ts$/, loader: "awesome-typescript-loader"},
+                {enforce: "pre", test: /\.js$/, loader: "source-map-loader"}
+            ],
         }
-      }
-    }),
-    new webpack.ProgressPlugin(percentage_handler)
-  ],
-}
-
-var create_browser_version = function (inputJs) {
-  let outputName = inputJs.replace(/\.[^/.]+$/, '');
-  outputName = `${outputName}.browser.js`;
-  console.log('Creating browser version ...');
-
-  let b = browserify(inputJs, {
-    standalone: LIB_NAME,
-  });
-
-  b.bundle(function(err, src) {
-    if ( err != null ) {
-      console.error('Browserify error:');
-      console.error(err);
-    }
-  }).pipe(fs.createWriteStream(outputName));
-}
-
-module.exports = webpack_opts;
+    };
+};

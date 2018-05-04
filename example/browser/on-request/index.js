@@ -1,7 +1,7 @@
 window.addEventListener("load", () => {
-    console.log(window.universalLogger);
+    console.log(window.advancedLogger);
 
-    const {UniversalLogger, service, strategy} = window.universalLogger;
+    const {UniversalLogger, service, strategy} = window.advancedLogger;
 
     const defaultLogConfig = {
         Domain: "logger-test-domain",
