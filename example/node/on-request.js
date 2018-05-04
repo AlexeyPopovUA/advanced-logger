@@ -1,4 +1,4 @@
-const {UniversalLogger, service, strategy} = require('advanced-logger');
+const {AdvancedLogger, service, strategy} = require('advanced-logger');
 
 const defaultLogConfig = {
     Domain: "logger-test-domain",
@@ -21,14 +21,14 @@ const defaultLogConfig = {
 const serviceConfig = {
     //todo Replace with a real URL
     url: "https://www.google.nl",
-    sourceName: "universalLoggerTestNode",
-    host: "universal-logger",
+    sourceName: "advancedLoggerTestNode",
+    host: "advanced-logger",
     sourceCategory: "AP/SB/oet/html5"
 };
 
 const config = {serviceConfig, defaultLogConfig};
 
-const logger = new UniversalLogger({
+const logger = new AdvancedLogger({
     service: new service.SumologicService(config),
     strategy: new strategy.OnRequestStrategy()
 });

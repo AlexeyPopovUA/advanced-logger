@@ -1,7 +1,7 @@
 window.addEventListener("load", () => {
     console.log(window.advancedLogger);
 
-    const {UniversalLogger, service, strategy} = window.advancedLogger;
+    const {AdvancedLogger, service, strategy} = window.advancedLogger;
 
     const defaultLogConfig = {
         Domain: "logger-test-domain",
@@ -24,14 +24,14 @@ window.addEventListener("load", () => {
     const serviceConfig = {
         //todo Replace with a real URL
         url: "https://www.google.nl",
-        sourceName: "universalLoggerTest",
-        host: "universal-logger",
+        sourceName: "advancedLoggerTest",
+        host: "advanced-logger",
         sourceCategory: "AP/SB/oet/html5"
     };
 
     const config = {serviceConfig, defaultLogConfig};
 
-    const logger = new UniversalLogger({
+    const logger = new AdvancedLogger({
         service: new service.SumologicService(config),
         strategy: new strategy.InstantStrategy()
     });

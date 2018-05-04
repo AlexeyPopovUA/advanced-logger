@@ -4,7 +4,7 @@ import "jest";
 import * as sinon from "sinon";
 import {service} from "../src";
 import {strategy} from "../src";
-import {UniversalLogger} from "../src";
+import {AdvancedLogger} from "../src";
 
 const SumologicService = service.SumologicService;
 const OnRequestStrategy = strategy.OnRequestStrategy;
@@ -13,7 +13,7 @@ const OnRequestStrategy = strategy.OnRequestStrategy;
 const sandBox = sinon.sandbox.create();
 
 describe("index", () => {
-    let logger: UniversalLogger;
+    let logger: AdvancedLogger;
 
     const config = {
         defaultLogConfig: {},
@@ -30,12 +30,12 @@ describe("index", () => {
     });
 
     it("Should export Logger", () => {
-        expect(typeof UniversalLogger).toBe("function");
+        expect(typeof AdvancedLogger).toBe("function");
     });
 
     it("Should be able to create a new Logger instance", () => {
         expect(() => {
-            logger = new UniversalLogger({
+            logger = new AdvancedLogger({
                 service: new SumologicService(config),
                 strategy: new OnRequestStrategy()
             });
@@ -51,7 +51,7 @@ describe("index", () => {
             return Promise.reject("This is a deliberate error throwing");
         });
 
-        logger = new UniversalLogger({
+        logger = new AdvancedLogger({
             service: new SumologicService(config),
             strategy: new OnRequestStrategy()
         });

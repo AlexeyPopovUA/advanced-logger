@@ -7,7 +7,7 @@ export default class LogStore implements IDestructable {
      */
     public eventEmitter: EventEmitter;
 
-    private logs: Set<any>;
+    private readonly logs: Set<any>;
 
     constructor() {
         this.logs = new Set();

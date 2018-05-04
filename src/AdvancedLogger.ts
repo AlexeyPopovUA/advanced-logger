@@ -1,18 +1,18 @@
+import ILoggerConfiguration from "./interface/ILoggerConfiguration";
 import IService from "./interface/IService";
 import IStrategy from "./interface/IStrategy";
-import IUniversalLoggerConfiguration from "./interface/IUniversalLoggerConfiguration";
 import LogStore from "./LogStore";
 
 /**
  * Uses different strategies to submit logs to log server via Service facade.
  */
-export default class UniversalLogger {
-    private configuration: IUniversalLoggerConfiguration;
+export default class AdvancedLogger {
+    private configuration: ILoggerConfiguration;
     private strategy: IStrategy;
     private service: IService;
     private logStore: LogStore;
 
-    constructor(configuration: IUniversalLoggerConfiguration) {
+    constructor(configuration: ILoggerConfiguration) {
         this.configuration = configuration;
         this.logStore = new LogStore();
         this.strategy = this.configuration.strategy;
