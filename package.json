@@ -21,7 +21,7 @@
     "test:watch": "npm test -- --watch",
     "coverage": "npm test -- --coverage --no-cache",
     "coverage:watch": "npm run coverage -- --watch",
-    "prepare": "npm run build && npm test",
+    "prepare-build": "npm run build && npm test",
     "release": "standard-version && npm pack"
   },
   "repository": {
