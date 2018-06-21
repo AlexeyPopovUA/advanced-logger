@@ -2,7 +2,7 @@
 
 exec sonar-scanner \
   -Dsonar.projectKey=advanced-logger \
-  -Dsonar.projectVersion=1.0.6 \
+  -Dsonar.projectVersion=1.0.7 \
   -Dsonar.sourceEncoding=UTF-8 \
   -Dsonar.organization=alexeypopovua-github \
   -Dsonar.sources=./src \
