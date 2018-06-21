@@ -3,7 +3,7 @@ import IService from "./../interface/IService";
 import postRequest from "./../util/http";
 
 export default class SumologicService implements IService {
-    private serviceConfig: {sourceCategory: string, host: string, url: string};
+    private serviceConfig: {sourceCategory: string, host: string, url: string, method: string};
     private defaultLogConfig: any;
 
     constructor(config: {serviceConfig: any, defaultLogConfig: any}) {

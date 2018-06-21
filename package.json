@@ -70,7 +70,8 @@
     "webpack-cli": "^2.1.2"
   },
   "dependencies": {
-    "lodash": "^4.17.10"
+    "lodash": "^4.17.10",
+    "xmlhttprequest": "^1.8.0"
   },
   "jest": {
     "transform": {
@@ -90,6 +91,9 @@
       "ts",
       "js",
       "json"
-    ]
+    ],
+    "moduleNameMapper": {
+      "browserHTTP$": "xmlhttprequest"
+    }
   }
 }

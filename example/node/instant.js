@@ -23,7 +23,8 @@ const serviceConfig = {
     url: "https://www.google.nl",
     sourceName: "advancedLoggerTestNode",
     host: "advanced-logger",
-    sourceCategory: "AP/SB/oet/html5"
+    sourceCategory: "AP/SB/oet/html5",
+    method: "POST"
 };
 
 const config = {serviceConfig, defaultLogConfig};

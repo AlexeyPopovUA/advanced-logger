@@ -16,7 +16,10 @@ module.exports = env => {
         outputFile: `advanced-logger.browser${getPostfix(mode)}.js`,
         outputFolder: `${getTargetFolder(env.target)}${getFolderPostfix(mode)}`,
         target: 'web',
-        libraryTarget: 'window'
+        libraryTarget: 'window',
+        alias: {
+            "./browserHTTP": './browserHTTP'
+        }
     };
 
     const nodeConf = {
@@ -24,7 +27,10 @@ module.exports = env => {
         outputFile: `advanced-logger.node${getPostfix(mode)}.js`,
         outputFolder: `${getTargetFolder(env.target)}${getFolderPostfix(mode)}`,
         target: 'node',
-        libraryTarget: 'commonjs2'
+        libraryTarget: 'commonjs2',
+        alias: {
+            "./browserHTTP": 'xmlhttprequest'
+        }
     };
 
     // todo Reuse the same *conf object
@@ -54,7 +60,8 @@ module.exports = env => {
             modules: [
                 'node_modules',
                 'src',
-            ]
+            ],
+            alias: config.alias
         },
         module: {
             rules: [

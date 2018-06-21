@@ -1,40 +1,25 @@
-import * as https from "https";
-import * as url from "url";
+import {XMLHttpRequest} from "./browserHTTP";
 
 function nodePostRequest(
     serviceConfig: {
         sourceCategory: string,
         host: string,
         url: string,
-        sourceName: string
+        sourceName: string,
+        method: string
     },
     payload: string): Promise<any> {
 
-    const urlConfig = url.parse(serviceConfig.url);
-
-    const postOptions = {
-        method: "POST",
-        hostname: urlConfig.hostname,
-        port: urlConfig.port,
-        path: urlConfig.pathname
-    };
-
     return new Promise((resolve, reject) => {
-        const req = https.request(postOptions, response => {
-            console.log(`STATUS: ${response.statusCode}`);
-            //console.warn(`response:`, response);
-            resolve({});
-        });
-
-        //req.setDefaultEncoding("utf8");
-        req.setHeader("Content-Type", "application/json");
-        req.setHeader("X-Sumo-Category", serviceConfig.sourceCategory);
-        req.setHeader("X-Sumo-Host", serviceConfig.host);
-        req.setHeader("X-Sumo-Name", serviceConfig.sourceName);
-
-        req.on("error", error => reject(error));
-        req.write(payload);
-        req.end();
+        const request = new XMLHttpRequest();
+        request.addEventListener("load", () => resolve({}));
+        request.addEventListener("error", error => reject(error));
+        request.open(serviceConfig.method, serviceConfig.url);
+        request.setRequestHeader("Content-Type", "application/json");
+        request.setRequestHeader("X-Sumo-Category", serviceConfig.sourceCategory);
+        request.setRequestHeader("X-Sumo-Host", serviceConfig.host);
+        request.setRequestHeader("X-Sumo-Name", serviceConfig.sourceName);
+        request.send(payload);
     });
 }
 
