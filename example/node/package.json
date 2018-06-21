@@ -9,6 +9,6 @@
   "author": "Oleksii Popov",
   "license": "MIT",
   "dependencies": {
-    "advanced-logger": "^1.0.5"
+    "advanced-logger": "^1.0.7"
   }
 }
