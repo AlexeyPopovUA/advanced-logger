@@ -5,7 +5,6 @@ export default class OnBundleSizeStrategy implements IStrategy {
     public eventEmitter: EventEmitter;
 
     /**
-     * @todo Take it from config
      * @type {number}
      */
     public MAX_BUNDLE_SIZE: number = 100;
