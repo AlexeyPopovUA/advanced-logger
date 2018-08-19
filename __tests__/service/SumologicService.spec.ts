@@ -2,7 +2,7 @@
 
 import "jest";
 import * as sinon from "sinon";
-import SumologicService from "../src/service/SumologicService";
+import SumologicService from "../../src/service/SumologicService";
 
 // todo Rewrite stubs with jest functionality
 const sandBox = sinon.sandbox.create();
@@ -12,7 +12,7 @@ describe("SumologicService", () => {
     const defaultLogConfig = {
         Domain: "logger-test-domain",
         UserAgent: "userAgent",
-        Channel: "albelli",
+        Channel: "my-company",
         BuildVersion: 123,
         Platform: "nodejs",
         Article: "article",

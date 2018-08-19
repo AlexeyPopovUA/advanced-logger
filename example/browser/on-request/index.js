@@ -6,7 +6,7 @@ window.addEventListener("load", () => {
     const defaultLogConfig = {
         Domain: "logger-test-domain",
         UserAgent: "userAgent",
-        Channel: "albelli",
+        Channel: "my-company",
         BuildVersion: 123,
         Platform: "browser",
         Article: "article",

@@ -73,7 +73,7 @@ export default class AdvancedLogger {
         this.service.sendAllLogs(logs)
             .catch(error => {
                 console.log(error);
-                // todo Retry sending logs here or in the strategy
+                // todo Retry sending logs here or in the service
             });
     }
 }

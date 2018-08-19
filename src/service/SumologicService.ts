@@ -20,7 +20,7 @@ export default class SumologicService implements IService {
         {
             "Domain": document.domain,
             "UserAgent": navigator.userAgent,
-            "Channel": "albelli",
+            "Channel": "my-company",
             "BuildVersion": window["environment"] ? window["environment"]["build"] : 0,
             "Platform": utils.getCurrentPlatform(),
             "Article": "",

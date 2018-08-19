@@ -3,7 +3,7 @@ const {AdvancedLogger, service, strategy} = require('advanced-logger');
 const defaultLogConfig = {
     Domain: "logger-test-domain",
     UserAgent: "userAgent",
-    Channel: "albelli",
+    Channel: "my-company",
     BuildVersion: 123,
     Platform: "browser",
     Article: "article",
