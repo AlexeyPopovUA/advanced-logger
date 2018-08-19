@@ -10,12 +10,16 @@ export default class OnBundleSizeStrategy implements IStrategy {
      */
     public MAX_BUNDLE_SIZE: number = 100;
 
-    constructor() {
+    constructor(config: {maxBundle?: number}) {
         this.eventEmitter = new EventEmitter();
+
+        if (config.maxBundle) {
+            this.MAX_BUNDLE_SIZE = config.maxBundle;
+        }
     }
 
     public onAdd(info: any): void {
-        if (info && info.count >= this.MAX_BUNDLE_SIZE) {
+        if (info && info.logCount >= this.MAX_BUNDLE_SIZE) {
             this.eventEmitter.emit("send");
         } else {
             console.log("Not enough logs so far");
