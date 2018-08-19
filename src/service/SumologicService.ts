@@ -1,4 +1,3 @@
-import * as assign from "lodash/assign";
 import IService from "./../interface/IService";
 import postRequest from "./../util/http";
 
@@ -62,7 +61,7 @@ export default class SumologicService implements IService {
     }
 
     public preparePayload(logs: any[]): Promise<any> {
-        const resultList = logs.map(log => JSON.stringify(assign({}, this.defaultLogConfig, log)));
+        const resultList = logs.map(log => JSON.stringify(Object.assign({}, this.defaultLogConfig, log)));
         const result = resultList.join("\n");
 
         return Promise.resolve(result);

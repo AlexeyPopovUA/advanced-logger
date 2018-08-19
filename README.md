@@ -14,7 +14,7 @@ Used https://github.com/DxCx/ts-library-starter repository as a start point for 
 
 * Should be able to send single logs and bundles of them
 * Should support different log sending strategies:
-  1.  interval
+  1.  interval (done! \o/ )
   2.  on request (done! \o/ )
   3.  mixed (interval + on request)
   4.  on bundle size (done! \o/ )
