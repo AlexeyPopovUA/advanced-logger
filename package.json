@@ -53,7 +53,8 @@
   "homepage": "https://github.com/AlexeyPopovUA/universal-logger#readme",
   "devDependencies": {
     "@types/es6-promise": "3.3.0",
-    "@types/jest": "^22.1.1",
+    "@types/jest": "^23.3.1",
+    "@types/lodash": "^4.14.116",
     "@types/node": "^8.0.47",
     "awesome-typescript-loader": "^5.0.0",
     "delete-empty": "^1.0.1",
