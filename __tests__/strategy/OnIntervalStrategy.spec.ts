@@ -10,7 +10,7 @@ const SumologicService = service.SumologicService;
 const OnIntervalStrategy = strategy.OnIntervalStrategy;
 
 // todo Rewrite stubs with jest functionality
-const sandBox = sinon.sandbox.create();
+const sandBox = sinon.createSandbox();
 
 describe("OnIntervalStrategy", () => {
     let logger: AdvancedLogger;

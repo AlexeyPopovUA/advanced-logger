@@ -10,7 +10,7 @@ const SumologicService = service.SumologicService;
 const OnRequestStrategy = strategy.OnRequestStrategy;
 
 // todo Rewrite stubs with jest functionality
-const sandBox = sinon.sandbox.create();
+const sandBox = sinon.createSandbox();
 
 describe("index", () => {
     let logger: AdvancedLogger;

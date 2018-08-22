@@ -10,7 +10,7 @@ const SumologicService = service.SumologicService;
 const OnBundleSizeStrategy = strategy.OnBundleSizeStrategy;
 
 // todo Rewrite stubs with jest functionality
-const sandBox = sinon.sandbox.create();
+const sandBox = sinon.createSandbox();
 
 describe("OnBundleSizeStrategy", () => {
     let logger: AdvancedLogger;

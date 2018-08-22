@@ -5,7 +5,7 @@ import * as sinon from "sinon";
 import SumologicService from "../../src/service/SumologicService";
 
 // todo Rewrite stubs with jest functionality
-const sandBox = sinon.sandbox.create();
+const sandBox = sinon.createSandbox();
 
 describe("SumologicService", () => {
     let service: SumologicService;
