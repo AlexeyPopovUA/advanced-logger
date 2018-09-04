@@ -8,6 +8,7 @@
 [![Reliability](https://sonarcloud.io/api/project_badges/measure?project=advanced-logger&metric=reliability_rating)](https://sonarcloud.io/dashboard/index/advanced-logger)
 [![Greenkeeper badge](https://badges.greenkeeper.io/AlexeyPopovUA/universal-logger.svg)](https://greenkeeper.io/)
 [![install size](https://packagephobia.now.sh/badge?p=advanced-logger@1.0.9)](https://packagephobia.now.sh/result?p=advanced-logger@1.0.9)
+[![](https://data.jsdelivr.com/v1/package/npm/advanced-logger/badge)](https://www.jsdelivr.com/package/npm/advanced-logger)
 
 Used https://github.com/DxCx/ts-library-starter repository as a start point for the library
 
