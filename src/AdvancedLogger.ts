@@ -14,7 +14,7 @@ export default class AdvancedLogger {
 
     constructor(configuration: ILoggerConfiguration) {
         this.configuration = configuration;
-        this.logStore = new LogStore();
+        this.logStore = new LogStore({transformations: configuration.transformations});
         this.strategy = this.configuration.strategy;
         this.service = this.configuration.service;
 

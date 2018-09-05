@@ -14,7 +14,7 @@ export default class OnRequestStrategy implements IStrategy {
 
     public onClear(): void {
         // Ignore log list change
-        console.log("OnRequestStrategy#cleared");
+        //console.log("OnRequestStrategy#cleared");
     }
 
     public sendAll(info?: any): void {
