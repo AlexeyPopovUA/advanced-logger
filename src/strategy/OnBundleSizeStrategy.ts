@@ -21,13 +21,13 @@ export default class OnBundleSizeStrategy implements IStrategy {
         if (info && info.logCount >= this.MAX_BUNDLE_SIZE) {
             this.eventEmitter.emit("send");
         } else {
-            console.log("Not enough logs so far");
+            //console.log("Not enough logs so far");
         }
     }
 
     public onClear(): void {
         // Ignore log list change
-        console.log("OnBundleSizeStrategy#cleared");
+        //console.log("OnBundleSizeStrategy#cleared");
     }
 
     public sendAll(info?: any): void {

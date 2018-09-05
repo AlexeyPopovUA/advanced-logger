@@ -1,10 +1,22 @@
 "use strict";
 
 import "jest";
+import {TransformationEnum} from "../src/enums/TransformationEnum";
 import LogStore from "../src/LogStore";
 
 describe("LogStore", () => {
     let logStore: LogStore;
+
+    const storeConfigWithGrouping = {
+        transformations: [{
+            type: TransformationEnum.RAPID_FIRE_GROUPING,
+            configuration: {
+                interval: 10,
+                groupIndetityFields: ["test"],
+                groupFieldName: "CloneInGroupCounter"
+            }
+        }]
+    };
 
     afterEach(() => {
         if (logStore) {
@@ -41,5 +53,63 @@ describe("LogStore", () => {
         logStore.eventEmitter.on("error", err => done(err));
 
         logStore.clear();
+    });
+
+    it("Should return logs with grouping of duplications", done => {
+        logStore = new LogStore(storeConfigWithGrouping);
+
+        logStore.add({test: "123"});
+        logStore.add({test: "123"});
+        logStore.add({test: "321"});
+
+        setTimeout(() => {
+            const logs = logStore.getAll();
+            expect(logs.length).toEqual(2);
+            expect(logs.find(item => item["test"] === "123")["CloneInGroupCounter"]).toBe(2);
+            done();
+        }, 20);
+    });
+
+    it("Should return logs with multiple grouping iterations", done => {
+        logStore = new LogStore(storeConfigWithGrouping);
+
+        logStore.add({test: "123"});
+        logStore.add({test: "123"});
+        logStore.add({test: "321"});
+
+        setTimeout(() => {
+            logStore.add({test: "123"});
+            logStore.add({test: "123"});
+            logStore.add({test: "123"});
+            logStore.add({test: "321"});
+
+            setTimeout(() => {
+                const nextLogs = logStore.getAll();
+                expect(nextLogs.length).toEqual(4);
+                done();
+            }, 20);
+        }, 20);
+    });
+
+    it("Should finalize grouping when logs are needed", () => {
+        logStore = new LogStore(storeConfigWithGrouping);
+
+        logStore.add({test: "123"});
+        logStore.add({test: "123"});
+        logStore.add({test: "321"});
+
+        let logs = logStore.getAll();
+
+        expect(logs.length).toEqual(2);
+        expect(logs.find(item => item["test"] === "123")["CloneInGroupCounter"]).toBe(2);
+
+        logStore.add({test: "123"});
+        logStore.add({test: "123"});
+        logStore.add({test: "123"});
+        logStore.add({test: "321"});
+
+        logs = logStore.getAll();
+
+        expect(logs.length).toEqual(4);
     });
 });

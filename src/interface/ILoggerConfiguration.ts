@@ -1,9 +1,9 @@
 import IService from "./IService";
 import IStrategy from "./IStrategy";
+import ITransformation from "./ITransformation";
 
 export default interface ILoggerConfiguration {
     service: IService;
     strategy: IStrategy;
-    //todo Add support for groupable logs
-    groupable?: boolean;
+    transformations?: ITransformation[];
 }

@@ -30,7 +30,7 @@ export default class OnIntervalStrategy implements IStrategy {
 
     public onClear(): void {
         // Ignore log list change
-        console.log("OnIntervalStrategy#cleared");
+        //console.log("OnIntervalStrategy#cleared");
     }
 
     public sendAll(info?: any): void {
