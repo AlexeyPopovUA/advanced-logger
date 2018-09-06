@@ -16,12 +16,12 @@ Used https://github.com/DxCx/ts-library-starter repository as a start point for 
 
 ##Requirements
 
-* Should be able to send single logs and bundles of them
+* Should be able to send single logs and bundles of them (done! \o/ )
 * Should support different log sending strategies:
   1.  interval (done! \o/ )
   2.  on request (done! \o/ )
   3.  mixed (interval + on request)
   4.  on bundle size (done! \o/ )
   5.  instant (received 1 log -> sent 1 log) (done! \o/ )
-* Should be able to group duplicated logs in certain time interval
+* Should be able to group duplicated logs in certain time interval (done! \o/ )
 * Should support different remote logger endpoints
