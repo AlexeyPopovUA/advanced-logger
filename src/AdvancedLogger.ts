@@ -1,4 +1,4 @@
-import ILoggerConfiguration from "./interface/ILoggerConfiguration";
+import ILoggerConfig from "./interface/config/ILoggerConfig";
 import IService from "./interface/IService";
 import IStrategy from "./interface/IStrategy";
 import LogStore from "./LogStore";
@@ -7,12 +7,12 @@ import LogStore from "./LogStore";
  * Uses different strategies to submit logs to log server via Service facade.
  */
 export default class AdvancedLogger {
-    private configuration: ILoggerConfiguration;
+    private configuration: ILoggerConfig;
     private strategy: IStrategy;
     private service: IService;
     private logStore: LogStore;
 
-    constructor(configuration: ILoggerConfiguration) {
+    constructor(configuration: ILoggerConfig) {
         this.configuration = configuration;
         this.logStore = new LogStore({transformations: configuration.transformations});
         this.strategy = this.configuration.strategy;
