@@ -1,11 +1,11 @@
-import IRemoteServiceConfig from "../interface/config/IRemoteServiceConfig";
+import ISumologicRequestConfig from "../interface/config/ISumologicRequestConfig";
 import ISumologicServiceConfig from "../interface/config/ISumologicServiceConfig";
 import ILog from "../interface/ILog";
 import IService from "./../interface/IService";
-import postRequest from "./../util/http";
+import http from "./../util/http";
 
 export default class SumologicService implements IService {
-    private serviceConfig: IRemoteServiceConfig;
+    private serviceConfig: ISumologicRequestConfig;
     private defaultLogConfig: any;
 
     constructor(config: ISumologicServiceConfig) {
@@ -13,19 +13,24 @@ export default class SumologicService implements IService {
         this.defaultLogConfig = config.defaultLogConfig || {};
     }
 
-    // todo Do we need an additional config for initialization?
+    // todo Is an additional config needed for initialization?
+    // todo When should it be called?
     public initialize(config: any): Promise<any> {
         return Promise.resolve();
     }
 
-    public sendAllLogs(logs: ILog[]): Promise<any> {
+    public sendAllLogs(logs: ILog[]): Promise<Response> {
         return this.preparePayload(logs)
             .then(payload => {
                 if (this.serviceConfig.retryAttempts && this.serviceConfig.retryAttempts > 0) {
-                    return this.retry(this.serviceConfig.retryAttempts, this.serviceConfig.retryInterval,
-                        postRequest.bind(this, this.serviceConfig, payload));
+                    return http.postRequest(this.serviceConfig, payload)
+                        .catch(() => this.retry(
+                            this.serviceConfig.retryAttempts,
+                            this.serviceConfig.retryInterval,
+                            http.postRequest.bind(this, this.serviceConfig, payload)
+                        ));
                 } else {
-                    return postRequest(this.serviceConfig, payload);
+                    return http.postRequest(this.serviceConfig, payload);
                 }
             });
     }
@@ -40,7 +45,7 @@ export default class SumologicService implements IService {
         this.defaultLogConfig = null;
     }
 
-    private retry(retries: number, delay = 0, fn: () => Promise<any>): Promise<any> {
+    public retry(retries: number, delay = 0, fn: () => Promise<any>): Promise<any> {
         return new Promise<any>((resolve, reject) => {
             setTimeout(() => fn().then(resolve).catch(reject), delay);
         })

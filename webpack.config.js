@@ -18,7 +18,7 @@ module.exports = env => {
         target: 'web',
         libraryTarget: 'window',
         alias: {
-            "./browserHTTP": './browserHTTP'
+            "./fetchFacade": './fetchFacade'
         }
     };
 
@@ -29,7 +29,7 @@ module.exports = env => {
         target: 'node',
         libraryTarget: 'commonjs2',
         alias: {
-            "./browserHTTP": 'xmlhttprequest'
+            "./fetchFacade": 'node-fetch'
         }
     };
 
