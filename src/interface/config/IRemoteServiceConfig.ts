@@ -3,4 +3,6 @@ export default interface IRemoteServiceConfig {
     host: string;
     url: string;
     method: string;
+    retryInterval?: number;
+    retryAttempts?: number;
 }
