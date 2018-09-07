@@ -1,12 +1,14 @@
 import ILog from "../interface/ILog";
+import IRemoteServiceConfig from "../interface/IRemoteServiceConfig";
+import ISumologicServiceConfig from "../interface/ISumologicServiceConfig";
 import IService from "./../interface/IService";
 import postRequest from "./../util/http";
 
 export default class SumologicService implements IService {
-    private serviceConfig: {sourceCategory: string, host: string, url: string, method: string};
+    private serviceConfig: IRemoteServiceConfig;
     private defaultLogConfig: any;
 
-    constructor(config: {serviceConfig: any, defaultLogConfig: any}) {
+    constructor(config: ISumologicServiceConfig) {
         this.serviceConfig = config.serviceConfig;
         this.defaultLogConfig = config.defaultLogConfig;
     }
