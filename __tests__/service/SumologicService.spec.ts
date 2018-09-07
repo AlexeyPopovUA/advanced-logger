@@ -30,7 +30,8 @@ describe("SumologicService", () => {
     const serviceConfig = {
         url: "https://www.google.nl",
         host: "universalLoggerTest",
-        sourceCategory: "AP/SB/oet/html5"
+        sourceCategory: "AP/SB/oet/html5",
+        method: "POST"
     };
 
     const config = {serviceConfig, defaultLogConfig};
