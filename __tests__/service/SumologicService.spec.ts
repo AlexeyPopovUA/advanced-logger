@@ -3,6 +3,7 @@
 import "jest";
 import * as sinon from "sinon";
 import SumologicService from "../../src/service/SumologicService";
+import http from "./../../src/util/http";
 
 // todo Rewrite stubs with jest functionality
 const sandBox = sinon.createSandbox();
@@ -28,9 +29,10 @@ describe("SumologicService", () => {
     };
 
     const serviceConfig = {
-        url: "https://www.google.nl",
+        url: "https://www.reuwyrtuwr.nl",
         host: "universalLoggerTest",
         sourceCategory: "AP/SB/oet/html5",
+        sourceName: "name",
         method: "POST"
     };
 
@@ -57,7 +59,7 @@ describe("SumologicService", () => {
         expect(service).toBeTruthy();
     });
 
-    it.skip("Should send logs to the endpoint", done => {
+    it("Should fail with wrong/unreachable request", done => {
         const testLogs = [
             {test: "test123"},
             {test: "test321"}
@@ -65,7 +67,61 @@ describe("SumologicService", () => {
 
         service = new SumologicService(config);
         service.sendAllLogs(testLogs)
-            .then(() => done())
-            .catch(error => done(error));
+            .then(() => done("should fail"))
+            .catch(() => done());
+    });
+
+    it("Should retry failed requests", done => {
+        const retryAttempts = 3;
+        const testLogs = [
+            {test: "test123"},
+            {test: "test321"}
+        ];
+
+        service = new SumologicService({
+            serviceConfig: Object.assign({}, serviceConfig, {retryInterval: 10, retryAttempts}),
+            defaultLogConfig
+        });
+
+        const spy = jest.spyOn(service, "retry");
+
+        service.sendAllLogs(testLogs)
+            .then(() => done("should fail"))
+            .catch(() => {
+                expect(spy).toHaveBeenCalledTimes(retryAttempts);
+                spy.mockRestore();
+                done();
+            });
+    });
+
+    it("Should send logs to the endpoint after retry", done => {
+        const retryAttempts = 5;
+        const testLogs = [
+            {test: "test123"},
+            {test: "test321"}
+        ];
+
+        service = new SumologicService({
+            serviceConfig: Object.assign({}, serviceConfig, {retryInterval: 10, retryAttempts}),
+            defaultLogConfig
+        });
+
+        const postRequestOld = http.postRequest;
+        const mock = jest.fn(() => {
+            http.postRequest = jest.fn(() => {
+                http.postRequest = postRequestOld;
+                return Promise.resolve({});
+            });
+
+            return Promise.reject("test reject");
+        });
+        http.postRequest = mock;
+
+        service.sendAllLogs(testLogs)
+            .then(() => {
+                expect(mock).toHaveBeenCalledTimes(1);
+                done();
+            })
+            .catch((error) => done(error));
     });
 });

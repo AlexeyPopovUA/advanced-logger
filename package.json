@@ -73,7 +73,7 @@
   },
   "dependencies": {
     "lodash": "^4.17.10",
-    "xmlhttprequest": "^1.8.0"
+    "node-fetch": "^2.2.0"
   },
   "jest": {
     "transform": {
@@ -94,7 +94,7 @@
       "json"
     ],
     "moduleNameMapper": {
-      "browserHTTP$": "xmlhttprequest"
+      "fetchFacade$": "node-fetch"
     }
   }
 }

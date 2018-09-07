@@ -1,6 +1,6 @@
-import IRemoteServiceConfig from "./IRemoteServiceConfig";
+import ISumologicRequestConfig from "./ISumologicRequestConfig";
 
 export default interface ISumologicServiceConfig {
-    serviceConfig: IRemoteServiceConfig;
+    serviceConfig: ISumologicRequestConfig;
     defaultLogConfig?: any;
 }
