@@ -17,7 +17,12 @@ describe("index", () => {
 
     const config = {
         defaultLogConfig: {},
-        serviceConfig: {}
+        serviceConfig: {
+            sourceCategory: "",
+            host: "",
+            url: "",
+            method: ""
+        }
     };
 
     afterEach(() => {
