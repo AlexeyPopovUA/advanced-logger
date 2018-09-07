@@ -1,6 +1,6 @@
 import ILog from "../interface/ILog";
-import IRemoteServiceConfig from "../interface/IRemoteServiceConfig";
-import ISumologicServiceConfig from "../interface/ISumologicServiceConfig";
+import IRemoteServiceConfig from "../interface/config/IRemoteServiceConfig";
+import ISumologicServiceConfig from "../interface/config/ISumologicServiceConfig";
 import IService from "./../interface/IService";
 import postRequest from "./../util/http";
 
@@ -10,9 +10,10 @@ export default class SumologicService implements IService {
 
     constructor(config: ISumologicServiceConfig) {
         this.serviceConfig = config.serviceConfig;
-        this.defaultLogConfig = config.defaultLogConfig;
+        this.defaultLogConfig = config.defaultLogConfig || {};
     }
 
+    // todo Do we need an additional config for initialization?
     public initialize(config: any): Promise<any> {
         return Promise.resolve();
     }

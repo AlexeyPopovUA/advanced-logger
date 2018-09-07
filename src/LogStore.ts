@@ -3,7 +3,7 @@ const throttle = require("lodash/throttle");
 import {TransformationEnum} from "./enums/TransformationEnum";
 import IDestructable from "./interface/IDestructable";
 import ILog from "./interface/ILog";
-import ILogStoreConfiguration from "./interface/ILogStoreConfiguration";
+import ILogStoreConfig from "./interface/config/ILogStoreConfig";
 import ITransformation from "./interface/ITransformation";
 import LogUtils from "./util/LogUtils";
 
@@ -15,7 +15,7 @@ export default class LogStore implements IDestructable {
 
     private readonly logs: ILog[];
 
-    private readonly config: ILogStoreConfiguration;
+    private readonly config: ILogStoreConfig;
 
     private identityMap: Map<string, number>;
 
@@ -26,7 +26,7 @@ export default class LogStore implements IDestructable {
     // todo Proper typing for method is needed
     private throttledOnGroupFinalize: any;
 
-    constructor(config?: ILogStoreConfiguration) {
+    constructor(config?: ILogStoreConfig) {
         this.logs = [];
         this.eventEmitter = new EventEmitter();
         this.config = config;

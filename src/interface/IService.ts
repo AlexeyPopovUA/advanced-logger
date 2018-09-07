@@ -1,7 +1,7 @@
 import IDestructable from "./IDestructable";
 import ILog from "./ILog";
 
-export default interface IUniversalLoggerConfiguration extends IDestructable {
+export default interface IService extends IDestructable {
     /**
      * Implement connection with API or SDK or prepare configurations
      */
