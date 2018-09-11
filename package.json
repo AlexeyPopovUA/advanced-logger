@@ -1,6 +1,6 @@
 {
   "name": "advanced-logger",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Advanced logger module extendable with plugins. Works in nodejs and browsers",
   "main": "dist/node/universal-logger.node.min.js",
   "unpkg": "dist/browser/universal-logger.browser.min.js",
