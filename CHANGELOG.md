@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/AlexeyPopovUA/universal-logger/compare/v1.0.10...v1.1.0) (2018-09-11)
+
+
+
 <a name="1.0.10"></a>
 ## [1.0.10](https://github.com/AlexeyPopovUA/universal-logger/compare/v1.0.6...v1.0.10) (2018-09-06)
 
