@@ -35,7 +35,7 @@ export default class SumologicService implements IService {
             });
     }
 
-    public preparePayload(logs: ILog[]): Promise<any> {
+    public preparePayload(logs: ILog[]): Promise<string> {
         const resultList = logs.map(log => JSON.stringify(Object.assign({}, this.defaultLogConfig, log)));
         return Promise.resolve(resultList.join("\n"));
     }
@@ -45,8 +45,8 @@ export default class SumologicService implements IService {
         this.defaultLogConfig = null;
     }
 
-    public retry(retries: number, delay = 0, fn: () => Promise<any>): Promise<any> {
-        return new Promise<any>((resolve, reject) => {
+    public retry(retries: number, delay = 0, fn: () => Promise<Response>): Promise<Response> {
+        return new Promise<Response>((resolve, reject) => {
             setTimeout(() => fn().then(resolve).catch(reject), delay);
         })
         .catch(error => retries > 1 ? this.retry(retries - 1, delay, fn) : Promise.reject(error));
