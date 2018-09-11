@@ -4,7 +4,6 @@ const fetch = require("./fetchFacade");
 
 export default {
     postRequest(serviceConfig: ISumologicRequestConfig, payload: string): Promise<Response> {
-        console.log("postRequest");
         return fetch(serviceConfig.url, {
             method: serviceConfig.method,
             body: payload,
