@@ -56,18 +56,20 @@ module.exports = env => {
         },
         mode: config.mode,
         resolve: {
-            extensions: ['.ts', '.js'],
+            extensions: ['.ts', '.js', '.mjs'],
             modules: [
                 'node_modules',
                 'src',
             ],
-            alias: config.alias
+            alias: config.alias,
+            // todo Resolve the problem with mjs import from node_modules
+            mainFields: ["main", "module"]
         },
         module: {
             rules: [
                 {test: /\.ts$/, loader: "awesome-typescript-loader"},
                 {enforce: "pre", test: /\.js$/, loader: "source-map-loader"}
-            ],
+            ]
         }
     };
 };
