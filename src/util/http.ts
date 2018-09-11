@@ -1,5 +1,6 @@
 import ISumologicRequestConfig from "../interface/config/ISumologicRequestConfig";
-import fetch from "./fetchFacade";
+//todo Resolve webpack transformation problem with "fetch"
+const fetch = require("./fetchFacade");
 
 export default {
     postRequest(serviceConfig: ISumologicRequestConfig, payload: string): Promise<Response> {
