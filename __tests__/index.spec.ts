@@ -2,7 +2,7 @@
 
 import "jest";
 import * as sinon from "sinon";
-import {service} from "../src";
+import {service, TransformationEnum} from "../src";
 import {strategy} from "../src";
 import {AdvancedLogger} from "../src";
 
@@ -19,6 +19,7 @@ describe("index", () => {
         defaultLogConfig: {},
         serviceConfig: {
             sourceCategory: "",
+            sourceName: "",
             host: "",
             url: "",
             method: ""
@@ -34,8 +35,15 @@ describe("index", () => {
         }
     });
 
-    it("Should export Logger", () => {
+    it("Should export API", () => {
         expect(typeof AdvancedLogger).toBe("function");
+        expect(typeof strategy.InstantStrategy).toBe("function");
+        expect(typeof strategy.OnBundleSizeStrategy).toBe("function");
+        expect(typeof strategy.OnIntervalStrategy).toBe("function");
+        expect(typeof strategy.OnRequestStrategy).toBe("function");
+        expect(typeof service.SumologicService).toBe("function");
+        expect(typeof TransformationEnum).toBe("object");
+        expect(typeof TransformationEnum.RAPID_FIRE_GROUPING).toBe("number");
     });
 
     it("Should be able to create a new Logger instance", () => {
