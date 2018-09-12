@@ -1,9 +1,9 @@
 import {EventEmitter} from "events";
 const throttle = require("lodash/throttle");
 import {TransformationEnum} from "./enums/TransformationEnum";
+import ILogStoreConfig from "./interface/config/ILogStoreConfig";
 import IDestructable from "./interface/IDestructable";
 import ILog from "./interface/ILog";
-import ILogStoreConfig from "./interface/config/ILogStoreConfig";
 import ITransformation from "./interface/ITransformation";
 import LogUtils from "./util/LogUtils";
 

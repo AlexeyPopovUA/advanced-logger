@@ -71,6 +71,27 @@ describe("SumologicService", () => {
             .catch(() => done());
     });
 
+    it("Should safely prepare logs for request", done => {
+        const log = {test: "444", circle: {}};
+        //circular link in order to create problems for serializer
+        log.circle = log;
+        const testLogs = [
+            {test: "test123"},
+            log,
+            {test: "test321"}
+        ];
+
+        service = new SumologicService(config);
+        service
+            .preparePayload(testLogs)
+            .then(payload => {
+                expect(typeof payload).toBe("string");
+                expect(payload).toContain("[Circular]");
+                done();
+            })
+            .catch(error => done(error));
+    });
+
     it("Should retry failed requests", done => {
         const retryAttempts = 3;
         const testLogs = [

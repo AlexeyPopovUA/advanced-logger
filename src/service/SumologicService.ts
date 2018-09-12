@@ -1,3 +1,4 @@
+import stringify from "fast-safe-stringify";
 import ISumologicRequestConfig from "../interface/config/ISumologicRequestConfig";
 import ISumologicServiceConfig from "../interface/config/ISumologicServiceConfig";
 import ILog from "../interface/ILog";
@@ -36,7 +37,10 @@ export default class SumologicService implements IService {
     }
 
     public preparePayload(logs: ILog[]): Promise<string> {
-        const resultList = logs.map(log => JSON.stringify(Object.assign({}, this.defaultLogConfig, log)));
+        const resultList = logs.map(log => {
+            const preparedLog = Object.assign({}, this.defaultLogConfig, log);
+            return this.tryJSONStringify(preparedLog) || stringify(preparedLog);
+        });
         return Promise.resolve(resultList.join("\n"));
     }
 
@@ -50,5 +54,17 @@ export default class SumologicService implements IService {
             setTimeout(() => fn().then(resolve).catch(reject), delay);
         })
         .catch(error => retries > 1 ? this.retry(retries - 1, delay, fn) : Promise.reject(error));
+    }
+
+    /**
+     * It is necessary to convert objects safely, otherwise we can lost the whole log bundle
+     */
+    private tryJSONStringify(obj: any): string {
+        try {
+            return JSON.stringify(obj);
+        } catch (_) {
+            //ignore the error
+            return "";
+        }
     }
 }
