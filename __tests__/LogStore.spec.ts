@@ -12,7 +12,7 @@ describe("LogStore", () => {
             type: TransformationEnum.RAPID_FIRE_GROUPING,
             configuration: {
                 interval: 10,
-                groupIndetityFields: ["test"],
+                groupIdentityFields: ["test"],
                 groupFieldName: "CloneInGroupCounter"
             }
         }]

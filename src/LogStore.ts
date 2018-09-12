@@ -37,7 +37,7 @@ export default class LogStore implements IDestructable {
     public add(log: ILog): void {
         //todo If has a grouping transformation
         if (this.identityMap) {
-            const id = LogUtils.getLogIdByFields(log, this.groupableConfig.configuration.groupIndetityFields);
+            const id = LogUtils.getLogIdByFields(log, this.groupableConfig.configuration.groupIdentityFields);
 
             if (!this.identityMap.has(id)) {
                 this.logs.push(log);
@@ -105,7 +105,7 @@ export default class LogStore implements IDestructable {
     }
 
     private onAddToGroup(log): void {
-        const logId = LogUtils.getLogIdByFields(log, this.groupableConfig.configuration.groupIndetityFields);
+        const logId = LogUtils.getLogIdByFields(log, this.groupableConfig.configuration.groupIdentityFields);
 
         if (this.identityMap.has(logId)) {
             const savedCounter = this.identityMap.get(logId);
@@ -124,7 +124,7 @@ export default class LogStore implements IDestructable {
 
             for (let i = this.groupLeftIndex !== -1 ? this.groupLeftIndex : 0; i < len; i++) {
                 const log = this.logs[i];
-                const id = LogUtils.getLogIdByFields(log, groupConfig.groupIndetityFields);
+                const id = LogUtils.getLogIdByFields(log, groupConfig.groupIdentityFields);
                 log[groupConfig.groupFieldName] = this.identityMap.has(id) ? this.identityMap.get(id) : 1;
             }
         }
