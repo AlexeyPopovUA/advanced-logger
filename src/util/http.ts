@@ -9,8 +9,11 @@ export default {
             body: payload,
             headers: {
                 "Content-Type": "application/json",
+                //todo Optional?
                 "X-Sumo-Category": serviceConfig.sourceCategory,
+                //todo Optional?
                 "X-Sumo-Host": serviceConfig.host,
+                //todo Optional?
                 "X-Sumo-Name": serviceConfig.sourceName
             }
         });
