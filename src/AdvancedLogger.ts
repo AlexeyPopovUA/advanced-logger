@@ -65,15 +65,18 @@ export default class AdvancedLogger {
     }
 
     private onSend(): void {
-        const logs = this.logStore.getAll();
+        if (this.logStore.size() > 0) {
+            const logs = this.logStore.getAll();
 
-        // We need to clear store as soon as we received request to send all logs
-        this.logStore.clear();
+            // We need to clear store as soon as we received request to send all logs
+            this.logStore.clear();
 
-        this.service.sendAllLogs(logs)
-            .catch(error => {
-                console.log(error);
-                // todo Retry sending logs here or in the service
-            });
+            this.service
+                .sendAllLogs(logs)
+                .catch(error => {
+                    console.log(error);
+                    // todo Retry sending logs here or in the service
+                });
+        }
     }
 }
