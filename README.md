@@ -1,9 +1,9 @@
 # advanced-logger
 
-[![Build Status](https://travis-ci.org/AlexeyPopovUA/universal-logger.svg?branch=master)](https://travis-ci.org/AlexeyPopovUA/universal-logger)
+[![Build Status](https://travis-ci.org/AlexeyPopovUA/advanced-logger.svg?branch=master)](https://travis-ci.org/AlexeyPopovUA/advanced-logger)
 [![npm version](https://badge.fury.io/js/advanced-logger.svg)](https://badge.fury.io/js/advanced-logger)
-[![dependencies Status](https://david-dm.org/AlexeyPopovUA/universal-logger/status.svg)](https://david-dm.org/AlexeyPopovUA/universal-logger)
-[![Greenkeeper badge](https://badges.greenkeeper.io/AlexeyPopovUA/universal-logger.svg)](https://greenkeeper.io/)
+[![dependencies Status](https://david-dm.org/AlexeyPopovUA/advanced-logger/status.svg)](https://david-dm.org/AlexeyPopovUA/advanced-logger)
+[![Greenkeeper badge](https://badges.greenkeeper.io/AlexeyPopovUA/advanced-logger.svg)](https://greenkeeper.io/)
 [![install size](https://packagephobia.now.sh/badge?p=advanced-logger@1.0.9)](https://packagephobia.now.sh/result?p=advanced-logger)
 [![](https://data.jsdelivr.com/v1/package/npm/advanced-logger/badge)](https://www.jsdelivr.com/package/npm/advanced-logger)
 
