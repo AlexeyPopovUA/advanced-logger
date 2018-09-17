@@ -16,7 +16,7 @@
 
 Used https://github.com/DxCx/ts-library-starter repository as a start point for the library
 
-##Requirements
+## Requirements
 
 * Should be able to send single logs and bundles of them (done! \o/ )
 * Should support different log sending strategies:
@@ -27,3 +27,8 @@ Used https://github.com/DxCx/ts-library-starter repository as a start point for 
   5.  instant (received 1 log -> sent 1 log) (done! \o/ )
 * Should be able to group duplicated logs in certain time interval (done! \o/ )
 * Should support different remote logger endpoints
+
+## Usage
+
+Find examples for browser and nodejs environments in **/example** folder.
+Normal documentation will be written soon.
