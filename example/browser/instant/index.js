@@ -5,20 +5,17 @@ window.addEventListener("load", () => {
 
     const defaultLogConfig = {
         Domain: "logger-test-domain",
-        UserAgent: "userAgent",
+        UserAgent: window.userAgent,
         Channel: "my-company",
         BuildVersion: 123,
         Platform: "browser",
-        Article: "article",
-        StoredProductId: "productId",
         Severity: "LogLevel.DEBUG",
         Data: "",
         Timestamp: "",
         Exception: "",
         Message: "",
         Category: "",
-        ErrorId: 0,
-        CloneInGroupCounter: 1
+        ErrorId: 0
     };
 
     const serviceConfig = {
@@ -26,7 +23,7 @@ window.addEventListener("load", () => {
         url: "https://www.google.nl",
         sourceName: "advancedLoggerTest",
         host: "advanced-logger",
-        sourceCategory: "AP/SB/oet/html5",
+        sourceCategory: "MY/SUMO/namespace",
         method: "POST"
     };
 
