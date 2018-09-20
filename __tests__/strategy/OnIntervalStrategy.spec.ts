@@ -19,6 +19,7 @@ describe("OnIntervalStrategy", () => {
         defaultLogConfig: {},
         serviceConfig: {
             sourceCategory: "",
+            sourceName: "",
             host: "",
             url: "",
             method: ""

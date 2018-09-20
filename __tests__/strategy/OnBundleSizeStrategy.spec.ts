@@ -19,6 +19,7 @@ describe("OnBundleSizeStrategy", () => {
         defaultLogConfig: {},
         serviceConfig: {
             sourceCategory: "",
+            sourceName: "",
             host: "",
             url: "",
             method: ""
