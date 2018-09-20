@@ -2,20 +2,16 @@ const {AdvancedLogger, service, strategy} = require('advanced-logger');
 
 const defaultLogConfig = {
     Domain: "logger-test-domain",
-    UserAgent: "userAgent",
     Channel: "my-company",
     BuildVersion: 123,
-    Platform: "browser",
-    Article: "article",
-    StoredProductId: "productId",
+    Platform: "nodejs",
     Severity: "LogLevel.DEBUG",
     Data: "",
     Timestamp: "",
     Exception: "",
     Message: "",
     Category: "",
-    ErrorId: 0,
-    CloneInGroupCounter: 1
+    ErrorId: 0
 };
 
 const serviceConfig = {
@@ -23,7 +19,7 @@ const serviceConfig = {
     url: "https://www.google.nl",
     sourceName: "advancedLoggerTestNode",
     host: "advanced-logger",
-    sourceCategory: "AP/SB/oet/html5",
+    sourceCategory: "MY/SUMO/namespace",
     method: "POST"
 };
 
