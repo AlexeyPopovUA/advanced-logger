@@ -1,21 +1,13 @@
-import ISumologicRequestConfig from "../interface/config/ISumologicRequestConfig";
+import IRequestConfig from "../interface/config/IRequestConfig";
 //todo Resolve webpack transformation problem with "fetch"
 const fetch = require("./fetchFacade");
 
 export default {
-    postRequest(serviceConfig: ISumologicRequestConfig, payload: string): Promise<Response> {
+    postRequest(serviceConfig: IRequestConfig, headers: any, payload: string): Promise<Response> {
         return fetch(serviceConfig.url, {
             method: serviceConfig.method,
             body: payload,
-            headers: {
-                "Content-Type": "application/json",
-                //todo Optional?
-                "X-Sumo-Category": serviceConfig.sourceCategory,
-                //todo Optional?
-                "X-Sumo-Host": serviceConfig.host,
-                //todo Optional?
-                "X-Sumo-Name": serviceConfig.sourceName
-            }
+            headers
         });
     }
 };

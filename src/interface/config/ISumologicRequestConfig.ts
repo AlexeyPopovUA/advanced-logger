@@ -1,9 +1,7 @@
-export default interface ISumologicRequestConfig {
+import IRequestConfig from "./IRequestConfig";
+
+export default interface ISumologicRequestConfig extends IRequestConfig {
     sourceCategory: string;
     host: string;
-    url: string;
     sourceName: string;
-    method: string;
-    retryInterval?: number;
-    retryAttempts?: number;
 }
