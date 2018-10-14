@@ -2,14 +2,14 @@
 
 import "jest";
 import * as sinon from "sinon";
-import SumologicService from "../../src/service/SumologicService";
+import LogglyService from "../../src/service/LogglyService";
 import http from "./../../src/util/http";
 
 // todo Rewrite stubs with jest functionality
 const sandBox = sinon.createSandbox();
 
-describe("SumologicService", () => {
-    let service: SumologicService;
+describe("LogglyService", () => {
+    let service: LogglyService;
     const defaultLogConfig = {
         Domain: "logger-test-domain",
         UserAgent: "userAgent",
@@ -30,9 +30,6 @@ describe("SumologicService", () => {
 
     const serviceConfig = {
         url: "https://www.reuwyrtuwr.nl",
-        host: "universalLoggerTest",
-        sourceCategory: "AP/SB/oet/html5",
-        sourceName: "name",
         method: "POST"
     };
 
@@ -48,12 +45,12 @@ describe("SumologicService", () => {
     });
 
     it("Should export service", () => {
-        expect(typeof SumologicService).toBe("function");
+        expect(typeof LogglyService).toBe("function");
     });
 
     it("Should be able to create a new service instance", () => {
         expect(() => {
-            service = new SumologicService(config);
+            service = new LogglyService(config);
         }).not.toThrow();
 
         expect(service).toBeTruthy();
@@ -65,7 +62,7 @@ describe("SumologicService", () => {
             {test: "test321"}
         ];
 
-        service = new SumologicService(config);
+        service = new LogglyService(config);
         service.sendAllLogs(testLogs)
             .then(() => done("should fail"))
             .catch(() => done());
@@ -81,7 +78,7 @@ describe("SumologicService", () => {
             {test: "test321"}
         ];
 
-        service = new SumologicService(config);
+        service = new LogglyService(config);
         service
             .preparePayload(testLogs)
             .then(payload => {
@@ -99,7 +96,7 @@ describe("SumologicService", () => {
             {test: "test321"}
         ];
 
-        service = new SumologicService({
+        service = new LogglyService({
             serviceConfig: Object.assign({}, serviceConfig, {retryInterval: 10, retryAttempts}),
             defaultLogConfig
         });
@@ -122,7 +119,7 @@ describe("SumologicService", () => {
             {test: "test321"}
         ];
 
-        service = new SumologicService({
+        service = new LogglyService({
             serviceConfig: Object.assign({}, serviceConfig, {retryInterval: 10, retryAttempts}),
             defaultLogConfig
         });
