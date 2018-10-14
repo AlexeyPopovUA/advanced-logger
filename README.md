@@ -36,7 +36,7 @@ It does not restrict you with conventions, for example, existence of "logSeverit
   5.  instant (received 1 log -> sent 1 log)
 * It is able to group duplicated logs in certain time interval (for rapid fire of the same logs)
 * It is not afraid of circular links in log objects
-* It should support different remote logger endpoints soon (only SumoLogic so far. Kibana, you're the next ᕙ(ಠ.ಠ)ᕗ )
+* It should support different remote logger endpoints soon (only SumoLogic and Loggly so far. Who is the next? ᕙ(ಠ.ಠ)ᕗ )
 * It should support custom format for logs soon (it is only json form currently)
 
 ## Usage
@@ -169,9 +169,9 @@ TODO
 
 ### Services
 
-#### Sumologic
+Currently, module supports only Sumologic and Loggly services out of the box.
 
-Currently, module supports only Sumologic service out of the box.
+#### Sumologic (see https://www.sumologic.com/)
 
 ```javascript
 //Configuration for communication with Sumologic.
@@ -202,6 +202,37 @@ const defaultLogConfig = {
 const config = {serviceConfig, defaultLogConfig};
 
 const service = new service.SumologicService(config);
+```
+
+#### Loggly (see https://www.loggly.com/)
+
+```javascript
+//Configuration for communication with Sumologic.
+//Url should be taken from the logger's source category configuration page.
+const serviceConfig = {
+    // this should be the url for **bulk** log sending
+    url: "https://logs-01.loggly.com/bulk/<customertoken>/tag/bulk/",
+    method: "POST"
+};
+
+//Default log configuration.
+//It is used like a template with default values for each new log.
+//Can be of any structure. It will be shallowly copied during creation of a new log record.
+const defaultLogConfig = {
+    UserAgent: window.userAgent,
+    BuildVersion: 123,
+    Platform: "browser",
+    Severity: "DEBUG",
+    Data: "",
+    Timestamp: "",
+    Message: "",
+    Category: ""
+};
+
+//general config
+const config = {serviceConfig, defaultLogConfig};
+
+const service = new service.LogglyService(config);
 ```
 
 #### Custom implementation of service
