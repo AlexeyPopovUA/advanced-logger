@@ -42,6 +42,7 @@ describe("index", () => {
         expect(typeof strategy.OnIntervalStrategy).toBe("function");
         expect(typeof strategy.OnRequestStrategy).toBe("function");
         expect(typeof service.SumologicService).toBe("function");
+        expect(typeof service.LogglyService).toBe("function");
         expect(typeof TransformationEnum).toBe("object");
         expect(typeof TransformationEnum.RAPID_FIRE_GROUPING).toBe("number");
     });

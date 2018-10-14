@@ -1,22 +1,20 @@
 import stringify from "fast-safe-stringify";
+import IRequestConfig from "../interface/config/IRequestConfig";
 import IServiceConfig from "../interface/config/IServiceConfig";
-import ISumologicRequestConfig from "../interface/config/ISumologicRequestConfig";
 import ILog from "../interface/ILog";
 import LogUtils from "../util/LogUtils";
 import IService from "./../interface/IService";
 import http from "./../util/http";
 
-export default class SumologicService implements IService {
-    private serviceConfig: ISumologicRequestConfig;
+export default class LogglyService implements IService {
+    private serviceConfig: IRequestConfig;
     private defaultLogConfig: any;
 
     constructor(config: IServiceConfig) {
-        this.serviceConfig = config.serviceConfig as ISumologicRequestConfig;
+        this.serviceConfig = config.serviceConfig;
         this.defaultLogConfig = config.defaultLogConfig || {};
     }
 
-    // todo Is an additional config needed for initialization?
-    // todo When should it be called?
     public initialize(config: any): Promise<any> {
         return Promise.resolve();
     }
@@ -25,13 +23,7 @@ export default class SumologicService implements IService {
         return this.preparePayload(logs)
             .then(payload => {
                 const headers = {
-                    "Content-Type": "application/json",
-                    //todo Optional?
-                    "X-Sumo-Category": this.serviceConfig.sourceCategory,
-                    //todo Optional?
-                    "X-Sumo-Host": this.serviceConfig.host,
-                    //todo Optional?
-                    "X-Sumo-Name": this.serviceConfig.sourceName
+                    "Content-Type": "text/plain"
                 };
 
                 if (this.serviceConfig.retryAttempts && this.serviceConfig.retryAttempts > 0) {
