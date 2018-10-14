@@ -1,5 +1,6 @@
 import AdvancedLogger from "./AdvancedLogger";
 import {TransformationEnum} from "./enums/TransformationEnum";
+import LogglyService from "./service/LogglyService";
 import SumologicService from "./service/SumologicService";
 import InstantStrategy from "./strategy/InstantStrategy";
 import OnBundleSizeStrategy from "./strategy/OnBundleSizeStrategy";
@@ -11,7 +12,8 @@ const strategy = {
 };
 
 const service = {
-    SumologicService
+    SumologicService,
+    LogglyService
 };
 
 export {
