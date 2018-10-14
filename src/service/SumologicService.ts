@@ -23,15 +23,25 @@ export default class SumologicService implements IService {
     public sendAllLogs(logs: ILog[]): Promise<Response> {
         return this.preparePayload(logs)
             .then(payload => {
+                const headers = {
+                    "Content-Type": "application/json",
+                    //todo Optional?
+                    "X-Sumo-Category": this.serviceConfig.sourceCategory,
+                    //todo Optional?
+                    "X-Sumo-Host": this.serviceConfig.host,
+                    //todo Optional?
+                    "X-Sumo-Name": this.serviceConfig.sourceName
+                };
+
                 if (this.serviceConfig.retryAttempts && this.serviceConfig.retryAttempts > 0) {
-                    return http.postRequest(this.serviceConfig, payload)
+                    return http.postRequest(this.serviceConfig, headers, payload)
                         .catch(() => this.retry(
                             this.serviceConfig.retryAttempts,
                             this.serviceConfig.retryInterval,
                             http.postRequest.bind(this, this.serviceConfig, payload)
                         ));
                 } else {
-                    return http.postRequest(this.serviceConfig, payload);
+                    return http.postRequest(this.serviceConfig, headers, payload);
                 }
             });
     }
