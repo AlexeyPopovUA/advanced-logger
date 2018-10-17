@@ -20,17 +20,14 @@ window.addEventListener("load", () => {
 
     const serviceConfig = {
         //todo Replace with a real URL
-        url: "https://www.google.nl",
-        sourceName: "advancedLoggerTest",
-        host: "advanced-logger",
-        sourceCategory: "MY/SUMO/namespace",
+        url: "https://logs-01.loggly.com/bulk/<customertoken>/tag/bulk/",
         method: "POST"
     };
 
     const config = {serviceConfig, defaultLogConfig};
 
     const logger = new AdvancedLogger({
-        service: new service.SumologicService(config),
+        service: new service.LogglyService(config),
         strategy: new strategy.OnRequestStrategy()
     });
 
