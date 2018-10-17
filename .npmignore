@@ -10,3 +10,4 @@ tslint.json
 webpack.*.js
 *.tgz
 .gitignore
+/sonar-project.properties
