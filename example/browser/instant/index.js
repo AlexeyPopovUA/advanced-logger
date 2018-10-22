@@ -34,7 +34,9 @@ window.addEventListener("load", () => {
         strategy: new strategy.InstantStrategy()
     });
 
-    logger.log({test: "instant log u1"});
-    logger.log({test: "instant log u2"});
-    logger.log({test: "instant log u3"});
+    document.querySelector("#run-test-button").addEventListener("click", () => {
+        logger.log({test: "instant log u1"});
+        logger.log({test: "instant log u2"});
+        logger.log({test: "instant log u3"});
+    });
 });

@@ -34,5 +34,5 @@ window.addEventListener("load", () => {
     logger.log({test: "test123"});
     logger.log({test: "test321"});
 
-    logger.sendAllLogs();
+    document.querySelector("#run-test-button").addEventListener("click", () => logger.sendAllLogs());
 });
