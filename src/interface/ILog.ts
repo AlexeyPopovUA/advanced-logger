@@ -1,1 +1,3 @@
-export default interface ILog {}
+export default interface ILog {
+    [propName: string]: any;
+}

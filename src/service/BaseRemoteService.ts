@@ -1,12 +1,13 @@
 import stringify from "fast-safe-stringify";
 import IRequestConfig from "../interface/config/IRequestConfig";
 import IServiceConfig from "../interface/config/IServiceConfig";
+import IDestructable from "../interface/IDestructable";
 import ILog from "../interface/ILog";
 import IService from "../interface/IService";
 import http from "../util/http";
 import LogUtils from "../util/LogUtils";
 
-export default abstract class BaseService implements IService {
+export default abstract class BaseRemoteService implements IService, IDestructable {
     protected serviceConfig: IRequestConfig;
     protected defaultLogConfig: any;
 

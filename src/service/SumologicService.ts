@@ -1,8 +1,8 @@
 import IServiceConfig from "../interface/config/IServiceConfig";
 import ISumologicRequestConfig from "../interface/config/ISumologicRequestConfig";
-import BaseService from "./BaseService";
+import BaseRemoteService from "./BaseRemoteService";
 
-export default class SumologicService extends BaseService {
+export default class SumologicService extends BaseRemoteService {
     constructor(config: IServiceConfig) {
         super(config);
     }

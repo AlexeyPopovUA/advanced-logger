@@ -3,4 +3,5 @@ export default interface IRequestConfig {
     method: string;
     retryInterval?: number;
     retryAttempts?: number;
+    [propName: string]: any;
 }
