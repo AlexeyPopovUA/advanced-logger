@@ -1,6 +1,5 @@
 import IRequestConfig from "../interface/config/IRequestConfig";
-//todo Resolve webpack transformation problem with "fetch"
-const fetch = require("./fetchFacade");
+const fetch = require("node-fetch");
 
 const http = {
     postRequest(serviceConfig: IRequestConfig, headers: any, payload: string): Promise<Response> {

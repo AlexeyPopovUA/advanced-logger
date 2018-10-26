@@ -1,4 +1,6 @@
 const path = require('path');
+//const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const nodeExternals = require('webpack-node-externals');
 
 const exportLibraryName = "advancedLogger";
 const getPostfix = mode => mode === "production" ? ".min" : "";
@@ -18,7 +20,7 @@ module.exports = env => {
         target: 'web',
         libraryTarget: 'window',
         alias: {
-            "./fetchFacade": './fetchFacade'
+            "node-fetch": './fetchFacade'
         }
     };
 
@@ -27,10 +29,7 @@ module.exports = env => {
         outputFile: `advanced-logger.node${getPostfix(mode)}.js`,
         outputFolder: `${getTargetFolder(env.target)}${getFolderPostfix(mode)}`,
         target: 'node',
-        libraryTarget: 'commonjs2',
-        alias: {
-            "./fetchFacade": 'node-fetch'
-        }
+        libraryTarget: 'commonjs2'
     };
 
     // todo Reuse the same *conf object
@@ -55,12 +54,10 @@ module.exports = env => {
             ignored: /node_modules/
         },
         mode: config.mode,
+        externals: env.target === 'browser' ? [] : [nodeExternals()],
         resolve: {
             extensions: ['.ts', '.js', '.mjs'],
-            modules: [
-                'node_modules',
-                'src',
-            ],
+            modules: env.target === 'browser' ? ['node_modules', 'src'] : ['src'],
             alias: config.alias,
             // todo Resolve the problem with mjs import from node_modules
             mainFields: ["main", "module"]
@@ -70,6 +67,9 @@ module.exports = env => {
                 {test: /\.ts$/, loader: "awesome-typescript-loader"},
                 {enforce: "pre", test: /\.js$/, loader: "source-map-loader"}
             ]
-        }
+        }/*,
+        plugins: [
+            new BundleAnalyzerPlugin()
+        ]*/
     };
 };
