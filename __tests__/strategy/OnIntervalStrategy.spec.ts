@@ -13,7 +13,7 @@ const OnIntervalStrategy = strategy.OnIntervalStrategy;
 const sandBox = sinon.createSandbox();
 
 describe("OnIntervalStrategy", () => {
-    let logger: AdvancedLogger;
+    let logger;
 
     const config = {
         defaultLogConfig: {},

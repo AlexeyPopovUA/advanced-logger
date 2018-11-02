@@ -5,7 +5,7 @@ import {TransformationEnum} from "../src/enums/TransformationEnum";
 import LogStore from "../src/LogStore";
 
 describe("LogStore", () => {
-    let logStore: LogStore;
+    let logStore;
 
     const storeConfigWithGrouping = {
         transformations: [{

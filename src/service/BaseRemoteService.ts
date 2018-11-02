@@ -2,7 +2,6 @@ import stringify from "fast-safe-stringify";
 import IRequestConfig from "../interface/config/IRequestConfig";
 import IServiceConfig from "../interface/config/IServiceConfig";
 import IDestructable from "../interface/IDestructable";
-import ILog from "../interface/ILog";
 import IService from "../interface/IService";
 import http from "../util/http";
 import LogUtils from "../util/LogUtils";
@@ -16,7 +15,7 @@ export default abstract class BaseRemoteService implements IService, IDestructab
         this.defaultLogConfig = config.defaultLogConfig || {};
     }
 
-    public sendAllLogs(logs: ILog[]): Promise<Response> {
+    public sendAllLogs<T>(logs: T[]): Promise<Response> {
         return this.preparePayload(logs)
             .then(payload => {
                 const headers = this.getHeaders();
@@ -34,7 +33,7 @@ export default abstract class BaseRemoteService implements IService, IDestructab
             });
     }
 
-    public preparePayload(logs: ILog[]): Promise<string> {
+    public preparePayload<T>(logs: T[]): Promise<string> {
         const resultList = logs.map(log => {
             const preparedLog = Object.assign({}, this.defaultLogConfig, log);
             return LogUtils.tryJSONStringify(preparedLog) || stringify(preparedLog);

@@ -13,7 +13,7 @@ const OnRequestStrategy = strategy.OnRequestStrategy;
 const sandBox = sinon.createSandbox();
 
 describe("index", () => {
-    let logger: AdvancedLogger;
+    let logger;
 
     const config = {
         defaultLogConfig: {},
