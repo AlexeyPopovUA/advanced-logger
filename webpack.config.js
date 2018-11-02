@@ -1,5 +1,6 @@
 const path = require('path');
 //const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 
 const exportLibraryName = "advancedLogger";
@@ -67,9 +68,10 @@ module.exports = env => {
                 {test: /\.ts$/, loader: "awesome-typescript-loader"},
                 {enforce: "pre", test: /\.js$/, loader: "source-map-loader"}
             ]
-        }/*,
+        },
         plugins: [
-            new BundleAnalyzerPlugin()
-        ]*/
+            //new BundleAnalyzerPlugin()
+            new CopyWebpackPlugin([{from: 'interface/**/*', to: '.', context: "src"}])
+        ]
     };
 };
