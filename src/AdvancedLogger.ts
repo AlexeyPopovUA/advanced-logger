@@ -6,11 +6,11 @@ import LogStore from "./LogStore";
 /**
  * Uses different strategies to submit logs to log server via Service facade.
  */
-export default class AdvancedLogger {
+export default class AdvancedLogger<T> {
     private configuration: ILoggerConfig;
     private strategy: IStrategy;
     private service: IService;
-    private logStore: LogStore;
+    private logStore: LogStore<T>;
 
     constructor(configuration: ILoggerConfig) {
         this.configuration = configuration;
@@ -27,7 +27,7 @@ export default class AdvancedLogger {
         this.strategy.eventEmitter.on("error", this.onStrategyError.bind(this));
     }
 
-    public log(log: any): void {
+    public log(log: T): void {
         this.logStore.add(log);
     }
 

@@ -3,17 +3,16 @@ const throttle = require("lodash/throttle");
 import {TransformationEnum} from "./enums/TransformationEnum";
 import ILogStoreConfig from "./interface/config/ILogStoreConfig";
 import IDestructable from "./interface/IDestructable";
-import ILog from "./interface/ILog";
 import ITransformation from "./interface/ITransformation";
 import LogUtils from "./util/LogUtils";
 
-export default class LogStore implements IDestructable {
+export default class LogStore<T> implements IDestructable {
     /**
      * Subscribe in order to receive "add", "cleared" events
      */
     public eventEmitter: EventEmitter;
 
-    private readonly logs: ILog[];
+    private readonly logs: T[];
 
     private readonly config: ILogStoreConfig;
 
@@ -34,7 +33,7 @@ export default class LogStore implements IDestructable {
         this.initTransformations();
     }
 
-    public add(log: ILog): void {
+    public add(log: T): void {
         //todo If has a grouping transformation
         if (this.identityMap) {
             const id = LogUtils.getLogIdByFields(log, this.groupableConfig.configuration.groupIdentityFields);
@@ -58,7 +57,7 @@ export default class LogStore implements IDestructable {
         this.eventEmitter.emit("clear", null);
     }
 
-    public getAll(): ILog[] {
+    public getAll(): T[] {
         if (this.throttledOnGroupFinalize) {
             this.throttledOnGroupFinalize.flush();
         }
@@ -104,7 +103,7 @@ export default class LogStore implements IDestructable {
         }
     }
 
-    private onAddToGroup(log): void {
+    private onAddToGroup(log: T): void {
         const logId = LogUtils.getLogIdByFields(log, this.groupableConfig.configuration.groupIdentityFields);
 
         if (this.identityMap.has(logId)) {

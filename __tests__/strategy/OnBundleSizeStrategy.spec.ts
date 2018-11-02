@@ -13,7 +13,7 @@ const OnBundleSizeStrategy = strategy.OnBundleSizeStrategy;
 const sandBox = sinon.createSandbox();
 
 describe("OnBundleSizeStrategy", () => {
-    let logger: AdvancedLogger;
+    let logger;
 
     const config = {
         defaultLogConfig: {},

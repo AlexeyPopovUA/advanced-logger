@@ -13,7 +13,7 @@ const InstantStrategy = strategy.InstantStrategy;
 const sandBox = sinon.createSandbox();
 
 describe("InstantStrategy", () => {
-    let logger: AdvancedLogger;
+    let logger;
 
     const config = {
         defaultLogConfig: {},
