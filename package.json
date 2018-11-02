@@ -60,6 +60,7 @@
     "@types/lodash": "^4.14.116",
     "@types/node": "^10.11.4",
     "awesome-typescript-loader": "^5.2.0",
+    "copy-webpack-plugin": "^4.6.0",
     "delete-empty": "^2.0.0",
     "jest": "^23.5.0",
     "sinon": "^6.1.5",
