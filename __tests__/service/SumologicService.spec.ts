@@ -30,7 +30,7 @@ describe("SumologicService", () => {
 
     const serviceConfig = {
         url: "https://www.reuwyrtuwr.nl",
-        host: "universalLoggerTest",
+        host: "advancedLoggerTest",
         sourceCategory: "AP/SB/oet/html5",
         sourceName: "name",
         method: "POST"
