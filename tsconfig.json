@@ -10,13 +10,7 @@
     "declaration": true,
     "outDir": "dist",
     "removeComments": false,
-    "downlevelIteration": true,
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "types": [
-      "@types/node"
-    ]
+    "downlevelIteration": true
   },
   "files": [
     "src/index.ts"
