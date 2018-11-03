@@ -5,6 +5,9 @@
   "main": "dist/node/advanced-logger.node.min.js",
   "unpkg": "dist/browser/advanced-logger.browser.min.js",
   "typings": "dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "npm run build-prod && npm run build-dev",
     "build-prod": "npm run build-prod-browser && npm run build-prod-node",

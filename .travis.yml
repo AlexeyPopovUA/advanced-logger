@@ -17,13 +17,19 @@ script:
   - npm run test
   - npm run build
 
+stages:
+  - name: after_success
+    if: branch != master
+
 after_success:
   - npm run coverage
   - sonar-scanner
 
-#before_deploy:
-#  - npm run coverage
-#  - sonar-scanner
+before_deploy:
+  - npm run coverage
+  - npx standard-version
+  - git push --follow-tags origin master
+  - sonar-scanner
 
 deploy:
   provider: npm
