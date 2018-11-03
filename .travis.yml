@@ -6,5 +6,28 @@ cache:
 
 install:
   - npm install
+
+addons:
+  sonarcloud:
+    organization: $SONAR_ORGANIZATION
+    token:
+      secure: $SONAR_TOKEN
+
 script:
-  - npm run test && npm run build
+  - npm run test
+  - npm run build
+
+after_success:
+  - npm run coverage
+  - sonar-scanner
+
+#before_deploy:
+#  - npm run coverage
+#  - sonar-scanner
+
+deploy:
+  provider: npm
+  email: $DEPLOY_EMAIL
+  api_key: $NPM_TOKEN
+  on:
+    branch: master
