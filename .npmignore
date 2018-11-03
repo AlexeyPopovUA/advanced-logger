@@ -11,3 +11,4 @@ webpack.*.js
 *.tgz
 .gitignore
 /sonar-project.properties
+/build-scripts/
