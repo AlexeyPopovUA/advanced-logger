@@ -28,7 +28,7 @@ after_success:
 before_deploy:
   - npm run coverage
   - npx standard-version
-  - git remote add origin-pages https://${GH_TOKEN}@github.com/AlexeyPopovUA/advanced-logger.git > /dev/null 2>&1
+  - git remote add origin-pages https://$GH_TOKEN@github.com/AlexeyPopovUA/advanced-logger.git > /dev/null 2>&1
   - git push --follow-tags origin master
   - sonar-scanner
 
