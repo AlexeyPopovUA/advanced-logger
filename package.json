@@ -96,5 +96,10 @@
     "moduleNameMapper": {
       "fetchFacade$": "node-fetch"
     }
+  },
+  "standard-version": {
+    "scripts": {
+      "precommit": "node ./build-scripts/version.js"
+    }
   }
 }
