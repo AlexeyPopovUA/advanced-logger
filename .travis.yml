@@ -17,19 +17,8 @@ script:
   - npm run test
   - npm run build
 
-stages:
-  - name: after_success
-    if: branch != master
-
 after_success:
   - npm run coverage
-  - sonar-scanner
-
-before_deploy:
-  - npm run coverage
-  - npx standard-version
-  - git remote add origin-pages https://$GH_TOKEN@github.com/AlexeyPopovUA/advanced-logger.git > /dev/null 2>&1
-  - git push --follow-tags origin master
   - sonar-scanner
 
 deploy:
@@ -38,3 +27,4 @@ deploy:
   api_key: $NPM_TOKEN
   on:
     branch: master
+    tags: true
