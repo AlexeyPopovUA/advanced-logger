@@ -22,6 +22,7 @@ after_success:
   - sonar-scanner
 
 deploy:
+  skip_cleanup: true
   provider: npm
   email: $DEPLOY_EMAIL
   api_key: $NPM_TOKEN
