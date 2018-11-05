@@ -10,6 +10,6 @@ fs.readFile(file, 'utf8', (err, data) => {
 
     fs.writeFile(file, result, 'utf8', err => {
         if (err) return console.log(err);
-        console.log(`Version ${currentVersion} was applied to sonar-project.properties`);
+        //console.log(`Version ${currentVersion} was applied to sonar-project.properties`);
     });
 });
