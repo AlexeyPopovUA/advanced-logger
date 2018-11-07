@@ -14,11 +14,8 @@ addons:
       secure: $SONAR_TOKEN
 
 script:
-  - npm run test
-  - npm run build
-
-after_success:
   - npm run coverage
+  - npm run build
   - sonar-scanner
 
 deploy:
