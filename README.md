@@ -55,8 +55,8 @@ In browser:
 or
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/advanced-logger@1.1.6/dist/browser/advanced-logger.browser.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/advanced-logger@1.1.6/dist/browser-debug/advanced-logger.browser.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/advanced-logger@latest/dist/browser/advanced-logger.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/advanced-logger@latest/dist/browser-debug/advanced-logger.browser.js"></script>
 ```
 
 In nodejs:
