@@ -57,7 +57,7 @@
   "devDependencies": {
     "@types/jest": "^23.3.3",
     "@types/lodash": "^4.14.118",
-    "@types/node": "^10.12.7",
+    "@types/node": "^10.12.8",
     "awesome-typescript-loader": "^5.2.1",
     "copy-webpack-plugin": "^4.6.0",
     "delete-empty": "^2.0.0",
