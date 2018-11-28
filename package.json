@@ -55,7 +55,7 @@
   },
   "homepage": "https://github.com/AlexeyPopovUA/advanced-logger#readme",
   "devDependencies": {
-    "@types/jest": "^23.3.3",
+    "@types/jest": "^23.3.10",
     "@types/lodash": "^4.14.118",
     "@types/node": "^10.12.9",
     "awesome-typescript-loader": "^5.2.1",
