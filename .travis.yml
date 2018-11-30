@@ -16,7 +16,12 @@ addons:
 script:
   - npm run coverage
   - npm run build
-  - sonar-scanner
+
+after-script:
+  if: branch !=~ ^.*@types.*$
+    # require the branch name not to contain names with invalid characters for sonar-scanner
+    script:
+      - sonar-scanner
 
 deploy:
   skip_cleanup: true
