@@ -9,6 +9,7 @@
     "access": "public"
   },
   "scripts": {
+    "clean": "rimraf ./dist ./coverage",
     "build": "npm run build-prod && npm run build-dev",
     "build-prod": "npm run build-prod-browser && npm run build-prod-node",
     "build-prod-browser": "webpack --config webpack.config.js --env.prod=1 --env.target=browser",
@@ -62,6 +63,7 @@
     "copy-webpack-plugin": "^4.6.0",
     "delete-empty": "^2.0.0",
     "jest": "^23.6.0",
+    "rimraf": "^2.6.2",
     "sinon": "^7.1.1",
     "source-map-loader": "^0.2.4",
     "standard-version": "^4.4.0",

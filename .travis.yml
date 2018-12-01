@@ -5,6 +5,7 @@ cache:
     - "node_modules"
 
 install:
+  - npm run clean
   - npm install
 
 addons:
