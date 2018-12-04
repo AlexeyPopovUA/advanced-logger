@@ -240,6 +240,78 @@ const service = new service.LogglyService(config);
 
 TODO
 
+## Development
+
+### Build and debugging
+
+In order to run full build of all bundles run:
+```
+npm run build
+```
+
+This script will create all types of build:
+* browser compressed
+* browser debugging
+* nodejs compressed (do we need it? :) )
+* nodejs debugging
+
+Also, you can run a specific build for each platform separately:
+```
+npm run build-prod-browser
+npm run build-prod-node
+npm run build-dev-browser
+npm run build-dev-node
+```
+
+For debugging purposes it should be convenient to use the watch mode:
+
+```
+npm run watch-prod-browser
+npm run watch-prod-node
+npm run watch-dev-browser
+npm run watch-dev-node
+```
+
+### Running tests
+
+In order to run unit tests run:
+
+```
+npm run test
+```
+
+In order to run unit tests with coverage run:
+
+```
+npm run coverage
+```
+
+It will build a beautiful code coverage report which you can check by running html file ```coverage/lcov-report/index.html```.
+
+### Deployment
+
+Please, find the ```.travis.yml``` file for the library lifecycle: install -> test -> build -> sonar analysis -> deploy.
+
+In order to deploy a new version, you need to run:
+
+```
+npx standard-version
+```
+
+This command bumps up the library version in all required files, builds the changelog and makes a new commit with a "version" tag. Using this tag travis will assemble and deploy the npm package.
+
+ **Please note**, that releasing happens only from master branch for each tagged commit.
+
+### Git workflow
+
+#### Commits
+
+Commits should follow the "conventional commit" agreement. It will be validated by Husky plugin on pre-commit git hook.
+
+#### Branches and pull requests
+
+Feel free to do anything you want in branches. All final commits should be rebased and clean. Please, create pull request for delivering your changes to master. All PR checks should be green. All sonar suggestions should be resolved and/or discussed if not applicable.
+
 ## Thanks to
 
 creators of https://github.com/DxCx/ts-library-starter. Their repository was used as a start point for the library
