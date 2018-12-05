@@ -108,7 +108,7 @@
   },
   "standard-version": {
     "scripts": {
-      "precommit": "node ./build-scripts/version.js"
+      "precommit": "node ./build-scripts/version.js && git add ./sonar-project.properties"
     }
   },
   "husky": {
