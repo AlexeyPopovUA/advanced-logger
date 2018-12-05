@@ -26,7 +26,7 @@
     "coverage": "npm test -- --coverage --no-cache",
     "coverage:watch": "npm run coverage -- --watch",
     "prepare-build": "npm run build && npm test",
-    "release": "standard-version --commit-all && npm pack"
+    "release": "standard-version --commit-all"
   },
   "repository": {
     "type": "git",
@@ -107,7 +107,7 @@
   },
   "standard-version": {
     "scripts": {
-      "precommit": "node ./build-scripts/version.js && git add ./sonar-project.properties && git commit -m \"ci(version): update sonar-project.properties version\""
+      "precommit": "node ./build-scripts/version.js"
     }
   },
   "husky": {
