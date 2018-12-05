@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.2.0"></a>
+# [1.2.0](https://github.com/AlexeyPopovUA/advanced-logger/compare/v1.1.15...v1.2.0) (2018-12-05)
+
+
+### Features
+
+* **polyfill:** fetch polyfill was added in order to support ie10 - ie11 ([5345d78](https://github.com/AlexeyPopovUA/advanced-logger/commit/5345d78))
+* **workflow:** configuration for commit linting ([df16e32](https://github.com/AlexeyPopovUA/advanced-logger/commit/df16e32))
+
+
+
 <a name="1.1.15"></a>
 ## [1.1.15](https://github.com/AlexeyPopovUA/advanced-logger/compare/v1.1.14...v1.1.15) (2018-12-01)
 
