@@ -40,6 +40,14 @@ It does not restrict you with conventions, for example, existence of "logSeverit
 * It should support different remote logger endpoints soon (only SumoLogic and Loggly so far. Who is the next? ᕙ(ಠ.ಠ)ᕗ )
 * It should support custom format for logs soon (it is only json form currently)
 
+## Runtime environment support
+
+Builds are generated as ES5 bundles for nodejs and browser environments.
+
+NodeJS - tested on latest lts
+
+Browser - all latest browsers + IE10, IE11 (fetch polyfill)
+
 ## Usage
 
 Please, find working examples for browser and nodejs environments in **/example** folder.
