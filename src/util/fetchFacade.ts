@@ -1,2 +1,3 @@
-import "whatwg-fetch";
-module.exports = window.fetch;
+import {fetch as fetchPolyfill} from "whatwg-fetch";
+
+module.exports = window.fetch ? window.fetch : fetchPolyfill;
