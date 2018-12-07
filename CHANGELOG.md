@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.2.1"></a>
+## [1.2.1](https://github.com/AlexeyPopovUA/advanced-logger/compare/v1.2.0...v1.2.1) (2018-12-07)
+
+
+### Bug Fixes
+
+* **polyfill:** fetch polyfill should not be invasive ([75f946c](https://github.com/AlexeyPopovUA/advanced-logger/commit/75f946c))
+
+
+
 <a name="1.2.0"></a>
 # [1.2.0](https://github.com/AlexeyPopovUA/advanced-logger/compare/v1.1.15...v1.2.0) (2018-12-05)
 
