@@ -13,6 +13,15 @@ export default abstract class BaseRemoteService implements IService, IDestructab
     protected constructor(config: IServiceConfig) {
         this.serviceConfig = config.serviceConfig;
         this.defaultLogConfig = config.defaultLogConfig || {};
+
+        // optional serializer override
+        if (config.serializer) {
+            this.serializer = config.serializer;
+        }
+    }
+
+    public serializer<T>(log: T): string {
+        return LogUtils.tryJSONStringify(log) || stringify(log);
     }
 
     public sendAllLogs<T>(logs: T[]): Promise<Response> {
@@ -34,10 +43,7 @@ export default abstract class BaseRemoteService implements IService, IDestructab
     }
 
     public preparePayload<T>(logs: T[]): Promise<string> {
-        const resultList = logs.map(log => {
-            const preparedLog = Object.assign({}, this.defaultLogConfig, log);
-            return LogUtils.tryJSONStringify(preparedLog) || stringify(preparedLog);
-        });
+        const resultList = logs.map(log => this.serializer(Object.assign({}, this.defaultLogConfig, log)));
         return Promise.resolve(resultList.join("\n"));
     }
 

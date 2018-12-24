@@ -5,7 +5,7 @@ import IService from "../interface/IService";
  */
 export default class ConsoleService implements IService {
     public preparePayload<T>(logs: T[]): Promise<T[]> {
-        return Promise.resolve(logs);
+        return Promise.resolve(logs.map(log => this.serializer(log)));
     }
 
     public sendAllLogs<T>(logs: T[]): Promise<void> {
@@ -15,5 +15,9 @@ export default class ConsoleService implements IService {
 
     public destroy(): void {
         //nothing to do here
+    }
+
+    public serializer<T>(log: T): T {
+        return log;
     }
 }

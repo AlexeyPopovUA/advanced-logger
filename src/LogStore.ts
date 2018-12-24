@@ -1,9 +1,10 @@
-import {EventEmitter} from "events";
 const throttle = require("lodash/throttle");
+
+import {EventEmitter} from "events";
 import {TransformationEnum} from "./enums/TransformationEnum";
 import ILogStoreConfig from "./interface/config/ILogStoreConfig";
 import IDestructable from "./interface/IDestructable";
-import ITransformation from "./interface/ITransformation";
+import IGroupTransformation from "./interface/IGroupTransformation";
 import LogUtils from "./util/LogUtils";
 
 export default class LogStore<T> implements IDestructable {
@@ -20,12 +21,12 @@ export default class LogStore<T> implements IDestructable {
 
     private groupLeftIndex: number = -1;
 
-    private groupableConfig: ITransformation;
+    private groupableConfig: IGroupTransformation;
 
     // todo Proper typing for method is needed
     private throttledOnGroupFinalize: any;
 
-    constructor(config?: ILogStoreConfig) {
+    constructor(config: ILogStoreConfig) {
         this.logs = [];
         this.eventEmitter = new EventEmitter();
         this.config = config;
@@ -34,9 +35,8 @@ export default class LogStore<T> implements IDestructable {
     }
 
     public add(log: T): void {
-        //todo If has a grouping transformation
-        if (this.identityMap) {
-            const id = LogUtils.getLogIdByFields(log, this.groupableConfig.configuration.groupIdentityFields);
+        if (this.groupableConfig) {
+            const id = LogUtils.getLogIdByFields(log, this.groupableConfig.groupIdentityFields);
 
             if (!this.identityMap.has(id)) {
                 this.logs.push(log);
@@ -69,11 +69,6 @@ export default class LogStore<T> implements IDestructable {
         return this.logs.length;
     }
 
-    /*public getRealLogCount(): number {
-        // todo Take into account the "grouped" counter. Optimize calculation speed using caching in add method
-        return this.logs.length;
-    }*/
-
     public destroy(): void {
         if (this.throttledOnGroupFinalize) {
             this.throttledOnGroupFinalize.cancel();
@@ -86,16 +81,16 @@ export default class LogStore<T> implements IDestructable {
 
     //todo Should it be moved to a separate class? Come up with a nicer design
     private initTransformations(): void {
-        if (this.config && this.config.transformations) {
+        if (this.config.transformations) {
             const groupableConfig = this.config.transformations
                 .find(value => value.type === TransformationEnum.RAPID_FIRE_GROUPING);
 
             if (groupableConfig) {
-                this.groupableConfig = groupableConfig;
+                this.groupableConfig = groupableConfig.configuration;
                 this.identityMap = new Map<string, number>();
 
                 this.throttledOnGroupFinalize = throttle(this.onGroupFinalize.bind(this),
-                    this.groupableConfig.configuration.interval, {trailing: true, leading: false});
+                    this.groupableConfig.interval, {trailing: true, leading: false});
 
                 //todo Maybe, move to add method
                 this.eventEmitter.on("add", this.throttledOnGroupFinalize);
@@ -104,7 +99,7 @@ export default class LogStore<T> implements IDestructable {
     }
 
     private onAddToGroup(log: T): void {
-        const logId = LogUtils.getLogIdByFields(log, this.groupableConfig.configuration.groupIdentityFields);
+        const logId = LogUtils.getLogIdByFields(log, this.groupableConfig.groupIdentityFields);
 
         if (this.identityMap.has(logId)) {
             const savedCounter = this.identityMap.get(logId);
@@ -119,12 +114,10 @@ export default class LogStore<T> implements IDestructable {
         const len = this.logs.length;
 
         if (len > 0) {
-            const groupConfig = this.groupableConfig.configuration;
-
             for (let i = this.groupLeftIndex !== -1 ? this.groupLeftIndex : 0; i < len; i++) {
                 const log = this.logs[i];
-                const id = LogUtils.getLogIdByFields(log, groupConfig.groupIdentityFields);
-                log[groupConfig.groupFieldName] = this.identityMap.has(id) ? this.identityMap.get(id) : 1;
+                const id = LogUtils.getLogIdByFields(log, this.groupableConfig.groupIdentityFields);
+                log[this.groupableConfig.groupFieldName] = this.identityMap.has(id) ? this.identityMap.get(id) : 1;
             }
         }
 
