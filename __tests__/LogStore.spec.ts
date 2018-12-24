@@ -7,6 +7,9 @@ import LogStore from "../src/LogStore";
 describe("LogStore", () => {
     let logStore;
 
+    const emptyStoreConfig = {
+        transformations: []
+    };
     const storeConfigWithGrouping = {
         transformations: [{
             type: TransformationEnum.RAPID_FIRE_GROUPING,
@@ -31,14 +34,14 @@ describe("LogStore", () => {
 
     it("Should be able to create a new LogStore instance", () => {
         expect(() => {
-            logStore = new LogStore();
+            logStore = new LogStore(emptyStoreConfig);
         }).not.toThrow();
 
         expect(logStore).toBeTruthy();
     });
 
     it("Should be able to emmit 'add' event when a new log is added", done => {
-        logStore = new LogStore();
+        logStore = new LogStore(emptyStoreConfig);
 
         logStore.eventEmitter.on("add", () => done());
         logStore.eventEmitter.on("error", err => done(err));
@@ -47,7 +50,7 @@ describe("LogStore", () => {
     });
 
     it("Should be able to emmit 'cleared' event when all logs are removed", done => {
-        logStore = new LogStore();
+        logStore = new LogStore(emptyStoreConfig);
 
         logStore.eventEmitter.on("clear", () => done());
         logStore.eventEmitter.on("error", err => done(err));

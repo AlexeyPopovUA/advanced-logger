@@ -10,4 +10,6 @@ export default interface IService extends IDestructable {
      * Implement the final processing of logs before sending it directly to the endpoint
      */
     preparePayload<T>(logs: T[]): Promise<any>;
+
+    serializer<T>(log: T): any;
 }

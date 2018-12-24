@@ -1,10 +1,7 @@
 import {TransformationEnum} from "..";
+import IGroupTransformation from "./IGroupTransformation";
 
 export default interface ITransformation {
     type: TransformationEnum;
-    configuration?: {
-        groupIdentityFields: string[],
-        groupFieldName: string,
-        interval: number
-    };
+    configuration?: IGroupTransformation;
 }
