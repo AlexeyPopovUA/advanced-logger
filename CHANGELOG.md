@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.3.0"></a>
+# [1.3.0](https://github.com/AlexeyPopovUA/advanced-logger/compare/v1.2.2...v1.3.0) (2018-12-25)
+
+
+### Features
+
+* **serializer:** support of custom serializer ([d8a20d3](https://github.com/AlexeyPopovUA/advanced-logger/commit/d8a20d3))
+
+
+
 <a name="1.2.2"></a>
 ## [1.2.2](https://github.com/AlexeyPopovUA/advanced-logger/compare/v1.2.1...v1.2.2) (2018-12-07)
 
