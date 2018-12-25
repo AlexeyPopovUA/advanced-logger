@@ -76,4 +76,19 @@ describe("index", () => {
 
         logger.sendAllLogs();
     });
+
+    it("Should not deliver anything to the service if there were no logs", done => {
+        sandBox.stub(SumologicService.prototype, "sendAllLogs").callsFake(() => {
+            done("sendAllLogs service method should not be called");
+        });
+
+        logger = new AdvancedLogger({
+            service: new SumologicService(config),
+            strategy: new OnRequestStrategy()
+        });
+
+        logger.sendAllLogs();
+        // async finish
+        setTimeout(done, 1);
+    });
 });

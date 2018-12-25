@@ -1,7 +1,7 @@
 "use strict";
 
 import "jest";
-import {TransformationEnum} from "../src/enums/TransformationEnum";
+import {TransformationEnum} from "../src";
 import LogStore from "../src/LogStore";
 
 describe("LogStore", () => {
