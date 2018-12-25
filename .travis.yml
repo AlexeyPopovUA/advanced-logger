@@ -4,6 +4,9 @@ cache:
   directories:
     - "node_modules"
 
+git:
+  depth: 99999
+
 install:
   - npm run clean
   - npm install
@@ -13,8 +16,9 @@ addons:
     organization: $SONAR_ORGANIZATION
     token:
       secure: $SONAR_TOKEN
-    branches:
-      ^((?!@).)*$
+      branch:
+        name:
+          ^((?!@).)*$
 
 script:
   - npm run coverage
