@@ -244,6 +244,31 @@ const config = {serviceConfig, defaultLogConfig};
 const service = new service.LogglyService(config);
 ```
 
+#### Custom serializer
+
+There are situations when you need a "special" representation of logs instead of JSON before sending them to remote storage. For example, key-value pairs:
+
+```
+[Timestamp=1234567890] [Message="test message"] [Category="MyController"]
+```
+
+In order to serialize logs in your own way, you can use ```serializer``` configuration with services:
+
+```javascript
+const serializer = logObject =>
+    Object.keys(logObject)
+        .map(key => `[${key}=${JSON.stringify(logObject[key])}]`)
+        .join(" ");
+
+const configWithSerializer = {serviceConfig, defaultLogConfig, serializer};
+const testLogs = [
+    {test: "test123"},
+    {test: "test321"}
+];
+
+service = new LogglyService(configWithSerializer);
+```
+
 #### Custom implementation of service
 
 TODO
