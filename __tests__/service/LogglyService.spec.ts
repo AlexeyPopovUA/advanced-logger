@@ -1,31 +1,21 @@
 "use strict";
 
 import "jest";
-import * as sinon from "sinon";
 import LogglyService from "../../src/service/LogglyService";
 import http from "./../../src/util/http";
-
-// todo Rewrite stubs with jest functionality
-const sandBox = sinon.createSandbox();
 
 describe("LogglyService", () => {
     let service: LogglyService;
     const defaultLogConfig = {
         Domain: "logger-test-domain",
-        UserAgent: "userAgent",
-        Channel: "my-company",
         BuildVersion: 123,
         Platform: "nodejs",
-        Article: "article",
-        StoredProductId: "productId",
         Severity: "LogLevel.DEBUG",
         Data: "",
         Timestamp: "",
         Exception: "",
         Message: "",
-        Category: "",
-        ErrorId: 0,
-        CloneInGroupCounter: 1
+        Category: ""
     };
 
     const serviceConfig = {
@@ -36,8 +26,6 @@ describe("LogglyService", () => {
     const config = {serviceConfig, defaultLogConfig};
 
     afterEach(() => {
-        sandBox.restore();
-
         if (service) {
             service.destroy();
             service = null;
@@ -84,6 +72,55 @@ describe("LogglyService", () => {
             .then(payload => {
                 expect(typeof payload).toBe("string");
                 expect(payload).toContain("[Circular]");
+                done();
+            })
+            .catch(error => done(error));
+    });
+
+    it("Should use serializer for logs preparation", done => {
+        const spyFn = jest.fn();
+        const serializer = logObject => {
+            spyFn(logObject);
+            return logObject;
+        };
+        const configWithSerializer = {serviceConfig, defaultLogConfig, serializer};
+        const testLogs = [
+            {test: "test123"},
+            {test: "test321"}
+        ];
+
+        service = new LogglyService(configWithSerializer);
+        service
+            .preparePayload(testLogs)
+            .then(payload => {
+                expect(typeof payload).toBe("string");
+                expect(spyFn).toBeCalled();
+                expect(spyFn).toBeCalledTimes(testLogs.length);
+                done();
+            })
+            .catch(error => done(error));
+    });
+
+    it("Should use serializer to produce a correct payload", done => {
+        const serializer = logObject =>
+            Object.keys(logObject)
+                .map(key => `[${key}=${JSON.stringify(logObject[key])}]`)
+                .join(" ");
+        const configWithSerializer = {serviceConfig, defaultLogConfig, serializer};
+        const testLogs = [
+            {test: "test123"},
+            {test: "test321"}
+        ];
+
+        service = new LogglyService(configWithSerializer);
+        service
+            .preparePayload(testLogs)
+            .then(payload => {
+                expect(typeof payload).toBe("string");
+                expect(payload).toContain("test=\"test123\"");
+                expect(payload).toContain("test=\"test321\"");
+                expect(payload).toContain("Severity=\"LogLevel.DEBUG\"");
+
                 done();
             })
             .catch(error => done(error));
