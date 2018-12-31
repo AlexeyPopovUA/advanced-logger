@@ -25,6 +25,8 @@ It can be extended with custom strategy ("when to send logs") and service ("wher
 
 It does not restrict you with conventions, for example, existence of "logSeverity", "ErrorId" or "message" fields in log.
 
+It supports any format of logs via custom serializer.
+
 ## Features
 
 * It works in browsers and nodejs
