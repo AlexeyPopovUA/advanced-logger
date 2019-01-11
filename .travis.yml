@@ -16,9 +16,7 @@ addons:
     organization: $SONAR_ORGANIZATION
     token:
       secure: $SONAR_TOKEN
-      branch:
-        name:
-          ^((?!@).)*$
+    branch: ^((?!@).)*$
 
 script:
   - npm run coverage
