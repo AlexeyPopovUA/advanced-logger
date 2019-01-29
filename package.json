@@ -60,7 +60,7 @@
     "@commitlint/config-conventional": "7.3.1",
     "@types/jest": "23.3.13",
     "@types/lodash": "4.14.120",
-    "@types/node": "10.12.18",
+    "@types/node": "10.12.19",
     "awesome-typescript-loader": "5.2.1",
     "copy-webpack-plugin": "4.6.0",
     "delete-empty": "2.0.0",
