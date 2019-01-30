@@ -26,7 +26,8 @@
     "coverage": "npm test -- --coverage --no-cache",
     "coverage:watch": "npm run coverage -- --watch",
     "prepare-build": "npm run build && npm test",
-    "release": "standard-version --commit-all"
+    "release": "standard-version --commit-all",
+    "bundlesize": "bundlesize"
   },
   "repository": {
     "type": "git",
@@ -62,6 +63,7 @@
     "@types/lodash": "4.14.120",
     "@types/node": "10.12.19",
     "awesome-typescript-loader": "5.2.1",
+    "bundlesize": "^0.17.1",
     "copy-webpack-plugin": "4.6.0",
     "delete-empty": "2.0.0",
     "husky": "1.3.1",
@@ -115,5 +117,23 @@
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
-  }
+  },
+  "bundlesize": [
+    {
+      "path": "./dist/browser/advanced-logger.browser.min.js",
+      "maxSize": "30 kB"
+    },
+    {
+      "path": "./dist/browser-debug/advanced-logger.browser.js",
+      "maxSize": "200 kB"
+    },
+    {
+      "path": "./dist/node/advanced-logger.node.min.js",
+      "maxSize": "30 kB"
+    },
+    {
+      "path": "./dist/node-debug/advanced-logger.node.js",
+      "maxSize": "100 kB"
+    }
+  ]
 }
