@@ -3,6 +3,7 @@ import {TransformationEnum} from "./enums/TransformationEnum";
 import ConsoleService from "./service/ConsoleService";
 import LogglyService from "./service/LogglyService";
 import SumologicService from "./service/SumologicService";
+import ElasticsearchService from "./service/ElasticsearchService";
 import InstantStrategy from "./strategy/InstantStrategy";
 import OnBundleSizeStrategy from "./strategy/OnBundleSizeStrategy";
 import OnIntervalStrategy from "./strategy/OnIntervalStrategy";
@@ -18,7 +19,8 @@ const strategy = {
 const service = {
     SumologicService,
     LogglyService,
-    ConsoleService
+    ConsoleService,
+    ElasticsearchService
 };
 
 export {

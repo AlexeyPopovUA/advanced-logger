@@ -3,5 +3,7 @@ export default interface IRequestConfig {
     method: string;
     retryInterval?: number;
     retryAttempts?: number;
+    //todo Refactor service configuration to be properly extendable
+    logMetaIndexField?: string;
     [propName: string]: any;
 }
