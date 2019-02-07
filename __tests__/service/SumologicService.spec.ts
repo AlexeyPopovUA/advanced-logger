@@ -131,7 +131,7 @@ describe("SumologicService", () => {
         const mock = jest.fn(() => {
             http.postRequest = jest.fn(() => {
                 http.postRequest = postRequestOld;
-                return Promise.resolve({});
+                return Promise.resolve(({}) as Response);
             });
 
             return Promise.reject("test reject");
