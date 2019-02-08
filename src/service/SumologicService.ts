@@ -1,12 +1,7 @@
-import IServiceConfig from "../interface/config/IServiceConfig";
 import ISumologicRequestConfig from "../interface/config/ISumologicRequestConfig";
 import BaseRemoteService from "./BaseRemoteService";
 
 export default class SumologicService extends BaseRemoteService {
-    constructor(config: IServiceConfig) {
-        super(config);
-    }
-
     protected getHeaders(): any {
         const serviceConfig = this.serviceConfig as ISumologicRequestConfig;
         return {

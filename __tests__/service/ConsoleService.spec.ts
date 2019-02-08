@@ -25,7 +25,7 @@ describe("ConsoleService", () => {
         expect(service).toBeTruthy();
     });
 
-    it("Should not fail with request", done => {
+    it("Should not fail during logs sending step", done => {
         const testLogs = [
             {test: "test123"},
             {test: "test321"}
@@ -37,13 +37,17 @@ describe("ConsoleService", () => {
             .catch(() => done("should not fail"));
     });
 
-    it("Should prepare logs for request", async () => {
-        const log = {test: "444", circle: {}};
-        //circular link in order to create problems for serializer
-        log.circle = log;
+    it("'serializer' should not replace log objects", async () => {
+        const testLog = {test: "test123"};
+
+        service = new ConsoleService();
+        const result = service.serializer(testLog);
+        expect(result).toBe(testLog);
+    });
+
+    it("Should not replace log objects on preparation step", async () => {
         const testLogs = [
             {test: "test123"},
-            log,
             {test: "test321"}
         ];
 
@@ -52,8 +56,9 @@ describe("ConsoleService", () => {
             .preparePayload(testLogs)
             .then(payload => {
                 expect(payload instanceof Array).toBe(true);
-                expect(payload.length).toBe(3);
-                expect(payload[2].test).toBe("test321");
+                expect(payload.length).toBe(2);
+                expect(payload[0]).toBe(testLogs[0]);
+                expect(payload[1]).toBe(testLogs[1]);
             });
     });
 });
