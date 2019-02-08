@@ -6,11 +6,11 @@ import IService from "../interface/IService";
 import http from "../util/http";
 import LogUtils from "../util/LogUtils";
 
-export default abstract class BaseRemoteService implements IService, IDestructable {
+export default class BaseRemoteService implements IService, IDestructable {
     protected serviceConfig: IRequestConfig;
     protected defaultLogConfig: any;
 
-    protected constructor(config: IServiceConfig) {
+    constructor(config: IServiceConfig) {
         this.serviceConfig = config.serviceConfig;
         this.defaultLogConfig = config.defaultLogConfig || {};
 
