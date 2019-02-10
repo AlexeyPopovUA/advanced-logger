@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.4.0"></a>
+# [1.4.0](https://github.com/AlexeyPopovUA/advanced-logger/compare/v1.3.0...v1.4.0) (2019-02-10)
+
+
+### Bug Fixes
+
+* **sonar:** fix of unsupported branch names in sonarcloud ([01fda69](https://github.com/AlexeyPopovUA/advanced-logger/commit/01fda69))
+* **sonar:** unsupported branch names in sonarcloud cannot be fixed ([3b2d313](https://github.com/AlexeyPopovUA/advanced-logger/commit/3b2d313))
+* **types:** header object type correction ([4299537](https://github.com/AlexeyPopovUA/advanced-logger/commit/4299537))
+* **types:** response mock should be casted to the correct type ([28afbbd](https://github.com/AlexeyPopovUA/advanced-logger/commit/28afbbd))
+
+
+### Features
+
+* **service:** elastic search service implementation ([3bdffa1](https://github.com/AlexeyPopovUA/advanced-logger/commit/3bdffa1))
+
+
+### Performance Improvements
+
+* **build:** webpack build speed should be 4 times faster ([d6d5f13](https://github.com/AlexeyPopovUA/advanced-logger/commit/d6d5f13))
+
+
+
 <a name="1.3.0"></a>
 # [1.3.0](https://github.com/AlexeyPopovUA/advanced-logger/compare/v1.2.2...v1.3.0) (2018-12-25)
 
