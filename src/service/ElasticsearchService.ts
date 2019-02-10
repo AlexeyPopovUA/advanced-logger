@@ -17,7 +17,7 @@ export default class ElasticsearchService extends BaseRemoteService {
         return Promise.resolve(`${resultList.join("\n")}\n`);
     }
 
-    protected getHeaders(): any {
+    protected getHeaders(): {[propName: string]: string} {
         return {
             "Content-Type": "application/json"
         };
