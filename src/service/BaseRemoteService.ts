@@ -57,7 +57,7 @@ export default class BaseRemoteService implements IService, IDestructable {
      * @example
      * {"Content-Type": "text/plain"}
      */
-    protected getHeaders(): any {
+    protected getHeaders(): {[propName: string]: string} {
         return {};
     }
 }

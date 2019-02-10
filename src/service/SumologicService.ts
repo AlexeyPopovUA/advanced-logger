@@ -2,7 +2,7 @@ import ISumologicRequestConfig from "../interface/config/ISumologicRequestConfig
 import BaseRemoteService from "./BaseRemoteService";
 
 export default class SumologicService extends BaseRemoteService {
-    protected getHeaders(): any {
+    protected getHeaders(): {[propName: string]: string} {
         const serviceConfig = this.serviceConfig as ISumologicRequestConfig;
         return {
             "Content-Type": "application/json",
