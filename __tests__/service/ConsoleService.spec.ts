@@ -37,7 +37,7 @@ describe("ConsoleService", () => {
             .catch(() => done("should not fail"));
     });
 
-    it("'serializer' should not replace log objects", async () => {
+    it("'serializer' should not replace log objects", () => {
         const testLog = {test: "test123"};
 
         service = new ConsoleService();
