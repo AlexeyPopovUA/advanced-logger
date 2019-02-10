@@ -218,7 +218,7 @@ const service = new service.SumologicService(config);
 #### Loggly (see https://www.loggly.com/)
 
 ```javascript
-//Configuration for communication with Sumologic.
+//Configuration for communication with Loggly.
 //Url should be taken from the logger's source category configuration page.
 const serviceConfig = {
     // this should be the url for **bulk** log sending
@@ -244,6 +244,40 @@ const defaultLogConfig = {
 const config = {serviceConfig, defaultLogConfig};
 
 const service = new service.LogglyService(config);
+```
+
+#### Elastic Search Service (see https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-gsg-upload-data.html)
+
+Logger supports sending data to Elasticsearch service endpoint. It was tested on AWS-based instance of Elasticsearch and Kibana. Ideally, it should work also on instance of any other cloud provider.
+
+```javascript
+//Configuration for communication with Elastic Search.
+//Url should be taken from the logger's source category configuration page.
+const serviceConfig = {
+    // this should be the url for **bulk** log sending
+    url: "https://<endpoint_url>/_bulk",
+    method: "POST",
+    //this field will be used to send index value in meta information for each log
+    logMetaIndexField: "IndexField"
+};
+
+//Default log configuration.
+//It is used like a template with default values for each new log.
+//Can be of any structure. It will be shallowly copied during creation of a new log record.
+const defaultLogConfig = {
+    BuildVersion: 123,
+    Platform: "browser",
+    Severity: "DEBUG",
+    Data: "",
+    Timestamp: "",
+    Message: "",
+    IndexField: "web-app"
+};
+
+//general config
+const config = {serviceConfig, defaultLogConfig};
+
+const service = new service.ElasticsearchService(config);
 ```
 
 #### Custom serializer
