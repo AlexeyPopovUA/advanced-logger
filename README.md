@@ -39,8 +39,8 @@ It supports any format of logs via custom serializer.
   5.  instant (received 1 log -> sent 1 log)
 * It is able to group duplicated logs in certain time interval (for rapid fire of the same logs)
 * It is not afraid of circular links in log objects
-* It should support different remote logger endpoints soon (only SumoLogic and Loggly so far. Who is the next? ᕙ(ಠ.ಠ)ᕗ )
-* It should support custom format for logs soon (it is only json form currently)
+* It supports custom format for logs (custom serializer)
+* It supports different remote logger endpoints (SumoLogic, Loggly and Elasticsearch). Who is the next? ᕙ(ಠ.ಠ)ᕗ
 
 ## Runtime environment support
 
