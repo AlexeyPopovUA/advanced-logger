@@ -71,7 +71,7 @@
     "rimraf": "2.6.3",
     "sinon": "7.2.5",
     "source-map-loader": "0.2.4",
-    "standard-version": "5.0.0",
+    "standard-version": "5.0.1",
     "ts-jest": "24.0.0",
     "tslint": "5.13.0",
     "typescript": "3.3.3333",
