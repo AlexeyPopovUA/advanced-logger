@@ -1,24 +1,25 @@
-const path = require('path');
-//const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const nodeExternals = require('webpack-node-externals');
+const path = require("path");
+//const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+const CleanWebpackPlugin = require("clean-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const nodeExternals = require("webpack-node-externals");
 
 const exportLibraryName = "advancedLogger";
 const getPostfix = mode => mode === "production" ? ".min" : "";
 const getFolderPostfix = mode => mode === "development" === true ? "-debug" : "";
-const getTargetFolder = target => target === 'browser' ? 'browser' : 'node';
+const getTargetFolder = target => target === "browser" ? "browser" : "node";
 
 /**
  * @param mode
  * @returns {string}
  */
-const mapToMode = mode => mode === 'prod' ? 'production' : 'development';
+const mapToMode = mode => mode === "prod" ? "production" : "development";
 
 /**
  * @param target
  * @returns {boolean}
  */
-const isBrowser = target => target === 'browser';
+const isBrowser = target => target === "browser";
 
 /**
  * @param buildMode
@@ -28,10 +29,10 @@ const getBrowserConf = (buildMode, target) => ({
     buildMode,
     outputFile: `advanced-logger.browser${getPostfix(buildMode)}.js`,
     outputFolder: `${getTargetFolder(target)}${getFolderPostfix(buildMode)}`,
-    target: 'web',
-    libraryTarget: 'window',
+    target: "web",
+    libraryTarget: "window",
     alias: {
-        "node-fetch": './fetchFacade'
+        "node-fetch": "./fetchFacade"
     }
 });
 
@@ -43,8 +44,8 @@ const getNodeConf = (buildMode, target) => ({
     buildMode,
     outputFile: `advanced-logger.node${getPostfix(buildMode)}.js`,
     outputFolder: `${getTargetFolder(target)}${getFolderPostfix(buildMode)}`,
-    target: 'node',
-    libraryTarget: 'commonjs2'
+    target: "node",
+    libraryTarget: "commonjs2"
 });
 
 /**
@@ -54,7 +55,7 @@ const getNodeConf = (buildMode, target) => ({
  * @param {boolean} watch
  */
 const getConfiguration = (isBrowserTarget, targetEnvironmentConfig, libraryName, watch) => ({
-    entry: './src/index.ts',
+    entry: "./src/index.ts",
     target: targetEnvironmentConfig.target,
     output: {
         library: libraryName,
@@ -71,8 +72,8 @@ const getConfiguration = (isBrowserTarget, targetEnvironmentConfig, libraryName,
     mode: targetEnvironmentConfig.buildMode,
     externals: isBrowserTarget ? [] : [nodeExternals()],
     resolve: {
-        extensions: ['.ts', '.js', '.mjs'],
-        modules: isBrowserTarget ? ['node_modules', 'src'] : ['src'],
+        extensions: [".ts", ".js", ".mjs"],
+        modules: isBrowserTarget ? ["node_modules", "src"] : ["src"],
         alias: targetEnvironmentConfig.alias,
         // todo Resolve the problem with mjs import from node_modules
         mainFields: ["main", "module"]
@@ -84,8 +85,13 @@ const getConfiguration = (isBrowserTarget, targetEnvironmentConfig, libraryName,
         ]
     },
     plugins: [
+        new CleanWebpackPlugin({
+            cleanOnceBeforeBuildPatterns: ["**/*", "../coverage", "../cache-jest", "../*.tgz"],
+            dangerouslyAllowCleanPatternsOutsideProject: true,
+            dry: false
+        }),
         //new BundleAnalyzerPlugin()
-        new CopyWebpackPlugin([{from: 'interface/**/*', to: '.', context: "src"}])
+        new CopyWebpackPlugin([{from: "interface/**/*", to: ".", context: "src"}])
     ]
 });
 

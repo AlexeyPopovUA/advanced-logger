@@ -2,14 +2,16 @@ language: node_js
 node_js: "lts/*"
 cache:
   directories:
+    - "$HOME/.npm"
+    - "$HOME/travis/.sonar/cache"
     - "node_modules"
+    - ".scannerwork"
 
 git:
   depth: 99999
 
 install:
-  - npm run clean
-  - npm install
+  - npm ci
 
 addons:
   sonarcloud:
