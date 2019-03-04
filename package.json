@@ -2,7 +2,7 @@
   "name": "advanced-logger",
   "version": "1.4.1",
   "description": "Advanced logger module extendable with plugins. Works in nodejs and browsers",
-  "main": "dist/node/advanced-logger.node.min.js",
+  "main": "main.js",
   "unpkg": "dist/browser/advanced-logger.browser.min.js",
   "typings": "dist/index.d.ts",
   "publishConfig": {
