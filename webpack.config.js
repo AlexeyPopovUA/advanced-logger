@@ -86,7 +86,7 @@ const getConfiguration = (isBrowserTarget, targetEnvironmentConfig, libraryName,
     },
     plugins: [
         new CleanWebpackPlugin({
-            cleanOnceBeforeBuildPatterns: ["**/*", "../coverage", "../cache-jest", "../*.tgz"],
+            cleanOnceBeforeBuildPatterns: ["**/*", /*"../coverage",*/ "../cache-jest", "../*.tgz"],
             dangerouslyAllowCleanPatternsOutsideProject: true,
             dry: false
         }),
