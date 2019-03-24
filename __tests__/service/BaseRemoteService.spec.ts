@@ -94,7 +94,7 @@ describe("BaseRemoteService", () => {
         ];
 
         service = new BaseRemoteService({
-            serviceConfig: Object.assign({}, serviceConfig, {retryInterval: 10, retryAttempts}),
+            serviceConfig: {...serviceConfig, retryInterval: 10, retryAttempts},
             defaultLogConfig
         });
 
@@ -117,7 +117,7 @@ describe("BaseRemoteService", () => {
         ];
 
         service = new BaseRemoteService({
-            serviceConfig: Object.assign({}, serviceConfig, {retryInterval: 10, retryAttempts}),
+            serviceConfig: {...serviceConfig, retryInterval: 10, retryAttempts},
             defaultLogConfig
         });
 

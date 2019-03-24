@@ -1,6 +1,5 @@
-const throttle = require("lodash/throttle");
-
 import {EventEmitter} from "events";
+import throttle from "lodash/throttle";
 import {TransformationEnum} from "./enums/TransformationEnum";
 import ILogStoreConfig from "./interface/config/ILogStoreConfig";
 import IDestructable from "./interface/IDestructable";
@@ -54,7 +53,7 @@ export default class LogStore<T> implements IDestructable {
 
     public clear(): void {
         this.logs.length = 0;
-        this.eventEmitter.emit("clear", null);
+        this.eventEmitter.emit("clear");
     }
 
     public getAll(): T[] {

@@ -1,4 +1,5 @@
 import stringify from "fast-safe-stringify";
+import IDefaultLogConfig from "../interface/config/IDefaultLogConfig";
 import IRequestConfig from "../interface/config/IRequestConfig";
 import IServiceConfig from "../interface/config/IServiceConfig";
 import IDestructable from "../interface/IDestructable";
@@ -8,11 +9,11 @@ import LogUtils from "../util/LogUtils";
 
 export default class BaseRemoteService implements IService, IDestructable {
     protected serviceConfig: IRequestConfig;
-    protected defaultLogConfig: any;
+    protected defaultLogConfig: IDefaultLogConfig;
 
     constructor(config: IServiceConfig) {
-        this.serviceConfig = config.serviceConfig;
-        this.defaultLogConfig = config.defaultLogConfig || {};
+        this.serviceConfig = {...config.serviceConfig};
+        this.defaultLogConfig = {...config.defaultLogConfig};
 
         // optional serializer override
         if (config.serializer) {
@@ -43,7 +44,7 @@ export default class BaseRemoteService implements IService, IDestructable {
     }
 
     public preparePayload<T>(logs: T[]): Promise<string> {
-        const resultList = logs.map(log => this.serializer(Object.assign({}, this.defaultLogConfig, log)));
+        const resultList = logs.map(log => this.serializer({...this.defaultLogConfig, ...log}));
         return Promise.resolve(resultList.join("\n"));
     }
 

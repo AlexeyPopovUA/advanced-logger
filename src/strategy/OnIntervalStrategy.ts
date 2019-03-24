@@ -1,4 +1,5 @@
 import {EventEmitter} from "events";
+import IAddEventConfig from "../interface/config/IAddEventConfig";
 const debounce = require("lodash/debounce");
 import IStrategy from "./../interface/IStrategy";
 
@@ -22,7 +23,7 @@ export default class OnIntervalStrategy implements IStrategy {
         this.debouncedSend = debounce(this.send.bind(this), this.SEND_INTERVAL);
     }
 
-    public onAdd(info: any): void {
+    public onAdd(info?: IAddEventConfig): void {
         if (info && info.logCount > 0) {
             this.debouncedSend();
         }
@@ -33,7 +34,7 @@ export default class OnIntervalStrategy implements IStrategy {
         //console.log("OnIntervalStrategy#cleared");
     }
 
-    public sendAll(info?: any): void {
+    public sendAll(): void {
         this.eventEmitter.emit("send");
     }
 

@@ -1,5 +1,5 @@
+import fetch from "node-fetch";
 import IRequestConfig from "../interface/config/IRequestConfig";
-const fetch = require("node-fetch");
 
 const http = {
     postRequest(serviceConfig: IRequestConfig, headers: any, payload: string): Promise<Response> {

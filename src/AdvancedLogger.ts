@@ -1,3 +1,4 @@
+import IAddEventConfig from "./interface/config/IAddEventConfig";
 import ILoggerConfig from "./interface/config/ILoggerConfig";
 import IService from "./interface/IService";
 import IStrategy from "./interface/IStrategy";
@@ -52,11 +53,11 @@ export default class AdvancedLogger<T> {
         console.error(error);
     }
 
-    private onAdd(info: any) {
+    private onAdd(info: IAddEventConfig) {
         this.strategy.onAdd(info);
     }
 
-    private onClear(info: any) {
+    private onClear() {
         this.strategy.onClear();
     }
 
