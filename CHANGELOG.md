@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/AlexeyPopovUA/advanced-logger/compare/v1.4.1...v2.0.0) (2019-03-24)
+
+
+### Features
+
+* **build:** bundle correction for webpack browser build ([85bec1b](https://github.com/AlexeyPopovUA/advanced-logger/commit/85bec1b))
+
+
+### BREAKING CHANGES
+
+* **build:** new entry point for bundlers
+
+
+
 <a name="1.4.1"></a>
 ## [1.4.1](https://github.com/AlexeyPopovUA/advanced-logger/compare/v1.4.0...v1.4.1) (2019-02-21)
 
