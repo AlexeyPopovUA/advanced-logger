@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.1"></a>
+## [2.0.1](https://github.com/AlexeyPopovUA/advanced-logger/compare/v2.0.0...v2.0.1) (2019-03-24)
+
+
+### Bug Fixes
+
+* **coverage:** coverage report folder should not be cleaned ([bdf5490](https://github.com/AlexeyPopovUA/advanced-logger/commit/bdf5490))
+
+
+
 <a name="2.0.0"></a>
 # [2.0.0](https://github.com/AlexeyPopovUA/advanced-logger/compare/v1.4.1...v2.0.0) (2019-03-24)
 
