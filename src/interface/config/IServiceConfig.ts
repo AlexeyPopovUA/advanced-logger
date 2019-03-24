@@ -1,7 +1,8 @@
+import IDefaultLogConfig from "./IDefaultLogConfig";
 import IRequestConfig from "./IRequestConfig";
 
 export default interface IServiceConfig {
     serviceConfig: IRequestConfig;
-    defaultLogConfig?: any;
+    defaultLogConfig?: IDefaultLogConfig;
     serializer?<T>(log: T): any;
 }

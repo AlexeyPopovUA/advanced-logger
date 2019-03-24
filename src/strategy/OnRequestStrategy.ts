@@ -1,4 +1,5 @@
 import {EventEmitter} from "events";
+import IAddEventConfig from "../interface/config/IAddEventConfig";
 import IStrategy from "./../interface/IStrategy";
 
 export default class OnRequestStrategy implements IStrategy {
@@ -8,7 +9,7 @@ export default class OnRequestStrategy implements IStrategy {
         this.eventEmitter = new EventEmitter();
     }
 
-    public onAdd(info?: any): void {
+    public onAdd(info?: IAddEventConfig): void {
         // Ignore log list change
     }
 
@@ -17,7 +18,7 @@ export default class OnRequestStrategy implements IStrategy {
         //console.log("OnRequestStrategy#cleared");
     }
 
-    public sendAll(info?: any): void {
+    public sendAll(): void {
         this.eventEmitter.emit("send");
     }
 

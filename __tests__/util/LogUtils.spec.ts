@@ -24,10 +24,11 @@ describe("LogUtils", () => {
         const logCirc = {
             name: "logName",
             category: "logCat",
-            test: "smth"
+            test: "smth",
+            logData: null
         };
 
-        Object.assign(logCirc, {logData: logCirc});
+        logCirc.logData = logCirc;
 
         const result = LogUtils.tryJSONStringify(logCirc);
         expect(result).toEqual("");

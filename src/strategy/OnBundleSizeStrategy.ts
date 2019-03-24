@@ -1,4 +1,5 @@
 import {EventEmitter} from "events";
+import IAddEventConfig from "../interface/config/IAddEventConfig";
 import IStrategy from "./../interface/IStrategy";
 
 export default class OnBundleSizeStrategy implements IStrategy {
@@ -17,7 +18,7 @@ export default class OnBundleSizeStrategy implements IStrategy {
         }
     }
 
-    public onAdd(info: any): void {
+    public onAdd(info: IAddEventConfig): void {
         if (info && info.logCount >= this.MAX_BUNDLE_SIZE) {
             this.eventEmitter.emit("send");
         } else {
@@ -30,7 +31,7 @@ export default class OnBundleSizeStrategy implements IStrategy {
         //console.log("OnBundleSizeStrategy#cleared");
     }
 
-    public sendAll(info?: any): void {
+    public sendAll(): void {
         this.eventEmitter.emit("send");
     }
 

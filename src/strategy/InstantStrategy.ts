@@ -1,4 +1,5 @@
 import {EventEmitter} from "events";
+import IAddEventConfig from "../interface/config/IAddEventConfig";
 import IStrategy from "./../interface/IStrategy";
 
 export default class InstantStrategy implements IStrategy {
@@ -8,7 +9,7 @@ export default class InstantStrategy implements IStrategy {
         this.eventEmitter = new EventEmitter();
     }
 
-    public onAdd(info?: any): void {
+    public onAdd(info?: IAddEventConfig): void {
         this.eventEmitter.emit("send");
         //console.log("InstantStrategy#sent");
     }
@@ -18,7 +19,7 @@ export default class InstantStrategy implements IStrategy {
         //console.log("InstantStrategy#cleared");
     }
 
-    public sendAll(info?: any): void {
+    public sendAll(): void {
         // This strategy sends all logs separately
     }
 

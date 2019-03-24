@@ -8,7 +8,7 @@ export default class ElasticsearchService extends BaseRemoteService {
     public preparePayload<T>(logs: T[]): Promise<string> {
         const resultList = [];
         logs.forEach(log => {
-            const finalLog = Object.assign({}, this.defaultLogConfig, log);
+            const finalLog = {...this.defaultLogConfig, ...log};
             resultList.push(this.serializer(this.getLogMetaConfig(
                 finalLog[this.serviceConfig.logMetaIndexField || DEFAULT_INDEX_FIELD])));
             resultList.push(this.serializer(finalLog));
