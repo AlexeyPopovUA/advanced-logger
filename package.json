@@ -24,7 +24,6 @@
     "test:watch": "npm test -- --watch",
     "coverage": "npm test -- --coverage --no-cache",
     "coverage:watch": "npm run coverage -- --watch",
-    "prepare-build": "npm run build && npm test",
     "release": "standard-version --commit-all",
     "bundlesize": "bundlesize"
   },
