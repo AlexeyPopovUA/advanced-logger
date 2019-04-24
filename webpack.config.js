@@ -5,6 +5,7 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
 
 const exportLibraryName = "advancedLogger";
+const cjsLibraryName = "advanced-logger";
 const getPostfix = mode => mode === "production" ? ".min" : "";
 const getFolderPostfix = mode => mode === "development" === true ? "-debug" : "";
 const getTargetFolder = target => target === "browser" ? "browser" : "node";
@@ -29,8 +30,12 @@ const getBrowserConf = (buildMode, target) => ({
     buildMode,
     outputFile: `advanced-logger.browser${getPostfix(buildMode)}.js`,
     outputFolder: `${getTargetFolder(target)}${getFolderPostfix(buildMode)}`,
-    target: "web",
-    libraryTarget: "window",
+    library: {
+        root: exportLibraryName,
+        amd: cjsLibraryName,
+        commonjs: cjsLibraryName
+    },
+    libraryTarget: 'umd',
     alias: {
         "node-fetch": "./fetchFacade"
     }
