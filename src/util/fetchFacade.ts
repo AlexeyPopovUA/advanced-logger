@@ -1,3 +1,3 @@
 import {fetch as fetchPolyfill} from "whatwg-fetch";
 
-export default window.fetch || fetchPolyfill;
+export default window.fetch.bind(window) || fetchPolyfill;
