@@ -1,6 +1,6 @@
 import {EventEmitter} from "events";
 import IAddEventConfig from "../interface/config/IAddEventConfig";
-const debounce = require("lodash/debounce");
+const throttle = require("lodash/throttle");
 import IStrategy from "./../interface/IStrategy";
 
 export default class OnIntervalStrategy implements IStrategy {
@@ -20,7 +20,7 @@ export default class OnIntervalStrategy implements IStrategy {
             this.SEND_INTERVAL = config.interval;
         }
 
-        this.debouncedSend = debounce(this.send.bind(this), this.SEND_INTERVAL);
+        this.debouncedSend = throttle(this.send.bind(this), this.SEND_INTERVAL, {leading: false, trailing: true});
     }
 
     public onAdd(info?: IAddEventConfig): void {
