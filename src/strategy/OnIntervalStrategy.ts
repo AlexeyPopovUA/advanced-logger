@@ -1,17 +1,13 @@
 import {EventEmitter} from "events";
+import throttle from "lodash/throttle";
 import IAddEventConfig from "../interface/config/IAddEventConfig";
-const throttle = require("lodash/throttle");
 import IStrategy from "./../interface/IStrategy";
 
 export default class OnIntervalStrategy implements IStrategy {
     public eventEmitter: EventEmitter;
+    public SEND_INTERVAL = 15000;
 
-    /**
-     * @type {number}
-     */
-    public SEND_INTERVAL: number = 15000;
-
-    private readonly debouncedSend: () => void;
+    private readonly intervalSend: () => void;
 
     constructor(config: {interval?: number}) {
         this.eventEmitter = new EventEmitter();
@@ -20,12 +16,12 @@ export default class OnIntervalStrategy implements IStrategy {
             this.SEND_INTERVAL = config.interval;
         }
 
-        this.debouncedSend = throttle(this.send.bind(this), this.SEND_INTERVAL, {leading: false, trailing: true});
+        this.intervalSend = throttle(this.send.bind(this), this.SEND_INTERVAL, {leading: false, trailing: true});
     }
 
     public onAdd(info?: IAddEventConfig): void {
         if (info && info.logCount > 0) {
-            this.debouncedSend();
+            this.intervalSend();
         }
     }
 
