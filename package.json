@@ -83,7 +83,7 @@
   "dependencies": {
     "fast-safe-stringify": "^2.0.6",
     "lodash": "^4.17.11",
-    "node-fetch": "^2.3.0",
+    "node-fetch": "^2.5.0",
     "whatwg-fetch": "^3.0.0"
   },
   "jest": {
