@@ -1,6 +1,6 @@
 const path = require("path");
 //const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
-const CleanWebpackPlugin = require("clean-webpack-plugin");
+const {CleanWebpackPlugin} = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
 
