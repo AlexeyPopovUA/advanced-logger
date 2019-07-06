@@ -65,7 +65,7 @@
     "bundlesize": "0.18.0",
     "clean-webpack-plugin": "2.0.2",
     "copy-webpack-plugin": "5.0.3",
-    "delete-empty": "2.0.0",
+    "delete-empty": "3.0.0",
     "husky": "2.7.0",
     "jest": "24.8.0",
     "rimraf": "2.6.3",
