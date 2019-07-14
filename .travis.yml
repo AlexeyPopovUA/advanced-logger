@@ -22,8 +22,8 @@ addons:
 script:
   - npm run coverage
   - npm run build
-  - npm run bundlesize
   - sonar-scanner
+  - npm run bundlesize
 
 deploy:
   skip_cleanup: true
