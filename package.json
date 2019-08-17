@@ -67,7 +67,7 @@
     "copy-webpack-plugin": "5.0.4",
     "delete-empty": "3.0.0",
     "husky": "3.0.3",
-    "jest": "24.8.0",
+    "jest": "24.9.0",
     "rimraf": "2.6.3",
     "sinon": "7.4.1",
     "source-map-loader": "0.2.4",
