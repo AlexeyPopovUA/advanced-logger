@@ -66,7 +66,7 @@
     "clean-webpack-plugin": "2.0.2",
     "copy-webpack-plugin": "5.0.4",
     "delete-empty": "3.0.0",
-    "husky": "3.0.3",
+    "husky": "3.0.4",
     "jest": "24.9.0",
     "rimraf": "3.0.0",
     "sinon": "7.4.1",
