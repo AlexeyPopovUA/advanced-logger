@@ -1,9 +1,10 @@
 # Created by .ignore support plugin (hsz.mobi)
-/coverage/
-/dist/
-/node_modules/
+/coverage
+/dist
+/node_modules
 /.idea/**
 /advanced-logger-*.tgz
-/.scannerwork/
-example/node/node_modules/
+/.scannerwork
+example/node/node_modules
 example/node/package-lock.json
+exports
