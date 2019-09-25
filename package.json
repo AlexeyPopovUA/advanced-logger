@@ -10,23 +10,28 @@
     "access": "public"
   },
   "scripts": {
-    "build": "webpack --config webpack.config.js --env.modes=prod --env.modes=dev --env.targets=browser --env.targets=node",
-    "build-prod": "webpack --config webpack.config.js --env.modes=prod --env.targets=browser --env.targets=node",
-    "build-prod-browser": "webpack --config webpack.config.js --env.modes=prod --env.targets=browser",
-    "build-prod-node": "webpack --config webpack.config.js --env.modes=prod --env.targets=node",
-    "build-dev": "webpack --config webpack.config.js --env.targets=browser --env.targets=node",
-    "build-dev-browser": "webpack --config webpack.config.js --env.targets=browser",
-    "build-dev-node": "webpack --config webpack.config.js --env.targets=node",
-    "watch-prod-browser": "webpack --config webpack.config.js --env.watch=1 --env.modes=prod --env.targets=browser",
-    "watch-prod-node": "webpack --config webpack.config.js --env.watch=1 --env.modes=prod --env.targets=node",
-    "watch-dev-browser": "webpack --config webpack.config.js --env.watch=1 --env.targets=browser",
-    "watch-dev-node": "webpack --config webpack.config.js --env.watch=1 --env.targets=node",
+    "build": "webpack --config build-scripts/webpack.common.js --env.modes=prod --env.modes=dev --env.targets=browser --env.targets=node",
+    "build-prod": "webpack --config build-scripts/webpack.common.js --env.modes=prod --env.targets=browser --env.targets=node",
+    "build-prod-browser": "webpack --config build-scripts/webpack.common.js --env.modes=prod --env.targets=browser",
+    "build-prod-node": "webpack --config build-scripts/webpack.common.js --env.modes=prod --env.targets=node",
+    "build-dev": "webpack --config build-scripts/webpack.common.js --env.targets=browser --env.targets=node",
+    "build-dev-browser": "webpack --config build-scripts/webpack.common.js --env.targets=browser",
+    "build-dev-node": "webpack --config build-scripts/webpack.common.js --env.targets=node",
+    "watch-prod-browser": "webpack --config build-scripts/webpack.common.js --env.watch=1 --env.modes=prod --env.targets=browser",
+    "watch-prod-node": "webpack --config build-scripts/webpack.common.js --env.watch=1 --env.modes=prod --env.targets=node",
+    "watch-dev-browser": "webpack --config build-scripts/webpack.common.js --env.watch=1 --env.targets=browser",
+    "watch-dev-node": "webpack --config build-scripts/webpack.common.js --env.watch=1 --env.targets=node",
     "test": "jest",
     "test:watch": "npm test -- --watch",
     "coverage": "npm test -- --coverage --no-cache",
     "coverage:watch": "npm run coverage -- --watch",
     "release": "standard-version --commit-all",
-    "bundlesize": "bundlesize"
+    "bundlesize": "bundlesize --config bundlesize.config.js",
+    "type-check": "tsc --noEmit true",
+    "types": "npm run createTSDeclarations",
+    "createTSDeclarations": "tsc --emitDeclarationOnly --noEmit false",
+    "createFlowDeclarations": "flowgen dist/**.d.ts --flow-typed-format",
+    "update": "npx npm-check-updates -u"
   },
   "repository": {
     "type": "git",
@@ -41,13 +46,9 @@
     "typescript",
     "library",
     "webpack",
-    "browserify",
     "dts-bundle",
     "package",
-    "tslint",
-    "jest",
-    "tsloader",
-    "ts-loader"
+    "jest"
   ],
   "author": "Oleksii Popov",
   "license": "MIT",
@@ -56,57 +57,52 @@
   },
   "homepage": "https://github.com/AlexeyPopovUA/advanced-logger#readme",
   "devDependencies": {
+    "@babel/core": "7.6.0",
+    "@babel/plugin-proposal-class-properties": "7.5.5",
+    "@babel/plugin-syntax-dynamic-import": "7.2.0",
+    "@babel/plugin-transform-runtime": "7.6.0",
+    "@babel/preset-env": "7.6.0",
+    "@babel/preset-typescript": "7.6.0",
+    "@babel/runtime": "7.6.0",
     "@commitlint/cli": "8.2.0",
     "@commitlint/config-conventional": "8.2.0",
     "@types/jest": "24.0.18",
     "@types/lodash": "4.14.138",
-    "@types/node": "10.12.24",
-    "awesome-typescript-loader": "5.2.1",
+    "@types/node": "12.7.5",
+    "@typescript-eslint/eslint-plugin": "2.3.0",
+    "@typescript-eslint/parser": "2.3.0",
+    "babel-jest": "24.9.0",
+    "babel-loader": "^8.0.6",
     "bundlesize": "0.18.0",
-    "clean-webpack-plugin": "2.0.2",
+    "clean-webpack-plugin": "3.0.0",
     "copy-webpack-plugin": "5.0.4",
-    "delete-empty": "3.0.0",
+    "eslint": "6.4.0",
+    "eslint-import-resolver-webpack": "0.11.1",
+    "eslint-loader": "3.0.0",
+    "eslint-plugin-import": "2.18.2",
+    "eslint-plugin-jest": "22.17.0",
+    "flowgen": "^1.10.0",
     "husky": "3.0.5",
     "jest": "24.9.0",
     "rimraf": "3.0.0",
     "sinon": "7.4.2",
     "source-map-loader": "0.2.4",
     "standard-version": "7.0.0",
-    "ts-jest": "24.1.0",
-    "tslint": "5.20.0",
-    "typescript": "3.6.3",
+    "ts-jest": "^24.1.0",
+    "typescript": "3.6",
     "webpack": "4.40.2",
     "webpack-bundle-analyzer": "3.5.1",
     "webpack-cli": "3.3.9",
+    "webpack-dev-server": "3.8.1",
+    "webpack-merge": "4.2.2",
     "webpack-node-externals": "1.7.2"
   },
   "dependencies": {
-    "fast-safe-stringify": "^2.0.6",
-    "lodash": "^4.17.11",
-    "node-fetch": "^2.5.0",
-    "whatwg-fetch": "^3.0.0"
-  },
-  "jest": {
-    "transform": {
-      ".(ts|tsx)": "ts-jest"
-    },
-    "collectCoverageFrom": [
-      "src/**/*.ts"
-    ],
-    "coveragePathIgnorePatterns": [
-      "/__tests__/",
-      "/node_modules/"
-    ],
-    "testEnvironment": "node",
-    "testRegex": "__tests__/.*\\.spec\\.ts$",
-    "moduleFileExtensions": [
-      "ts",
-      "js",
-      "json"
-    ],
-    "moduleNameMapper": {
-      "fetchFacade$": "node-fetch"
-    }
+    "core-js": "^3.2.1",
+    "fast-safe-stringify": "2.0.7",
+    "lodash": "4.17.15",
+    "node-fetch": "2.6.0",
+    "whatwg-fetch": "3.0.0"
   },
   "standard-version": {
     "scripts": {
@@ -117,23 +113,5 @@
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
-  },
-  "bundlesize": [
-    {
-      "path": "./dist/browser/advanced-logger.browser.min.js",
-      "maxSize": "30 kB"
-    },
-    {
-      "path": "./dist/browser-debug/advanced-logger.browser.js",
-      "maxSize": "200 kB"
-    },
-    {
-      "path": "./dist/node/advanced-logger.node.min.js",
-      "maxSize": "30 kB"
-    },
-    {
-      "path": "./dist/node-debug/advanced-logger.node.js",
-      "maxSize": "100 kB"
-    }
-  ]
+  }
 }

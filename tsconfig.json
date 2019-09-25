@@ -1,19 +1,21 @@
 {
   "compilerOptions": {
-    "noEmit": true,
-    "experimentalDecorators": true,
-    "lib": ["es6", "dom"],
-    "module": "commonjs",
-    "target": "es5",
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
     "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
     "esModuleInterop": true,
+    "lib": [
+      "es2017",
+      "es6",
+      "dom",
+      "dom.iterable"
+    ],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "outDir": "dist",
     "sourceMap": true,
     "declaration": true,
-    "outDir": "dist",
-    "removeComments": false,
-    "downlevelIteration": true
+    "noEmit": true,
+    "target": "esnext"
   },
   "files": [
     "src/index.ts"

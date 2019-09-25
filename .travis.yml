@@ -20,10 +20,11 @@ addons:
       secure: $SONAR_TOKEN
 
 script:
+  - npm run type-check
   - npm run coverage
   - npm run build
-  - sonar-scanner
   - npm run bundlesize
+  - sonar-scanner
 
 deploy:
   skip_cleanup: true
