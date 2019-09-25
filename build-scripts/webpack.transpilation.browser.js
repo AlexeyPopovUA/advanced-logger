@@ -6,7 +6,7 @@ const getTargetOutputPath = mode => `browser${mode === 'development' ? '-debug' 
 module.exports = ({mode}) => ({
   plugins: [
     new CleanWebpackPlugin({
-      cleanOnceBeforeBuildPatterns: [`${getTargetOutputPath(mode)}/*`, "../coverage", "../cache-jest", "../*.tgz"],
+      cleanOnceBeforeBuildPatterns: [`${getTargetOutputPath(mode)}/*`, /*"../coverage",*/ "../cache-jest", "../*.tgz"],
       dangerouslyAllowCleanPatternsOutsideProject: true,
       dry: false,
     }),
