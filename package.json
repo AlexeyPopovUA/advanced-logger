@@ -82,7 +82,7 @@
     "eslint-plugin-import": "2.18.2",
     "eslint-plugin-jest": "22.19.0",
     "flowgen": "1.10.0",
-    "husky": "3.0.8",
+    "husky": "3.0.9",
     "jest": "24.9.0",
     "rimraf": "3.0.0",
     "sinon": "7.5.0",
