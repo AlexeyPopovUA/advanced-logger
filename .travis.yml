@@ -4,7 +4,6 @@ cache:
   directories:
     - "$HOME/.npm"
     - "$HOME/travis/.sonar/cache"
-    - "node_modules"
     - ".scannerwork"
 
 git:
