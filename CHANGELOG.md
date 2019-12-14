@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.7](https://github.com/AlexeyPopovUA/advanced-logger/compare/v2.0.6...v2.0.7) (2019-12-14)
+
+
+### Bug Fixes
+
+* **coverage:** bring test coverage back ([00ae954](https://github.com/AlexeyPopovUA/advanced-logger/commit/00ae954a5de0ad1e554615d2bdbd4f39cb1b5ffc))
+
 ### [2.0.6](https://github.com/AlexeyPopovUA/advanced-logger/compare/v2.0.5...v2.0.6) (2019-09-20)
 
 ### [2.0.5](https://github.com/AlexeyPopovUA/advanced-logger/compare/v2.0.4...v2.0.5) (2019-08-17)
