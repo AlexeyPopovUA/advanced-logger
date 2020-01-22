@@ -85,7 +85,7 @@
     "husky": "4.0.10",
     "jest": "24.9.0",
     "rimraf": "3.0.0",
-    "sinon": "8.0.4",
+    "sinon": "8.1.1",
     "source-map-loader": "0.2.4",
     "standard-version": "7.0.1",
     "ts-jest": "24.3.0",
