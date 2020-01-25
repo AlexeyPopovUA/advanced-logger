@@ -87,7 +87,7 @@
     "rimraf": "3.0.0",
     "sinon": "8.1.1",
     "source-map-loader": "0.2.4",
-    "standard-version": "7.0.1",
+    "standard-version": "7.1.0",
     "ts-jest": "24.3.0",
     "typescript": "3.7.4",
     "webpack": "4.41.5",
