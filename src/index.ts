@@ -1,5 +1,6 @@
 import AdvancedLogger from "./AdvancedLogger";
 import {TransformationEnum} from "./enums/TransformationEnum";
+import BaseRemoteService from "./service/BaseRemoteService";
 import ConsoleService from "./service/ConsoleService";
 import ElasticsearchService from "./service/ElasticsearchService";
 import LogglyService from "./service/LogglyService";
@@ -17,6 +18,7 @@ const strategy = {
 };
 
 const service = {
+    BaseRemoteService,
     SumologicService,
     LogglyService,
     ConsoleService,
