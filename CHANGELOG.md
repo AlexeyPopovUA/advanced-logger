@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/AlexeyPopovUA/advanced-logger/compare/v2.0.7...v2.1.0) (2020-02-09)
+
+
+### Features
+
+* **service:** implement ability to use and extend BaseRemoteService ([9c76c51](https://github.com/AlexeyPopovUA/advanced-logger/commit/9c76c51c2f828575531808e2831ec8b42122c8ab))
+
+
+### Bug Fixes
+
+* **serializer:** serializer should return string type ([6755b2e](https://github.com/AlexeyPopovUA/advanced-logger/commit/6755b2e7edd83d29994cfec70edee38c439efc05))
+
 ### [2.0.7](https://github.com/AlexeyPopovUA/advanced-logger/compare/v2.0.6...v2.0.7) (2019-12-14)
 
 
