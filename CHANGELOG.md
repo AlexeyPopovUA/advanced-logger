@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.3](https://github.com/AlexeyPopovUA/advanced-logger/compare/v2.1.2...v2.1.3) (2020-06-07)
+
+
+### Bug Fixes
+
+* **sonar:** fix sonar authentication ([0bd6958](https://github.com/AlexeyPopovUA/advanced-logger/commit/0bd695818affdcb6037669e43982ab71cc1866b2))
+
 ### [2.1.2](https://github.com/AlexeyPopovUA/advanced-logger/compare/v2.1.1...v2.1.2) (2020-02-12)
 
 
