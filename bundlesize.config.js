@@ -2,12 +2,12 @@ module.exports = {
     "files": [
         {
             "path": "./dist/browser/advanced-logger.browser.min.js",
-            "maxSize": "60 kB",
+            "maxSize": "80 kB",
             "compression": "none"
         },
         {
             "path": "./dist/browser-debug/advanced-logger.browser.js",
-            "maxSize": "300 kB",
+            "maxSize": "500 kB",
             "compression": "none"
         },
         {

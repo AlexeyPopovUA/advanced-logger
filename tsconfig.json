@@ -3,19 +3,18 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "esModuleInterop": true,
+    "module": "ESNext",
     "lib": [
-      "es2017",
-      "es6",
-      "dom",
-      "dom.iterable"
+      "ES2019",
+      "DOM",
+      "DOM.Iterable"
     ],
-    "module": "esnext",
     "moduleResolution": "node",
     "outDir": "dist",
     "sourceMap": true,
     "declaration": true,
     "noEmit": true,
-    "target": "esnext"
+    "target": "ES2019"
   },
   "files": [
     "src/index.ts"
