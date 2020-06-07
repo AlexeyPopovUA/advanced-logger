@@ -15,15 +15,12 @@ install:
 addons:
   sonarcloud:
     organization: $SONAR_ORGANIZATION
-    token:
-      secure: $SONAR_TOKEN
 
 script:
   - npm run type-check
   - npm run coverage
   - npm run build
   - npm run types
-  - npm run bundlesize
   - sonar-scanner
 
 deploy:
