@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.4](https://github.com/AlexeyPopovUA/advanced-logger/compare/v2.1.3...v2.1.4) (2020-09-02)
+
+
+### Bug Fixes
+
+* **deps:** update dependency lodash to v4.17.19 ([6099c5d](https://github.com/AlexeyPopovUA/advanced-logger/commit/6099c5d86925993eafb1d53a454eed47f83865cb))
+* **deps:** update dependency lodash to v4.17.20 ([34c9c68](https://github.com/AlexeyPopovUA/advanced-logger/commit/34c9c6859712e5a739ad782fcb6480cc36db9d0a))
+* **deps:** update dependency whatwg-fetch to v3.1.0 ([a7b77ff](https://github.com/AlexeyPopovUA/advanced-logger/commit/a7b77ffa9afaa7a7f01f13a3042af8786ace01ec))
+* **deps:** update dependency whatwg-fetch to v3.2.0 ([332bbde](https://github.com/AlexeyPopovUA/advanced-logger/commit/332bbde28f72e7c8a5790e2977526dd381c02000))
+* **deps:** update dependency whatwg-fetch to v3.4.0 ([ec5d843](https://github.com/AlexeyPopovUA/advanced-logger/commit/ec5d843c0d4518c07c42d0e255d31a40bc27380f))
+
 ### [2.1.3](https://github.com/AlexeyPopovUA/advanced-logger/compare/v2.1.2...v2.1.3) (2020-06-07)
 
 
