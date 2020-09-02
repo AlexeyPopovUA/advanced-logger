@@ -9,9 +9,9 @@ module.exports = ({mode}) => ({
   externals: [nodeExternals()],
   plugins: [
     new CleanWebpackPlugin({
-      cleanOnceBeforeBuildPatterns: [`${getTargetOutputPath(mode)}/*`, /*'../coverage',*/ '../cache-jest', "../*.tgz"],
+      cleanOnceBeforeBuildPatterns: [`${getTargetOutputPath(mode)}/*`],
       dangerouslyAllowCleanPatternsOutsideProject: true,
-      dry: false,
+      dry: false
     })
   ],
   module: {

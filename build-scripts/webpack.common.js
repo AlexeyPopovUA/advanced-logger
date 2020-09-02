@@ -1,4 +1,4 @@
-const {smart} = require('webpack-merge');
+const {merge} = require('webpack-merge');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const getBrowserTranspilationCfg = require("./webpack.transpilation.browser");
@@ -70,7 +70,7 @@ module.exports = env => {
   for (const mode of modes) {
     for (const target of targets) {
       const buildMode = mapToMode(mode);
-      const config = smart(
+      const config = merge(
         commonConfig,
         getTranspilationCfg(target, buildMode),
         {watch, mode: buildMode},
