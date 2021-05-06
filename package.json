@@ -100,7 +100,7 @@
   "dependencies": {
     "core-js": "^3.6.5",
     "fast-safe-stringify": "2.0.7",
-    "lodash": "4.17.20",
+    "lodash": "4.17.21",
     "node-fetch": "2.6.0",
     "whatwg-fetch": "3.4.0"
   },
