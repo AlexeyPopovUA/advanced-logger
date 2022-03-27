@@ -1,76 +1,71 @@
-"use strict";
+import http from "../../src/util/http";
+import {wait} from "../../src/util/TestUtils";
+import AdvancedLogger from "../../src/AdvancedLogger";
+import SumologicService from "../../src/service/SumologicService";
+import OnBundleSizeStrategy from "../../src/strategy/OnBundleSizeStrategy";
+import IDefaultLogConfig from "../../src/interface/config/IDefaultLogConfig";
+import IServiceConfig from "../../src/interface/config/IServiceConfig";
 
-import "jest";
-import * as sinon from "sinon";
-import {AdvancedLogger} from "../../src";
-import {service} from "../../src";
-import {strategy} from "../../src";
-
-const SumologicService = service.SumologicService;
-const OnBundleSizeStrategy = strategy.OnBundleSizeStrategy;
-
-// todo Rewrite stubs with jest functionality
-const sandBox = sinon.createSandbox();
+jest.mock("../../src/util/http");
 
 describe("OnBundleSizeStrategy", () => {
-    let logger;
+    let logger: AdvancedLogger<IDefaultLogConfig>;
 
-    const config = {
+    const config: IServiceConfig = {
         defaultLogConfig: {},
         serviceConfig: {
             sourceCategory: "",
             sourceName: "",
             host: "",
             url: "",
-            method: ""
+            method: "POST"
         }
     };
 
     afterEach(() => {
-        sandBox.restore();
+        jest.clearAllMocks();
+        jest.clearAllTimers();
 
         if (logger) {
             logger.destroy();
-            logger = null;
         }
     });
 
-    it("Should deliver logs in bundles to the service", done => {
+    it("Should deliver logs in bundles to the service", async () => {
         logger = new AdvancedLogger({
             service: new SumologicService(config),
             strategy: new OnBundleSizeStrategy({maxBundle: 5})
         });
 
-        sandBox.stub(SumologicService.prototype, "sendAllLogs").callsFake(logs => {
-            expect(logs.length).toBe(5);
-            done();
-            return Promise.resolve();
-        });
+        for (let i = 0; i < 5; i++) {
+            logger.log({test: "test123"});
+        }
 
-        for (let i = 0; i < 5; i++) { logger.log({test: "test123"}); }
+        await wait(20);
+
+        expect(http.request).toHaveBeenCalledTimes(1);
+        expect(http.request).toHaveBeenCalledWith(expect.anything(), expect.anything(),
+            expect.stringMatching(/^(.+test123.+[\n]?){5}$/gi)
+        )
     });
 
-    it("Should divide logs in bundles", done => {
+    it("Should divide logs in bundles", async () => {
         logger = new AdvancedLogger({
             service: new SumologicService(config),
             strategy: new OnBundleSizeStrategy({maxBundle: 5})
-        });
-
-        const stub = sandBox.stub(SumologicService.prototype, "sendAllLogs").callsFake(logs => {
-            expect(logs.length).toBe(5);
-            expect(logs[0].test === "test123").toBe(true);
-
-            stub.restore();
-            sandBox.stub(SumologicService.prototype, "sendAllLogs").callsFake(logs => {
-                expect(logs.length).toBe(5);
-                expect(logs[0].test === "test321").toBe(true);
-                done();
-                return Promise.resolve();
-            });
-            return Promise.resolve();
         });
 
         for (let i = 0; i < 5; i++) { logger.log({test: "test123"}); }
         for (let i = 0; i < 5; i++) { logger.log({test: "test321"}); }
+
+        await wait(20);
+
+        expect(http.request).toHaveBeenCalledTimes(2);
+        expect(http.request).toHaveBeenCalledWith(expect.anything(), expect.anything(),
+            expect.stringMatching(/^(.+test123.+[\n]?){5}$/gi)
+        );
+        expect(http.request).toHaveBeenCalledWith(expect.anything(), expect.anything(),
+            expect.stringMatching(/^(.+test321.+[\n]?){5}$/gi)
+        );
     });
 });

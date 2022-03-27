@@ -1,13 +1,13 @@
-"use strict";
-
-import "jest";
 import SumologicService from "../../src/service/SumologicService";
+import IDefaultLogConfig from "../../src/interface/config/IDefaultLogConfig";
+import IRequestConfig from "../../src/interface/config/IRequestConfig";
+import IServiceConfig from "../../src/interface/config/IServiceConfig";
 
 jest.mock("./../../src/util/http");
 
 describe("SumologicService", () => {
     let service: SumologicService;
-    const defaultLogConfig = {
+    const defaultLogConfig: IDefaultLogConfig = {
         Domain: "logger-test-domain",
         UserAgent: "userAgent",
         Channel: "my-company",
@@ -25,7 +25,7 @@ describe("SumologicService", () => {
         CloneInGroupCounter: 1
     };
 
-    const serviceConfig = {
+    const serviceConfig: IRequestConfig = {
         url: "https://www.reuwyrtuwr.nl",
         host: "advancedLoggerTest",
         sourceCategory: "AP/SB/oet/html5",
@@ -33,12 +33,11 @@ describe("SumologicService", () => {
         method: "POST"
     };
 
-    const config = {serviceConfig, defaultLogConfig};
+    const config: IServiceConfig = {serviceConfig, defaultLogConfig};
 
     afterEach(() => {
         if (service) {
             service.destroy();
-            service = null;
         }
     });
 

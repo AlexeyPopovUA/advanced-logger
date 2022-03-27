@@ -1,7 +1,8 @@
-import {TransformationEnum} from "..";
+import {TransformationEnum} from "../enums/TransformationEnum";
 import IGroupTransformation from "./IGroupTransformation";
 
 export default interface ITransformation {
     type: TransformationEnum;
-    configuration?: IGroupTransformation;
+    // TODO Review configuration type
+    configuration: IGroupTransformation;
 }

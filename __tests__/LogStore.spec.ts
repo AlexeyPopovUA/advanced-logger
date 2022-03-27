@@ -1,16 +1,15 @@
-"use strict";
-
-import "jest";
-import {TransformationEnum} from "../src";
+import {TransformationEnum} from "../src/enums/TransformationEnum";
 import LogStore from "../src/LogStore";
+import IDefaultLogConfig from "../src/interface/config/IDefaultLogConfig";
+import ILogStoreConfig from "../src/interface/config/ILogStoreConfig";
 
 describe("LogStore", () => {
-    let logStore;
+    let logStore: LogStore<IDefaultLogConfig & {test: string}>;
 
-    const emptyStoreConfig = {
+    const emptyStoreConfig: ILogStoreConfig = {
         transformations: []
     };
-    const storeConfigWithGrouping = {
+    const storeConfigWithGrouping: ILogStoreConfig = {
         transformations: [{
             type: TransformationEnum.RAPID_FIRE_GROUPING,
             configuration: {
@@ -22,9 +21,11 @@ describe("LogStore", () => {
     };
 
     afterEach(() => {
+        jest.clearAllMocks();
+        jest.clearAllTimers();
+
         if (logStore) {
             logStore.destroy();
-            logStore = null;
         }
     });
 
@@ -68,7 +69,7 @@ describe("LogStore", () => {
         setTimeout(() => {
             const logs = logStore.getAll();
             expect(logs.length).toEqual(2);
-            expect(logs.find(item => item["test"] === "123")["CloneInGroupCounter"]).toBe(2);
+            expect(logs.find(item => item.test === "123")?.CloneInGroupCounter).toBe(2);
             done();
         }, 20);
     });
@@ -104,7 +105,7 @@ describe("LogStore", () => {
         let logs = logStore.getAll();
 
         expect(logs.length).toEqual(2);
-        expect(logs.find(item => item["test"] === "123")["CloneInGroupCounter"]).toBe(2);
+        expect(logs.find(item => item.test === "123")?.CloneInGroupCounter).toBe(2);
 
         logStore.add({test: "123"});
         logStore.add({test: "123"});

@@ -1,6 +1,3 @@
-"use strict";
-
-import "jest";
 import http from "../../src/util/http";
 
 describe("http", () => {
@@ -16,7 +13,7 @@ describe("http", () => {
 
     it("delayedRetry does not retry if successful with default delay", done => {
         const mock = jest.fn().mockResolvedValue(null);
-        http.delayedRetry(3, undefined, mock)
+        http.delayedRetry(3, 0, mock)
             .then(() => {
                 expect(mock).toHaveBeenCalledTimes(1);
                 done();

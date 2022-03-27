@@ -1,51 +1,56 @@
-"use strict";
+import http from "../src/util/http";
+import {wait} from "../src/util/TestUtils";
+import { TransformationEnum } from "../src/enums/TransformationEnum";
+import SumologicService from "../src/service/SumologicService";
+import ConsoleService from "../src/service/ConsoleService";
+import LogglyService from "../src/service/LogglyService";
+import BaseRemoteService from "../src/service/BaseRemoteService";
+import ElasticsearchService from "../src/service/ElasticsearchService";
+import OnRequestStrategy from "../src/strategy/OnRequestStrategy";
+import OnIntervalStrategy from "../src/strategy/OnIntervalStrategy";
+import OnBundleSizeStrategy from "../src/strategy/OnBundleSizeStrategy";
+import InstantStrategy from "../src/strategy/InstantStrategy";
+import AdvancedLogger from "../src/AdvancedLogger";
+import IDefaultLogConfig from "../src/interface/config/IDefaultLogConfig";
+import IServiceConfig from "../src/interface/config/IServiceConfig";
 
-import "jest";
-import * as sinon from "sinon";
-import {service, TransformationEnum} from "../src";
-import {strategy} from "../src";
-import {AdvancedLogger} from "../src";
-
-const SumologicService = service.SumologicService;
-const OnRequestStrategy = strategy.OnRequestStrategy;
-
-// todo Rewrite stubs with jest functionality
-const sandBox = sinon.createSandbox();
+jest.mock("../src/util/http");
 
 describe("index", () => {
-    let logger;
+    let logger: AdvancedLogger<IDefaultLogConfig>;
 
-    const config = {
+    const config: IServiceConfig = {
         defaultLogConfig: {},
         serviceConfig: {
             sourceCategory: "",
             sourceName: "",
             host: "",
             url: "",
-            method: ""
+            method: "POST"
         }
     };
 
     afterEach(() => {
-        sandBox.restore();
+        jest.clearAllMocks();
+        jest.clearAllTimers();
 
         if (logger) {
             logger.destroy();
-            logger = null;
         }
     });
 
     it("Should export API", () => {
-        expect(typeof AdvancedLogger).toBe("function");
-        expect(typeof strategy.InstantStrategy).toBe("function");
-        expect(typeof strategy.OnBundleSizeStrategy).toBe("function");
-        expect(typeof strategy.OnIntervalStrategy).toBe("function");
-        expect(typeof strategy.OnRequestStrategy).toBe("function");
-        expect(typeof service.SumologicService).toBe("function");
-        expect(typeof service.LogglyService).toBe("function");
-        expect(typeof service.ConsoleService).toBe("function");
-        expect(typeof service.BaseRemoteService).toBe("function");
-        expect(typeof TransformationEnum).toBe("object");
+        expect(AdvancedLogger).toBeInstanceOf(Function);
+        expect(InstantStrategy).toBeInstanceOf(Function);
+        expect(OnBundleSizeStrategy).toBeInstanceOf(Function);
+        expect(OnIntervalStrategy).toBeInstanceOf(Function);
+        expect(OnRequestStrategy).toBeInstanceOf(Function);
+        expect(SumologicService).toBeInstanceOf(Function);
+        expect(ElasticsearchService).toBeInstanceOf(Function);
+        expect(LogglyService).toBeInstanceOf(Function);
+        expect(ConsoleService).toBeInstanceOf(Function);
+        expect(BaseRemoteService).toBeInstanceOf(Function);
+        expect(TransformationEnum).toBeInstanceOf(Object);
         expect(typeof TransformationEnum.RAPID_FIRE_GROUPING).toBe("number");
     });
 
@@ -60,13 +65,7 @@ describe("index", () => {
         expect(logger).toBeTruthy();
     });
 
-    it("Should deliver logs to the service", done => {
-        sandBox.stub(SumologicService.prototype, "sendAllLogs").callsFake(logs => {
-            expect(logs.length).toBe(2);
-            done();
-            return Promise.reject("This is a deliberate error throwing");
-        });
-
+    it("Should deliver logs to the service", async () => {
         logger = new AdvancedLogger({
             service: new SumologicService(config),
             strategy: new OnRequestStrategy()
@@ -76,20 +75,25 @@ describe("index", () => {
         logger.log({test: "test321"});
 
         logger.sendAllLogs();
+
+        await wait(10);
+
+        expect(http.request).toHaveBeenCalledTimes(1);
+        expect(http.request).toHaveBeenCalledWith(expect.anything(), expect.anything(),
+            expect.stringMatching(/^.+test123.+[\n].+test321.+$/gi)
+        );
     });
 
-    it("Should not deliver anything to the service if there were no logs", done => {
-        sandBox.stub(SumologicService.prototype, "sendAllLogs").callsFake(() => {
-            done("sendAllLogs service method should not be called");
-        });
-
+    it("Should not deliver anything to the service if there were no logs", async () => {
         logger = new AdvancedLogger({
             service: new SumologicService(config),
             strategy: new OnRequestStrategy()
         });
 
         logger.sendAllLogs();
-        // async finish
-        setTimeout(done, 1);
+
+        await wait(10);
+
+        expect(http.request).toHaveBeenCalledTimes(0);
     });
 });

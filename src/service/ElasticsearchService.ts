@@ -5,8 +5,8 @@ const DEFAULT_INDEX_FIELD = "Index";
 const DEFAULT_INDEX_VALUE = "index";
 
 export default class ElasticsearchService extends BaseRemoteService {
-    public preparePayload<T>(logs: T[]): Promise<string> {
-        const resultList = [];
+    public async preparePayload<T>(logs: T[]): Promise<string> {
+        const resultList: string[] = [];
         logs.forEach(log => {
             const finalLog = {...this.defaultLogConfig, ...log};
             resultList.push(this.serializer(this.getLogMetaConfig(
@@ -14,7 +14,7 @@ export default class ElasticsearchService extends BaseRemoteService {
             resultList.push(this.serializer(finalLog));
         });
 
-        return Promise.resolve(`${resultList.join("\n")}\n`);
+        return `${resultList.join("\n")}\n`;
     }
 
     protected getHeaders(): {[propName: string]: string} {

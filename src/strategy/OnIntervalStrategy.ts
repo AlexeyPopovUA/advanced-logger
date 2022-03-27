@@ -36,7 +36,6 @@ export default class OnIntervalStrategy implements IStrategy {
 
     public destroy(): void {
         this.eventEmitter.removeAllListeners();
-        this.eventEmitter = null;
     }
 
     private send() {

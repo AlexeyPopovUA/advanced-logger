@@ -1,6 +1,3 @@
-"use strict";
-
-import "jest";
 import ConsoleService from "../../src/service/ConsoleService";
 
 describe("ConsoleService", () => {
@@ -9,7 +6,6 @@ describe("ConsoleService", () => {
     afterEach(() => {
         if (service) {
             service.destroy();
-            service = null;
         }
     });
 
@@ -52,13 +48,11 @@ describe("ConsoleService", () => {
         ];
 
         service = new ConsoleService();
-        await service
-            .preparePayload(testLogs)
-            .then(payload => {
-                expect(payload instanceof Array).toBe(true);
-                expect(payload.length).toBe(2);
-                expect(payload[0]).toBe(testLogs[0]);
-                expect(payload[1]).toBe(testLogs[1]);
-            });
+        const payload = await service.preparePayload(testLogs);
+
+        expect(payload).toBeInstanceOf(Array);
+        expect(payload.length).toBe(2);
+        expect(payload[0]).toBe(testLogs[0]);
+        expect(payload[1]).toBe(testLogs[1]);
     });
 });

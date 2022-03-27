@@ -1,4 +1,5 @@
 import {EventEmitter} from "events";
+
 import IAddEventConfig from "../interface/config/IAddEventConfig";
 import IStrategy from "./../interface/IStrategy";
 
@@ -25,6 +26,5 @@ export default class InstantStrategy implements IStrategy {
 
     public destroy(): void {
         this.eventEmitter.removeAllListeners();
-        this.eventEmitter = null;
     }
 }

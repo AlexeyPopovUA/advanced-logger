@@ -1,15 +1,14 @@
-"use strict";
-
-import "jest";
+import http from "./../../src/util/http";
 import IRequestConfig from "../../src/interface/config/IRequestConfig";
 import ElasticsearchService from "../../src/service/ElasticsearchService";
-import http from "./../../src/util/http";
+import IDefaultLogConfig from "../../src/interface/config/IDefaultLogConfig";
+import IServiceConfig from "../../src/interface/config/IServiceConfig";
 
 jest.mock("./../../src/util/http");
 
 describe("ElasticsearchService", () => {
     let service: ElasticsearchService;
-    const defaultLogConfig = {
+    const defaultLogConfig: IDefaultLogConfig = {
         Domain: "logger-test-domain",
         BuildVersion: 123,
         Platform: "nodejs",
@@ -21,17 +20,16 @@ describe("ElasticsearchService", () => {
         Category: ""
     };
 
-    const serviceConfig = {
+    const serviceConfig: IRequestConfig = {
         url: "https://www.reuwyrtuwr.nl",
         method: "POST"
     };
 
-    const config = {serviceConfig, defaultLogConfig};
+    const config: IServiceConfig = {serviceConfig, defaultLogConfig};
 
     afterEach(() => {
         if (service) {
             service.destroy();
-            service = null;
         }
     });
 
@@ -53,7 +51,7 @@ describe("ElasticsearchService", () => {
             {test: "test321"}
         ];
 
-        (http.postRequest as jest.Mock).mockResolvedValue({});
+        (http.request as jest.Mock).mockResolvedValue({});
         service = new ElasticsearchService(config);
         service.sendAllLogs(testLogs)
             .then(() => done())
@@ -66,7 +64,7 @@ describe("ElasticsearchService", () => {
             {test: "test321"}
         ];
 
-        (http.postRequest as jest.Mock).mockResolvedValue({});
+        (http.request as jest.Mock).mockResolvedValue({});
         service = new ElasticsearchService(config);
         service.sendAllLogs(testLogs)
             .then(() => done())
@@ -79,15 +77,15 @@ describe("ElasticsearchService", () => {
             {test: "test321"}
         ];
 
-        (http.postRequest as jest.Mock).mockImplementation((conf: IRequestConfig, headers: any, payload: string) => {
+        (http.request as jest.Mock).mockImplementation((conf: IRequestConfig, headers: any, payload: string) => {
             expect(headers).toEqual({"Content-Type": "application/json"});
             expect(payload).toBeTruthy();
             //should always end with "\n"
             expect(payload.endsWith("\n")).toBe(true);
             // Separators amount =  N logs * (1 meta + 1 log)
-            expect(payload.match(/\n/g).length).toBe(testLogs.length * 2);
+            expect(payload.match(/\n/g)?.length).toBe(testLogs.length * 2);
             // 1 log -> 1 meta data
-            expect(payload.match(/_index":"index"/g).length).toBe(testLogs.length);
+            expect(payload.match(/_index":"index"/g)?.length).toBe(testLogs.length);
         });
 
         service = new ElasticsearchService(config);
@@ -103,10 +101,10 @@ describe("ElasticsearchService", () => {
             {test: "test321"}
         ];
 
-        (http.postRequest as jest.Mock).mockImplementation((conf: IRequestConfig, headers: any, payload: string) => {
+        (http.request as jest.Mock).mockImplementation((conf: IRequestConfig, headers: any, payload: string) => {
             // 1 log -> 1 meta data
-            expect(payload.match(/{"index":{"_index":"index","_type":"_doc"}}/g).length).toBe(2);
-            expect(payload.match(/{"index":{"_index":"test-index","_type":"_doc"}}/g).length).toBe(1);
+            expect(payload.match(/{"index":{"_index":"index","_type":"_doc"}}/g)?.length).toBe(2);
+            expect(payload.match(/{"index":{"_index":"test-index","_type":"_doc"}}/g)?.length).toBe(1);
         });
 
         service = new ElasticsearchService(config);
@@ -127,10 +125,10 @@ describe("ElasticsearchService", () => {
             defaultLogConfig: {Domain: "logger-test-domain"}
         };
 
-        (http.postRequest as jest.Mock).mockImplementation((conf: IRequestConfig, headers: any, payload: string) => {
-            expect(payload.match(/{"index":{"_index":"logger-test-domain","_type":"_doc"}}/g).length).toBe(1);
-            expect(payload.match(/{"index":{"_index":"another-domain","_type":"_doc"}}/g).length).toBe(1);
-            expect(payload.match(/{"index":{"_index":"index","_type":"_doc"}}/g).length).toBe(1);
+        (http.request as jest.Mock).mockImplementation((conf: IRequestConfig, headers: any, payload: string) => {
+            expect(payload.match(/{"index":{"_index":"logger-test-domain","_type":"_doc"}}/g)?.length).toBe(1);
+            expect(payload.match(/{"index":{"_index":"another-domain","_type":"_doc"}}/g)?.length).toBe(1);
+            expect(payload.match(/{"index":{"_index":"index","_type":"_doc"}}/g)?.length).toBe(1);
         });
 
         service = new ElasticsearchService(config2);

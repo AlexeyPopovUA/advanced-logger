@@ -1,14 +1,14 @@
-"use strict";
-
-import "jest";
 import LogglyService from "../../src/service/LogglyService";
 import http from "./../../src/util/http";
+import IDefaultLogConfig from "../../src/interface/config/IDefaultLogConfig";
+import IRequestConfig from "../../src/interface/config/IRequestConfig";
+import IServiceConfig from "../../src/interface/config/IServiceConfig";
 
 jest.mock("./../../src/util/http");
 
 describe("LogglyService", () => {
     let service: LogglyService;
-    const defaultLogConfig = {
+    const defaultLogConfig: IDefaultLogConfig = {
         Domain: "logger-test-domain",
         BuildVersion: 123,
         Platform: "nodejs",
@@ -20,17 +20,16 @@ describe("LogglyService", () => {
         Category: ""
     };
 
-    const serviceConfig = {
+    const serviceConfig: IRequestConfig = {
         url: "https://www.reuwyrtuwr.nl",
         method: "POST"
     };
 
-    const config = {serviceConfig, defaultLogConfig};
+    const config: IServiceConfig = {serviceConfig, defaultLogConfig};
 
     afterEach(() => {
         if (service) {
             service.destroy();
-            service = null;
         }
     });
 
@@ -52,7 +51,7 @@ describe("LogglyService", () => {
             {test: "test321"}
         ];
 
-        (http.postRequest as jest.Mock).mockResolvedValue({});
+        (http.request as jest.Mock).mockResolvedValue({});
 
         service = new LogglyService(config);
         service.sendAllLogs(testLogs)
