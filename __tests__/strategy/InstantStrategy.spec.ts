@@ -1,52 +1,48 @@
-"use strict";
+import http from "../../src/util/http";
+import {wait} from "../../src/util/TestUtils";
+import AdvancedLogger from "../../src/AdvancedLogger";
+import SumologicService from "../../src/service/SumologicService";
+import InstantStrategy from "../../src/strategy/InstantStrategy";
+import IDefaultLogConfig from "../../src/interface/config/IDefaultLogConfig";
+import IServiceConfig from "../../src/interface/config/IServiceConfig";
 
-import "jest";
-import * as sinon from "sinon";
-import {AdvancedLogger} from "../../src";
-import {service} from "../../src";
-import {strategy} from "../../src";
-
-const SumologicService = service.SumologicService;
-const InstantStrategy = strategy.InstantStrategy;
-
-// todo Rewrite stubs with jest functionality
-const sandBox = sinon.createSandbox();
+jest.mock("../../src/util/http");
 
 describe("InstantStrategy", () => {
-    let logger;
+    let logger: AdvancedLogger<IDefaultLogConfig>
 
-    const config = {
+    const config: IServiceConfig = {
         defaultLogConfig: {},
         serviceConfig: {
             sourceCategory: "",
             sourceName: "",
             host: "",
             url: "",
-            method: ""
+            method: "POST"
         }
     };
 
     afterEach(() => {
-        sandBox.restore();
+        jest.clearAllMocks();
+        jest.clearAllTimers();
 
         if (logger) {
             logger.destroy();
-            logger = null;
         }
     });
 
-    it("Should deliver logs instantly to the service", done => {
+    it("Should deliver logs instantly to the service", async () => {
         logger = new AdvancedLogger({
             service: new SumologicService(config),
             strategy: new InstantStrategy()
         });
 
-        sandBox.stub(SumologicService.prototype, "sendAllLogs").callsFake(logs => {
-            expect(logs.length).toBe(1);
-            done();
-            return Promise.resolve();
-        });
-
         logger.log({test: "test123"});
+
+        await wait(20);
+
+        expect(http.request).toHaveBeenCalledWith(expect.anything(), expect.anything(),
+            expect.stringContaining("test123")
+        )
     });
 });

@@ -1,6 +1,3 @@
-"use strict";
-
-import "jest";
 import LogUtils from "../../src/util/LogUtils";
 
 describe("LogUtils", () => {
@@ -25,7 +22,7 @@ describe("LogUtils", () => {
             name: "logName",
             category: "logCat",
             test: "smth",
-            logData: null
+            logData: null as unknown
         };
 
         logCirc.logData = logCirc;

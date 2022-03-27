@@ -2,24 +2,28 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
+    "declaration": true,
+    "typeRoots": [
+      "./node_modules/@types",
+      "./types"
+    ],
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "allowJs": true,
     "esModuleInterop": true,
-    "module": "ESNext",
     "lib": [
-      "ES2019",
+      "ESNext",
       "DOM",
       "DOM.Iterable"
     ],
+    "module": "esnext",
     "moduleResolution": "node",
     "outDir": "dist",
     "sourceMap": true,
-    "declaration": true,
-    "noEmit": true,
-    "target": "ES2019"
+    "strict": true,
+    "target": "ES2015"
   },
-  "files": [
-    "src/index.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["**/*.js", "node_modules/", "dist/"]
 }

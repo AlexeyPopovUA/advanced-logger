@@ -1,50 +1,40 @@
-"use strict";
+import http from "../../src/util/http";
+import {wait} from "../../src/util/TestUtils";
+import AdvancedLogger from "../../src/AdvancedLogger";
+import SumologicService from "../../src/service/SumologicService";
+import OnIntervalStrategy from "../../src/strategy/OnIntervalStrategy";
+import IDefaultLogConfig from "../../src/interface/config/IDefaultLogConfig";
+import IServiceConfig from "../../src/interface/config/IServiceConfig";
 
-import "jest";
-import * as sinon from "sinon";
-import {AdvancedLogger} from "../../src";
-import {service} from "../../src";
-import {strategy} from "../../src";
-
-const SumologicService = service.SumologicService;
-const OnIntervalStrategy = strategy.OnIntervalStrategy;
-
-// todo Rewrite stubs with jest functionality
-const sandBox = sinon.createSandbox();
+jest.mock("../../src/util/http");
 
 describe("OnIntervalStrategy", () => {
-    let logger;
+    let logger: AdvancedLogger<IDefaultLogConfig>;
 
-    const config = {
+    const config: IServiceConfig = {
         defaultLogConfig: {},
         serviceConfig: {
             sourceCategory: "",
             sourceName: "",
             host: "",
             url: "",
-            method: ""
+            method: "POST"
         }
     };
 
     afterEach(() => {
-        sandBox.restore();
+        jest.clearAllMocks();
+        jest.clearAllTimers();
 
         if (logger) {
             logger.destroy();
-            logger = null;
         }
     });
 
-    it("Should deliver logs in bundles to the service after timeout", done => {
+    it("Should deliver logs in bundles to the service after timeout", async () => {
         logger = new AdvancedLogger({
             service: new SumologicService(config),
             strategy: new OnIntervalStrategy({interval: 50})
-        });
-
-        sandBox.stub(SumologicService.prototype, "sendAllLogs").callsFake(logs => {
-            expect(logs.length).toBe(6);
-            done();
-            return Promise.resolve();
         });
 
         logger.log({test: "test123"});
@@ -52,5 +42,12 @@ describe("OnIntervalStrategy", () => {
         setTimeout(() => {
             for (let i = 0; i < 5; i++) { logger.log({test: "test321"}); }
         }, 10);
+
+        await wait(60);
+
+        expect(http.request).toHaveBeenCalledTimes(1);
+        expect(http.request).toHaveBeenCalledWith(expect.anything(), expect.anything(),
+            expect.stringMatching(/^.+test123.+\n(.+test321.+[\n]?){5}$/gi)
+        );
     });
 });

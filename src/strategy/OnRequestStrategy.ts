@@ -24,6 +24,5 @@ export default class OnRequestStrategy implements IStrategy {
 
     public destroy(): void {
         this.eventEmitter.removeAllListeners();
-        this.eventEmitter = null;
     }
 }

@@ -15,8 +15,5 @@ module.exports = {
         "ts",
         "js",
         "json"
-    ],
-    "moduleNameMapper": {
-        "fetchFacade$": "node-fetch"
-    }
+    ]
 };

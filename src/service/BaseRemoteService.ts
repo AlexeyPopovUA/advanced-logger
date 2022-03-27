@@ -1,4 +1,5 @@
 import stringify from "fast-safe-stringify";
+
 import IDefaultLogConfig from "../interface/config/IDefaultLogConfig";
 import IRequestConfig from "../interface/config/IRequestConfig";
 import IServiceConfig from "../interface/config/IServiceConfig";
@@ -25,40 +26,39 @@ export default class BaseRemoteService implements IService, IDestructable {
         return LogUtils.tryJSONStringify(log) || stringify(log);
     }
 
-    public sendAllLogs<T>(logs: T[]): Promise<Response> {
-        return this.preparePayload(logs)
-            .then(payload => {
-                const headers = this.getHeaders();
+    public async sendAllLogs<T>(logs: T[]): Promise<Response> {
+        const payload = await this.preparePayload(logs);
+        const headers = this.getHeaders();
 
-                if (this.serviceConfig.retryAttempts && this.serviceConfig.retryAttempts > 0) {
-                    return http.postRequest(this.serviceConfig, headers, payload)
-                        .catch(() => http.delayedRetry(
-                            this.serviceConfig.retryAttempts,
-                            this.serviceConfig.retryInterval,
-                            http.postRequest.bind(this, this.serviceConfig, headers, payload)
-                        ));
-                } else {
-                    return http.postRequest(this.serviceConfig, headers, payload);
-                }
-            });
+        try {
+            return await http.request(this.serviceConfig, headers, payload);
+        } catch (error) {
+            if ((this.serviceConfig?.retryAttempts ?? 0) > 0) {
+                return http.delayedRetry(
+                    this.serviceConfig?.retryAttempts ?? 0,
+                    this.serviceConfig?.retryInterval ?? 0,
+                    http.request.bind(this, this.serviceConfig, headers, payload)
+                );
+            } else {
+                throw error;
+            }
+        }
     }
 
-    public preparePayload<T>(logs: T[]): Promise<string> {
+    public async preparePayload<T>(logs: T[]): Promise<string> {
         const resultList = logs.map(log => this.serializer({...this.defaultLogConfig, ...log}));
-        return Promise.resolve(resultList.join("\n"));
+        return resultList.join("\n");
     }
 
     public destroy(): void {
-        this.serviceConfig = null;
-        this.defaultLogConfig = null;
-    }
+    };
 
     /**
      * Returns object for headers config
      * @example
      * {"Content-Type": "text/plain"}
      */
-    protected getHeaders(): {[propName: string]: string} {
+    protected getHeaders(): { [propName: string]: string } {
         return {};
     }
 }

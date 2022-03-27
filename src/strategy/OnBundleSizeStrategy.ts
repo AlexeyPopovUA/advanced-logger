@@ -37,6 +37,5 @@ export default class OnBundleSizeStrategy implements IStrategy {
 
     public destroy(): void {
         this.eventEmitter.removeAllListeners();
-        this.eventEmitter = null;
     }
 }

@@ -1,31 +1,38 @@
-const {merge} = require('webpack-merge');
+const path = require("path");
+const {merge} = require("webpack-merge");
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const getBrowserTranspilationCfg = require("./webpack.transpilation.browser");
-const getNodeTranspilationCfg = require("./webpack.transpilation.node.js");
+const getNodeTranspilationCfg = require("./webpack.transpilation.node");
 const devServerCfg = require("./webpack.server");
 
 const commonConfig = {
-  devtool: 'sourcemaps',
-  entry: './src/index.ts',
-  plugins: [
-    // new BundleAnalyzerPlugin()
-  ],
-  resolve: {
-    extensions: ['.js', '.mjs', '.ts'],
-  },
-  output: {
-    library: 'advancedLogger',
-  },
-};
+    devtool: "source-map",
+    entry: "./src/index.ts",
+    plugins: [
+        // new BundleAnalyzerPlugin()
+    ],
+    resolve: {
+        extensions: [".js", ".mjs", ".ts"]
+    },
+    externals: ["axios"],
+    module: {
+        rules: [
+            {
+                exclude: /(node_modules)/,
+                test: /\.(ts)$/,
+                use: [
+                    "ts-loader"
+                ]
+            }
+        ]
+    },
+    output: {
+        path: path.resolve(process.cwd(), "dist"),
+        library: 'advancedLogger',
 
-/**
- * Verifies and maps the mode from environment into the mode recognizable by the builder.
- *
- * @param {string} mode - mode requested through the environment.
- * @returns {string} verified supported mode.
- */
-const mapToMode = mode => (mode === 'prod' ? 'production' : 'development');
+    }
+};
 
 /**
  * Returns part of the build config for requested environment
@@ -35,7 +42,7 @@ const mapToMode = mode => (mode === 'prod' ? 'production' : 'development');
  * @returns webpack configuration
  */
 const getTranspilationCfg = (target, mode) => target === "node" ?
-  getNodeTranspilationCfg({mode}) : getBrowserTranspilationCfg({mode});
+    getNodeTranspilationCfg({mode}) : getBrowserTranspilationCfg({mode});
 
 /**
  * Creates the list of modes passed into environment,
@@ -44,41 +51,34 @@ const getTranspilationCfg = (target, mode) => target === "node" ?
  * @returns build configurations specified in the environment.
  */
 module.exports = env => {
-  console.log(env);
+    console.log(env);
 
-  const modes = [];
-  if (typeof env.modes === 'string' && env.modes.length > 0) {
-    modes.push(/**@type string*/env.modes);
-  } else if (Array.isArray(env.modes)) {
-    (/**@type string[]*/env.modes).forEach(mode => modes.push(mode));
-  } else {
-    modes.push('dev');
-  }
+    const modes = [];
 
-  const targets = [];
-  if (typeof env.targets === 'string' && env.targets.length > 0) {
-    targets.push(/**@type string*/env.targets);
-  } else if (Array.isArray(env.targets)) {
-    (/**@type string[]*/env.targets).forEach(target => targets.push(target));
-  } else {
-    targets.push('browser');
-  }
+    env.production && modes.push("production");
+    env.development && modes.push("development");
 
-  const watch = env.watch === 1;
-  const buildConfigs = [];
+    const targets = [];
 
-  for (const mode of modes) {
-    for (const target of targets) {
-      const buildMode = mapToMode(mode);
-      const config = merge(
-        commonConfig,
-        getTranspilationCfg(target, buildMode),
-        {watch, mode: buildMode},
-        watch && devServerCfg,
-      );
-      buildConfigs.push(config);
+    env.node && targets.push("node");
+    env.browser && targets.push("browser");
+
+    const watch = env.watch === 1;
+    const buildConfigs = [];
+
+    console.log({modes, targets});
+
+    for (const mode of modes) {
+        for (const target of targets) {
+            const config = merge(
+                commonConfig,
+                getTranspilationCfg(target, mode),
+                {watch, mode},
+                watch && devServerCfg
+            );
+            buildConfigs.push(config);
+        }
     }
-  }
 
-  return buildConfigs;
+    return buildConfigs;
 };

@@ -1,12 +1,12 @@
-"use strict";
-
-import "jest";
 import BaseRemoteService from "../../src/service/BaseRemoteService";
 import http from "./../../src/util/http";
+import IServiceConfig from "../../src/interface/config/IServiceConfig";
+import IRequestConfig from "../../src/interface/config/IRequestConfig";
+import IDefaultLogConfig from "../../src/interface/config/IDefaultLogConfig";
 
 describe("BaseRemoteService", () => {
     let service: BaseRemoteService;
-    const defaultLogConfig = {
+    const defaultLogConfig: IDefaultLogConfig = {
         Domain: "logger-test-domain",
         UserAgent: "userAgent",
         Channel: "my-company",
@@ -24,7 +24,7 @@ describe("BaseRemoteService", () => {
         CloneInGroupCounter: 1
     };
 
-    const serviceConfig = {
+    const serviceConfig: IRequestConfig = {
         url: "https://www.reuwyrtuwr.nl",
         host: "advancedLoggerTest",
         sourceCategory: "AP/SB/oet/html5",
@@ -32,12 +32,11 @@ describe("BaseRemoteService", () => {
         method: "POST"
     };
 
-    const config = {serviceConfig, defaultLogConfig};
+    const config: IServiceConfig = {serviceConfig, defaultLogConfig};
 
     afterEach(() => {
         if (service) {
             service.destroy();
-            service = null;
         }
     });
 
@@ -121,16 +120,16 @@ describe("BaseRemoteService", () => {
             defaultLogConfig
         });
 
-        const postRequestOld = http.postRequest;
+        const postRequestOld = http.request;
         const mock = jest.fn(() => {
-            http.postRequest = jest.fn(() => {
-                http.postRequest = postRequestOld;
+            http.request = jest.fn(() => {
+                http.request = postRequestOld;
                 return Promise.resolve(({}) as Response);
             });
 
             return Promise.reject("test reject");
         });
-        http.postRequest = mock;
+        http.request = mock;
 
         service.sendAllLogs(testLogs)
             .then(() => {
