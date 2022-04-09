@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/AlexeyPopovUA/advanced-logger/compare/v2.1.4...v3.0.0) (2022-04-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* **upgrade:** types, http request library
+
+### Features
+
+* **upgrade:** full upgrade ([b5feb26](https://github.com/AlexeyPopovUA/advanced-logger/commit/b5feb26325f137bd4f49602aec10baace9852c96))
+
+
+### Bug Fixes
+
+* **readme:** update old shields ([19e5924](https://github.com/AlexeyPopovUA/advanced-logger/commit/19e592498d6bea3dc629d4c3613aba2881838ffb))
+
 ### [2.1.4](https://github.com/AlexeyPopovUA/advanced-logger/compare/v2.1.3...v2.1.4) (2020-09-02)
 
 
