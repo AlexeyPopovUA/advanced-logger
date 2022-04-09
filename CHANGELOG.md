@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.1](https://github.com/AlexeyPopovUA/advanced-logger/compare/v3.0.0...v3.0.1) (2022-04-09)
+
+
+### Bug Fixes
+
+* **sonar:** fix sonar TS configuration ([02a928f](https://github.com/AlexeyPopovUA/advanced-logger/commit/02a928f66960b7b20e6ab0fe1b560a830e48b363))
+
 ## [3.0.0](https://github.com/AlexeyPopovUA/advanced-logger/compare/v2.1.4...v3.0.0) (2022-04-09)
 
 
