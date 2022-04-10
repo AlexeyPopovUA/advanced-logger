@@ -52,11 +52,11 @@ It supports any format of logs via custom serializer.
 
 ## Runtime environment support :running_woman:
 
-Builds are generated as ES5 bundles for nodejs and browser environments.
+Builds are generated as ES2015 bundles for nodejs and browser environments.
 
 :robot: NodeJS - tested on latest lts
 
-:globe_with_meridians: Browser - all latest browsers + IE10, IE11 (fetch polyfill)
+:globe_with_meridians: Browser - all latest browsers, that support ES2015 JS.
 
 ## [Documentation](https://advancedlogger.com "Advanced Logger's Homepage")
 
@@ -70,35 +70,39 @@ Complete documentation and examples can be found here:
 
 Now, the boring part :nerd_face:
 
-#### Add to the project
+#### Installation
 
-In browser:
+Axios is required peer dependency. It means that axios is not bundled into logger package, but required to be installed.
 
-```html
-<script src="./node-modules/advance-logger/dist/browser/advanced-logger.browser.min.js"></script>
-```
-
-or
+As script tags with CDN:
 
 ```html
+<!--minified-->
+<script src="https://cdn.jsdelivr.net/npm/axios@latest/dist/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/advanced-logger@latest/dist/browser/advanced-logger.browser.min.js"></script>
+<!--dev version-->
+<script src="https://cdn.jsdelivr.net/npm/axios@latest/dist/axios.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/advanced-logger@latest/dist/browser-debug/advanced-logger.browser.js"></script>
 ```
 
-In nodejs:
+As a dependency in a npm project:
+
+```shell
+npm i --save advanced-logger axios
+```
 
 ```javascript
 const {AdvancedLogger, service, strategy} = require('advanced-logger');
+// or
+import {AdvancedLogger, service, strategy} from 'advanced-logger';
 ```
 
 #### Configuration
 
 Lets initiate a logger that sends all logs instantly to Sumologic service.
 
-In browser
-
 ```javascript
-const {AdvancedLogger, service, strategy} = window.advancedLogger;
+import {AdvancedLogger, service, strategy} from 'advanced-logger';
 
 const defaultLogConfig = {
     UserAgent: window.userAgent,
@@ -131,3 +135,11 @@ logger.log({test: "instant log u1"}); // sends log message :rocket:
 logger.log({test: "instant log u2"}); // sends log message :rocket:
 logger.log({test: "instant log u3"}); // sends log message :rocket:
 ```
+
+### Upgrading between breaking changes
+
+#### 2.x to 3.x
+
+* Install axios to your project or just keep using it if it is already installed
+* Logger is compiled to ES2015 JS target. If your project requires support of old browsers and nodejs, please,
+make sure that you transpile and add necessary pollyfills to the build
