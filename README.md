@@ -72,7 +72,19 @@ Now, the boring part :nerd_face:
 
 #### Installation
 
-Axios is required peer dependency. It means that axios is not bundled into logger package, but required to be installed.
+Axios is a required peer dependency. It means that axios is not bundled into logger package, but required to be installed.
+
+As a dependency in a npm project:
+
+```shell
+npm i --save advanced-logger axios
+```
+
+```javascript
+import {AdvancedLogger, service, strategy} from 'advanced-logger';
+// or
+const {AdvancedLogger, service, strategy} = require('advanced-logger');
+```
 
 As script tags with CDN:
 
@@ -83,18 +95,6 @@ As script tags with CDN:
 <!--dev version-->
 <script src="https://cdn.jsdelivr.net/npm/axios@latest/dist/axios.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/advanced-logger@latest/dist/browser-debug/advanced-logger.browser.js"></script>
-```
-
-As a dependency in a npm project:
-
-```shell
-npm i --save advanced-logger axios
-```
-
-```javascript
-const {AdvancedLogger, service, strategy} = require('advanced-logger');
-// or
-import {AdvancedLogger, service, strategy} from 'advanced-logger';
 ```
 
 #### Configuration
