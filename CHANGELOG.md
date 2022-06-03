@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.5](https://github.com/AlexeyPopovUA/advanced-logger/compare/v3.0.4...v3.0.5) (2022-06-03)
+
+
+### Bug Fixes
+
+* **github:** use proper caching configuration for npm ([9c4c925](https://github.com/AlexeyPopovUA/advanced-logger/commit/9c4c925a2b1398757bc6e64f7e406dfe5c5c5113))
+
 ### [3.0.4](https://github.com/AlexeyPopovUA/advanced-logger/compare/v3.0.3...v3.0.4) (2022-05-22)
 
 ### [3.0.3](https://github.com/AlexeyPopovUA/advanced-logger/compare/v3.0.2...v3.0.3) (2022-05-07)
