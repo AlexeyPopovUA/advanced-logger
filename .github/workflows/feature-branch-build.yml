@@ -13,23 +13,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Install runtime
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-
-      - name: Prepare cache
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
       - name: Checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+
+      - name: Install runtime
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'npm'
 
       - name: Install
         run: npm ci
@@ -41,5 +34,4 @@ jobs:
         run: npm run test
 
       - name: Build
-        run: |
-          npm run build
+        run: npm run build
