@@ -85,7 +85,7 @@
     "lodash": "4.17.21"
   },
   "peerDependencies": {
-    "axios": "1.2.1"
+    "axios": "1.2.2"
   },
   "standard-version": {
     "scripts": {
