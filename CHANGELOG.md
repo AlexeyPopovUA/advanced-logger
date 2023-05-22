@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.6](https://github.com/AlexeyPopovUA/advanced-logger/compare/v3.0.5...v3.0.6) (2023-05-22)
+
+
+### Bug Fixes
+
+* **npm:** npmignore file should not exclude d.ts from dist directory ([9d6f7a8](https://github.com/AlexeyPopovUA/advanced-logger/commit/9d6f7a8ea89426018a6f4c900b79ec0420bd9f4d))
+
 ### [3.0.5](https://github.com/AlexeyPopovUA/advanced-logger/compare/v3.0.4...v3.0.5) (2022-06-03)
 
 
