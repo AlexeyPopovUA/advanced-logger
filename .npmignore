@@ -1,11 +1,12 @@
-.idea
-.github
-.scannerwork
-__tests__
-build-scripts
-src
-node_modules
-coverage
+.idea/
+.github/
+.scannerwork/
+__tests__/
+dist/__tests__/
+build-scripts/
+src/
+node_modules/
+coverage/
 sonar.sh
 tsconfig.json
 tslint.json
@@ -18,3 +19,4 @@ sonar-project.properties
 *.json
 *.properties
 *.sh
+ .huskyrc
