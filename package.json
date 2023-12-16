@@ -64,7 +64,7 @@
     "copy-webpack-plugin": "11.0.0",
     "eslint": "8.55.0",
     "eslint-import-resolver-webpack": "0.13.8",
-    "eslint-plugin-import": "2.29.0",
+    "eslint-plugin-import": "2.29.1",
     "eslint-plugin-jest": "27.6.0",
     "eslint-webpack-plugin": "4.0.1",
     "husky": "8.0.3",
