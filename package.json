@@ -56,7 +56,7 @@
     "@commitlint/config-conventional": "18.6.0",
     "@types/jest": "29.5.12",
     "@types/lodash": "4.14.202",
-    "@types/node": "20.11.10",
+    "@types/node": "20.11.16",
     "@typescript-eslint/eslint-plugin": "6.19.1",
     "@typescript-eslint/parser": "6.19.1",
     "bundlesize": "0.18.1",
