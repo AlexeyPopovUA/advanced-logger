@@ -52,8 +52,8 @@
   },
   "homepage": "https://github.com/AlexeyPopovUA/advanced-logger#readme",
   "devDependencies": {
-    "@commitlint/cli": "19.0.3",
-    "@commitlint/config-conventional": "19.0.3",
+    "@commitlint/cli": "19.2.0",
+    "@commitlint/config-conventional": "19.1.0",
     "@types/jest": "29.5.12",
     "@types/lodash": "4.14.202",
     "@types/node": "20.11.28",
