@@ -55,7 +55,7 @@
     "@commitlint/cli": "19.3.0",
     "@commitlint/config-conventional": "19.2.2",
     "@types/jest": "29.5.12",
-    "@types/lodash": "4.17.5",
+    "@types/lodash": "4.17.6",
     "@types/node": "20.14.8",
     "@typescript-eslint/eslint-plugin": "7.13.1",
     "@typescript-eslint/parser": "7.13.1",
