@@ -62,7 +62,7 @@
     "bundlesize": "0.18.2",
     "clean-webpack-plugin": "4.0.0",
     "copy-webpack-plugin": "13.0.0",
-    "eslint": "9.27.0",
+    "eslint": "9.28.0",
     "eslint-import-resolver-webpack": "0.13.10",
     "eslint-plugin-import": "2.31.0",
     "eslint-plugin-jest": "28.11.0",
