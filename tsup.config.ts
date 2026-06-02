@@ -6,8 +6,7 @@ export default defineConfig([
     // ESM + CJS + type declarations for bundler/Node consumers.
     // The few small runtime deps are bundled in (zero runtime dependencies):
     // `lodash-es` and `fast-safe-stringify` are bundled in (zero runtime deps).
-    // `events` stays external as a Node builtin (bundlers polyfill it);
-    // `fetch` is a runtime global.
+    // Events use an in-house `EventEmitter`; `fetch` is a runtime global.
     {
         entry,
         format: ["esm", "cjs"],
@@ -21,7 +20,7 @@ export default defineConfig([
         }
     },
     // Self-contained browser global (IIFE) for <script> consumers.
-    // Inlines runtime deps and polyfills `events`; uses native `fetch`.
+    // Inlines runtime deps; uses native `fetch` and the in-house `EventEmitter`.
     {
         entry,
         format: ["iife"],

@@ -1,4 +1,4 @@
-import {EventEmitter} from "events";
+import {EventEmitter} from "../util/EventEmitter";
 import IAddEventConfig from "../interface/config/IAddEventConfig";
 import IStrategy from "./../interface/IStrategy";
 

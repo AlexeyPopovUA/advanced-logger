@@ -1,4 +1,4 @@
-import {EventEmitter} from "events";
+import {EventEmitter} from "./util/EventEmitter";
 import type {DebouncedFunc} from "lodash-es";
 import throttle from "lodash-es/throttle";
 
