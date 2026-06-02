@@ -2,28 +2,19 @@
  * @jest-environment jsdom
  */
 
-jest.mock("axios", () => ({
-    __esModule: true,
-    default: {
-        request: jest.fn().mockResolvedValue({}),
-    },
-}));
-
 import fs from "node:fs";
-import axios from "axios";
 
 import {assertBundlesExist, BROWSER_BUNDLE} from "./bundlePaths";
 import {
     assertPublicApi,
     BuiltLoggerApi,
     exerciseConsoleOnRequestFlush,
-    exerciseSumologicFlushWithAxios,
+    exerciseSumologicFlush,
 } from "./scenarios";
 
 declare global {
     interface Window {
         advancedLogger: BuiltLoggerApi;
-        axios: typeof axios;
     }
 }
 
@@ -37,14 +28,17 @@ function loadBrowserBundle(): void {
     }
 }
 
-describe("Browser runtime (UMD bundle)", () => {
+describe("Browser runtime (IIFE bundle)", () => {
     let api: BuiltLoggerApi;
 
     beforeAll(() => {
         assertBundlesExist();
-        window.axios = axios;
         loadBrowserBundle();
         api = window.advancedLogger;
+    });
+
+    beforeEach(() => {
+        globalThis.fetch = jest.fn();
     });
 
     it("exposes advancedLogger on window", () => {
@@ -56,7 +50,7 @@ describe("Browser runtime (UMD bundle)", () => {
         await exerciseConsoleOnRequestFlush(api);
     });
 
-    it("flushes logs to Sumologic via axios", async () => {
-        await exerciseSumologicFlushWithAxios(api);
+    it("flushes logs to a remote service via fetch", async () => {
+        await exerciseSumologicFlush(api);
     });
 });

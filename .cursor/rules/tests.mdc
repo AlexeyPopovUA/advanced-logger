@@ -8,9 +8,10 @@ alwaysApply: false
 
 - **Jest 30 projects** — `unit` (`npm test`) and `runtime` (`npm run test:integration`) in `jest.config.js`
 - **Unit tests** — import from `src/`; mock `jest.mock(".../src/util/http")`; coverage from `src/**/*.ts`
-- **Runtime integration** — `__tests__/integration/runtime/` loads built bundles after `build-dev-*`:
-  - Node: `require("main-node.js").advancedLogger`
-  - Browser: inline UMD script in jsdom → `window.advancedLogger`; set `window.axios` from mocked `axios`
+- **Runtime integration** — `__tests__/integration/runtime/` loads tsup output after `npm run build`:
+  - Node: `require("dist/index.cjs")` (top-level named exports, no `.advancedLogger`)
+  - Browser: inline IIFE script in jsdom → `window.advancedLogger`
+  - Mock the global `fetch` (`globalThis.fetch = jest.fn()`); resolve `{ok: true, status: 200}`
 - **Behavior first** — assert outcomes (HTTP called, payload content, grouping counts), not `typeof` export checks
 - **Helpers** — `__tests__/helpers/` (`fixtures`, `flush`, `events`); runtime scenarios in `integration/runtime/scenarios.ts`
 - **Source integration** — `__tests__/integration/logger.spec.ts` (strategies via src, http mock)

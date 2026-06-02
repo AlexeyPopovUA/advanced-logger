@@ -15,7 +15,7 @@ alwaysApply: false
 ## Service (`src/service/`)
 
 - Extend `BaseRemoteService` for HTTP backends; override `preparePayload`, `serializer`, or `getHeaders` when the endpoint format differs
-- `sendAllLogs` merges each log with `defaultLogConfig`, then calls `http.request` (axios wrapper in `src/util/http.ts`)
+- `sendAllLogs` merges each log with `defaultLogConfig`, then calls `http.request` (native `fetch` wrapper in `src/util/http.ts`; non-2xx responses throw to drive retries)
 
 ## LogStore
 

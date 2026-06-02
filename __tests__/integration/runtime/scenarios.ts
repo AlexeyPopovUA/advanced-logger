@@ -1,5 +1,3 @@
-import axios from "axios";
-
 import {wait} from "../../helpers/flush";
 
 export interface BuiltLoggerApi {
@@ -35,6 +33,10 @@ const sumologicServiceConfig = {
     },
 };
 
+function getFetchMock(): jest.Mock {
+    return globalThis.fetch as unknown as jest.Mock;
+}
+
 export function assertPublicApi(api: BuiltLoggerApi): void {
     expect(api.AdvancedLogger).toBeDefined();
     expect(api.service.ConsoleService).toBeDefined();
@@ -55,8 +57,9 @@ export async function exerciseConsoleOnRequestFlush(api: BuiltLoggerApi): Promis
     logger.destroy();
 }
 
-export async function exerciseSumologicFlushWithAxios(api: BuiltLoggerApi): Promise<void> {
-    jest.mocked(axios.request).mockResolvedValue({} as never);
+export async function exerciseSumologicFlush(api: BuiltLoggerApi): Promise<void> {
+    const fetchMock = getFetchMock();
+    fetchMock.mockResolvedValue({ok: true, status: 200});
 
     const logger = new api.AdvancedLogger({
         service: new api.service.SumologicService(sumologicServiceConfig),
@@ -69,10 +72,11 @@ export async function exerciseSumologicFlushWithAxios(api: BuiltLoggerApi): Prom
 
     await wait(10);
 
-    expect(jest.mocked(axios.request)).toHaveBeenCalledTimes(1);
-    expect(jest.mocked(axios.request)).toHaveBeenCalledWith(
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(fetchMock).toHaveBeenCalledWith(
+        "https://example.com/logs",
         expect.objectContaining({
-            data: expect.stringMatching(/test123[\s\S]*test321|test321[\s\S]*test123/),
+            body: expect.stringMatching(/test123[\s\S]*test321|test321[\s\S]*test123/),
         })
     );
 

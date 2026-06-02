@@ -3,11 +3,11 @@ import path from "node:path";
 
 export const NODE_BUNDLE = path.resolve(
     __dirname,
-    "../../../dist/node-debug/advanced-logger.node.js"
+    "../../../dist/index.cjs"
 );
 export const BROWSER_BUNDLE = path.resolve(
     __dirname,
-    "../../../dist/browser-debug/advanced-logger.browser.js"
+    "../../../dist/index.global.js"
 );
 
 export function assertBundlesExist(): void {
@@ -24,7 +24,7 @@ export function assertBundlesExist(): void {
         throw new Error(
             "Built bundles not found:\n" +
                 missing.map(p => `  - ${p}`).join("\n") +
-                "\n\nRun `npm run test:integration` (builds dev bundles) or `npm run build-dev` first."
+                "\n\nRun `npm run test:integration` or `npm run build` first."
         );
     }
 }

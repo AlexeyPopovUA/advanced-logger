@@ -7,8 +7,8 @@ Guidance for AI coding assistants working in this repository.
 **[advanced-logger](https://www.npmjs.com/package/advanced-logger)** — an isomorphic TypeScript logging library for Node.js and browsers. It batches and ships arbitrary log objects to remote endpoints using pluggable **strategies** (when to send) and **services** (where to send).
 
 - **Docs site (separate repo):** https://www.advancedlogger.com — [AlexeyPopovUA/advanced-logger-guide](https://github.com/AlexeyPopovUA/advanced-logger-guide)
-- **Package:** ES2015 bundles for Node and browser; **axios** is a required peer dependency (not bundled)
-- **Node.js:** 24 (via [mise](https://mise.jdx.dev/) — see `.mise.toml` and `.nvmrc`)
+- **Package:** dual ESM + CJS + `.d.ts` and a browser IIFE global, bundled with **tsup**; HTTP uses native `fetch` (no `axios`, no runtime peer deps)
+- **Node.js:** 24 (via [mise](https://mise.jdx.dev/) — see `.mise.toml` and `.nvmrc`); native `fetch` needs Node 18+
 - **License:** MIT
 
 ## Architecture
@@ -20,7 +20,7 @@ log() → LogStore.add() → "add" event → IStrategy.onAdd()
                                               ↓
                          AdvancedLogger.onSend() → LogStore.getAll/clear
                                               ↓
-                              IService.sendAllLogs(logs) → HTTP (axios)
+                              IService.sendAllLogs(logs) → HTTP (fetch)
 ```
 
 | Concept | Role |
@@ -41,14 +41,15 @@ Public API is exported from `src/index.ts` as `AdvancedLogger`, `strategy`, `ser
 | `src/strategy/` | Send-timing implementations |
 | `src/service/` | Remote/console sinks; `BaseRemoteService` for HTTP backends |
 | `src/interface/` | Contracts and config types (`ILoggerConfig`, `IServiceConfig`, etc.) |
-| `src/util/` | `http` (axios wrapper), `LogUtils` (stringify, log identity) |
+| `src/util/` | `http` (native `fetch` wrapper), `LogUtils` (stringify, log identity) |
 | `src/enums/` | `TransformationEnum` |
 | `__tests__/` | Jest specs (`*.spec.ts`) |
-| `build-scripts/` | Webpack configs (node + browser, prod + debug) |
+| `tsup.config.ts` | Bundler config (ESM + CJS + dts + browser IIFE) |
+| `build-scripts/version.js` | `standard-version` hook (updates `sonar-project.properties`) |
 | `example/node/`, `example/browser/` | Runnable usage samples |
 | `dist/` | Build output (generated; do not edit by hand) |
 
-Entry points: `main-node.js` / `main-browser.js` load prod or debug bundles from `dist/`.
+Package entry points come from the `exports` map in `package.json`: `import` → `dist/index.mjs`, `require` → `dist/index.cjs`, types → `dist/index.d.ts`, browser global → `dist/index.global.js`.
 
 ## Commands
 
@@ -60,9 +61,8 @@ npm test            # Jest unit tests (src/, http mock)
 npm run test:integration  # built bundles: Node entry + browser UMD (needs dev build)
 npm run test:all    # unit + runtime integration
 npm run coverage    # Jest with coverage (SonarCloud on master)
-npm run build       # webpack: node + browser, prod + dev
-npm run build-prod  # production bundles only
-npm run bundlesize  # bundle size limits (after full build; see bundlesize.config.js)
+npm run build       # tsup: ESM + CJS + dts + browser IIFE
+npm run bundlesize  # bundle size limits (after build; see bundlesize.config.js)
 ```
 
 **Verify changes:** `npm run type-check` → `npm test` → `npm run build` → `npx jest --selectProjects runtime` (or `npm run test:all`).
@@ -112,7 +112,7 @@ Match existing style: minimal comments, lodash for throttle/debounce where alrea
 
 - **Jest 30** projects in `jest.config.js`: `unit` (default) and `runtime`
 - **Unit** (`npm test`): import from `src/`; mock `src/util/http`; specs in `__tests__/` except `integration/runtime/`
-- **Runtime integration** (`npm run test:integration`): loads webpack output — Node via `main-node.js` → `.advancedLogger`, browser via UMD + `window.advancedLogger` (jsdom); mock `axios` (peer dep)
+- **Runtime integration** (`npm run test:integration`): loads tsup output — Node via `dist/index.cjs` (top-level named exports), browser via IIFE + `window.advancedLogger` (jsdom); mock the global `fetch`
 - Shared runtime scenarios: `__tests__/integration/runtime/scenarios.ts`
 - Source-level integration: `__tests__/integration/logger.spec.ts`; helpers in `__tests__/helpers/`
 - Prefer **behavior** assertions (flush timing, payloads, headers, retries) over export/constructor smoke tests
@@ -128,16 +128,16 @@ Match existing style: minimal comments, lodash for throttle/debounce where alrea
 | Buffering / grouping | `src/LogStore.ts`, `src/enums/TransformationEnum.ts` |
 | HTTP retries / requests | `src/util/http.ts` |
 | User-facing examples | `example/` (and docs repo for site copy) |
-| Bundle / dual build | `build-scripts/` |
+| Bundle / dual build | `tsup.config.ts` |
 
 Do **not** put Gatsby or website content in this repo — that belongs in **advanced-logger-guide**.
 
 ## Pitfalls
 
 - **mise:** run `mise trust` once in the repo root if mise refuses to load `.mise.toml`
-- **axios** must be installed by consumers (`peerDependencies`); unit tests mock `src/util/http`, runtime tests mock `axios`
-- **Package export:** built bundles expose the API as `require('advanced-logger').advancedLogger` (Node) or `window.advancedLogger` (browser script tag)
-- **bundlesize:** run after a full `npm run build` (all four `dist/` artifacts); `build-prod` alone is not enough
+- **HTTP:** uses native `fetch`; unit tests mock `src/util/http`, runtime tests mock the global `fetch`. Non-2xx responses throw (preserves retry-on-failure)
+- **Package export:** `import`/`require` return top-level named exports (`AdvancedLogger`, `strategy`, `service`, `TransformationEnum`) — no `advancedLogger` wrapper. Only the browser IIFE exposes `window.advancedLogger`
+- **bundlesize:** run after `npm run build` (see `bundlesize.config.js`)
 - Clearing `LogStore` happens **before** `sendAllLogs` resolves — failed sends do not restore buffered logs
 - Browser and Node share `src/`; avoid Node-only APIs without guards if used in shared code paths
 - `dist/` and generated `.d.ts` come from build — edit `src/` only

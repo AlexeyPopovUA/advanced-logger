@@ -1,4 +1,6 @@
-import {Method} from "axios";
+export type Method =
+    | "GET" | "DELETE" | "HEAD" | "OPTIONS" | "POST" | "PUT" | "PATCH"
+    | "get" | "delete" | "head" | "options" | "post" | "put" | "patch";
 
 export default interface IRequestConfig {
     url: string;

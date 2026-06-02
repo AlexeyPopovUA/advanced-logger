@@ -1,4 +1,4 @@
-const {AdvancedLogger, service, strategy} = require('advanced-logger').advancedLogger;
+const {AdvancedLogger, service, strategy} = require('advanced-logger');
 
 const defaultLogConfig = {
     Domain: "logger-test-domain",

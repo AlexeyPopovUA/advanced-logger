@@ -52,11 +52,13 @@ It supports any format of logs via custom serializer.
 
 ## Runtime environment support :running_woman:
 
-Builds are generated as ES2015 bundles for nodejs and browser environments.
+The package ships dual **ESM** (`dist/index.mjs`) and **CommonJS** (`dist/index.cjs`) builds plus a self-contained
+browser **IIFE** global (`dist/index.global.js`), with type declarations (`dist/index.d.ts`). HTTP uses the platform's
+native `fetch`, so there are no runtime dependencies on `axios`.
 
-:robot: NodeJS - developed and tested on Node.js 24 (see `.mise.toml`)
+:robot: NodeJS - developed and tested on Node.js 24 (see `.mise.toml`); requires Node.js 18+ for global `fetch`.
 
-:globe_with_meridians: Browser - all latest browsers, that support ES2015 JS.
+:globe_with_meridians: Browser - all latest browsers (native `fetch` + ES2015).
 
 ## [Documentation](https://advancedlogger.com "Advanced Logger's Homepage")
 
@@ -72,31 +74,29 @@ Now, the boring part :nerd_face:
 
 #### Installation
 
-Axios is a required peer dependency. It means that axios is not bundled into logger package, but required to be installed.
+The library has no peer dependencies - it uses the runtime's native `fetch`.
 
 As a dependency in a npm project:
 
 ```shell
-npm i --save advanced-logger axios
+npm i --save advanced-logger
 ```
 
 ```javascript
-// CommonJS (Node and bundlers resolving the "main" field)
-const {advancedLogger} = require('advanced-logger');
-const {AdvancedLogger, service, strategy} = advancedLogger;
+// ESM (recommended)
+import {AdvancedLogger, service, strategy, TransformationEnum} from 'advanced-logger';
+
+// CommonJS
+const {AdvancedLogger, service, strategy} = require('advanced-logger');
 ```
 
-The built package exposes the API on the `advancedLogger` property (webpack library name). In browsers via script tag, use `window.advancedLogger` (see below).
+The API is exported as top-level named exports. In browsers via script tag, the same API is exposed on
+`window.advancedLogger` (see below).
 
 As script tags with CDN:
 
 ```html
-<!--minified-->
-<script src="https://cdn.jsdelivr.net/npm/axios@latest/dist/axios.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/advanced-logger@latest/dist/browser/advanced-logger.browser.min.js"></script>
-<!--dev version-->
-<script src="https://cdn.jsdelivr.net/npm/axios@latest/dist/axios.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/advanced-logger@latest/dist/browser-debug/advanced-logger.browser.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/advanced-logger@latest/dist/index.global.js"></script>
 ```
 
 #### Configuration
@@ -153,18 +153,31 @@ npm run build
 npm run coverage      # unit tests with coverage (CI on master)
 ```
 
+The library is bundled with [tsup](https://tsup.egoist.dev/) (see [`tsup.config.ts`](tsup.config.ts)) into ESM, CJS,
+type declarations, and a browser IIFE global.
+
 **Jest 30** runs two projects (see [`jest.config.js`](jest.config.js)):
 
 | Project | What it checks |
 |---------|----------------|
 | `unit` | Source-level specs under `__tests__/` |
-| `runtime` | Built artifacts: Node via [`main-node.js`](main-node.js), browser UMD via jsdom + `window.advancedLogger` |
+| `runtime` | Built artifacts: Node via `dist/index.cjs`, browser IIFE via jsdom + `window.advancedLogger` |
 
 CI runs unit tests, full build, then runtime integration on every branch.
 
 Contributor notes for AI-assisted work: [`AGENTS.md`](AGENTS.md).
 
 ### Upgrading between breaking changes
+
+#### 3.x to 4.x
+
+* `axios` is no longer required. The library now uses the platform's native `fetch`, so you can remove `axios` from
+your dependencies (and the `<script>` tag in browsers). This requires Node.js 18+ or a modern browser.
+* The API is now exposed as top-level named exports. Replace `require('advanced-logger').advancedLogger` with
+`require('advanced-logger')` (or `import {AdvancedLogger, service, strategy} from 'advanced-logger'`). The browser
+`window.advancedLogger` global is unchanged.
+* Non-2xx HTTP responses now reject (previously surfaced via axios) - this keeps the retry-on-failure behavior.
+* CDN script path changed to `dist/index.global.js`.
 
 #### 2.x to 3.x
 

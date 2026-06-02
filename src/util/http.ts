@@ -1,15 +1,20 @@
-import axios from "axios";
-
 import IRequestConfig from "../interface/config/IRequestConfig";
 
 const http = {
-    request(serviceConfig: IRequestConfig, headers: any, payload: string): Promise<Response> {
-        return axios.request({
+    async request(serviceConfig: IRequestConfig, headers: Record<string, string>, payload: string): Promise<Response> {
+        const response = await fetch(serviceConfig.url, {
             method: serviceConfig.method,
             headers,
-            url: serviceConfig.url,
-            data: payload
-        })
+            body: payload
+        });
+
+        // fetch only rejects on network errors, so surface non-2xx responses
+        // as errors to preserve the retry-on-failure contract.
+        if (!response.ok) {
+            throw new Error(`Request to ${serviceConfig.url} failed with status ${response.status}`);
+        }
+
+        return response;
     },
 
     delayedRetry(retries: number, delay: number, fn: () => Promise<Response>): Promise<Response> {
