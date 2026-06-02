@@ -171,13 +171,55 @@ Contributor notes for AI-assisted work: [`AGENTS.md`](AGENTS.md).
 
 #### 3.x to 4.x
 
-* `axios` is no longer required. The library now uses the platform's native `fetch`, so you can remove `axios` from
-your dependencies (and the `<script>` tag in browsers). This requires Node.js 18+ or a modern browser.
-* The API is now exposed as top-level named exports. Replace `require('advanced-logger').advancedLogger` with
-`require('advanced-logger')` (or `import {AdvancedLogger, service, strategy} from 'advanced-logger'`). The browser
-`window.advancedLogger` global is unchanged.
-* Non-2xx HTTP responses now reject (previously surfaced via axios) - this keeps the retry-on-failure behavior.
-* CDN script path changed to `dist/index.global.js`.
+Version 4 modernizes the build (dual ESM/CJS via [tsup](https://tsup.egoist.dev/)) and removes `axios` in favor of the
+platform's native `fetch`. There are four breaking changes:
+
+1. **No more `advancedLogger` namespace wrapper.** `import`/`require` now return the API as top-level named exports.
+2. **`axios` removed.** The library uses native `fetch`; drop `axios` from your dependencies and from any browser
+   `<script>` tags. Requires **Node.js 18+** (Node 24 recommended) or a modern browser.
+3. **Non-2xx responses now reject.** `fetch` does not reject on HTTP error statuses, so the library throws on non-2xx
+   to preserve the retry-on-failure behavior axios provided. Wrap `sendAllLogs()` accordingly if you handle errors.
+4. **CDN script path changed** to `dist/index.global.js`.
+
+The browser `window.advancedLogger` global (script-tag usage) is **unchanged**.
+
+##### Migration
+
+Uninstall axios (it is no longer needed):
+
+```shell
+npm uninstall axios
+```
+
+Node / bundlers — drop the `.advancedLogger` wrapper:
+
+```javascript
+// Before (3.x)
+const {AdvancedLogger, service, strategy} = require('advanced-logger').advancedLogger;
+
+// After (4.x) — CommonJS
+const {AdvancedLogger, service, strategy} = require('advanced-logger');
+
+// After (4.x) — ESM (recommended)
+import {AdvancedLogger, service, strategy, TransformationEnum} from 'advanced-logger';
+```
+
+Browser script tags — remove axios and update the bundle URL:
+
+```html
+<!-- Before (3.x) -->
+<script src="https://cdn.jsdelivr.net/npm/axios@latest/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/advanced-logger@latest/dist/browser/advanced-logger.browser.min.js"></script>
+
+<!-- After (4.x) -->
+<script src="https://cdn.jsdelivr.net/npm/advanced-logger@latest/dist/index.global.js"></script>
+```
+
+The `window.advancedLogger` global stays the same, so code using it needs no changes:
+
+```javascript
+const {AdvancedLogger, service, strategy} = window.advancedLogger;
+```
 
 #### 2.x to 3.x
 
