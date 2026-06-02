@@ -1,5 +1,5 @@
 import {EventEmitter} from "events";
-import throttle from "lodash/throttle";
+import throttle from "lodash-es/throttle";
 import IAddEventConfig from "../interface/config/IAddEventConfig";
 import IStrategy from "./../interface/IStrategy";
 

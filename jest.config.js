@@ -2,6 +2,15 @@
 const sharedConfig = {
     preset: "ts-jest",
     moduleFileExtensions: ["ts", "js", "json"],
+    // lodash-es ships native ESM; transform its .js files for the CJS Jest runtime.
+    transform: {
+        "^.+\\.tsx?$": "ts-jest",
+        "node_modules/lodash-es/.+\\.js$": [
+            "ts-jest",
+            {tsconfig: {allowJs: true, esModuleInterop: true, module: "commonjs"}},
+        ],
+    },
+    transformIgnorePatterns: ["/node_modules/(?!lodash-es/)"],
     clearMocks: true,
     restoreMocks: true,
 };

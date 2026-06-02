@@ -7,7 +7,7 @@ Guidance for AI coding assistants working in this repository.
 **[advanced-logger](https://www.npmjs.com/package/advanced-logger)** — an isomorphic TypeScript logging library for Node.js and browsers. It batches and ships arbitrary log objects to remote endpoints using pluggable **strategies** (when to send) and **services** (where to send).
 
 - **Docs site (separate repo):** https://www.advancedlogger.com — [AlexeyPopovUA/advanced-logger-guide](https://github.com/AlexeyPopovUA/advanced-logger-guide)
-- **Package:** dual ESM + CJS + `.d.ts` and a browser IIFE global, bundled with **tsup**; HTTP uses native `fetch` (no `axios`). Runtime deps (`lodash/throttle`, `fast-safe-stringify`) are bundled in, so the published package has **no runtime dependencies**
+- **Package:** dual ESM + CJS + `.d.ts` and a browser IIFE global, bundled with **tsup**; HTTP uses native `fetch` (no `axios`). Runtime deps (`lodash-es/throttle`, `fast-safe-stringify`) are bundled in, so the published package has **no runtime dependencies**
 - **Node.js:** 24 (via [mise](https://mise.jdx.dev/) — see `.mise.toml` and `.nvmrc`); native `fetch` needs Node 18+
 - **License:** MIT
 
@@ -106,7 +106,7 @@ Log shape is generic (`T extends IDefaultLogConfig`); the library does not requi
 - **Commits:** [Conventional Commits](https://www.conventionalcommits.org/) via commitlint (`@commitlint/config-conventional`)
 - **Releases:** `npm run release` (standard-version); push tag triggers `.github/workflows/release-tag.yml`, which publishes to npm via **trusted publishing (OIDC)** — workflow filename on npm must be `release-tag.yml` (no `NPM_TOKEN`)
 
-Match existing style: minimal comments, lodash for throttle/debounce where already used, no new abstractions unless the change needs them.
+Match existing style: minimal comments, `lodash-es` for throttle/debounce where already used, no new abstractions unless the change needs them.
 
 ## Testing
 

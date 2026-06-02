@@ -19,7 +19,7 @@ alwaysApply: false
 
 ## LogStore
 
-- Optional `transformations` with `TransformationEnum.RAPID_FIRE_GROUPING` — uses lodash `throttle` and `LogUtils.getLogIdByFields`
+- Optional `transformations` with `TransformationEnum.RAPID_FIRE_GROUPING` — uses `lodash-es/throttle` and `LogUtils.getLogIdByFields`
 - `getAll()` flushes pending group counters before returning a copy
 
 ## Style

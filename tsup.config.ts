@@ -5,9 +5,9 @@ const entry = {index: "src/index.ts"};
 export default defineConfig([
     // ESM + CJS + type declarations for bundler/Node consumers.
     // The few small runtime deps are bundled in (zero runtime dependencies):
-    // notably lodash/throttle, whose bare CJS subpath does not resolve under
-    // Node ESM. `events` stays external as a Node builtin (bundlers polyfill
-    // it) and `fetch` is a runtime global.
+    // `lodash-es` and `fast-safe-stringify` are bundled in (zero runtime deps).
+    // `events` stays external as a Node builtin (bundlers polyfill it);
+    // `fetch` is a runtime global.
     {
         entry,
         format: ["esm", "cjs"],
@@ -15,7 +15,7 @@ export default defineConfig([
         sourcemap: true,
         clean: true,
         target: "es2020",
-        noExternal: ["lodash", "fast-safe-stringify"],
+        noExternal: ["lodash-es", "fast-safe-stringify"],
         outExtension({format}) {
             return {js: format === "cjs" ? ".cjs" : ".mjs"};
         }

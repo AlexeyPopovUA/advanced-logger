@@ -1,6 +1,6 @@
 import {EventEmitter} from "events";
-import {DebouncedFunc} from "lodash";
-import throttle from "lodash/throttle";
+import type {DebouncedFunc} from "lodash-es";
+import throttle from "lodash-es/throttle";
 
 import LogUtils from "./util/LogUtils";
 import {TransformationEnum} from "./enums/TransformationEnum";
