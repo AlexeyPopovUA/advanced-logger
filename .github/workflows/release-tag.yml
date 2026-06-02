@@ -45,6 +45,35 @@ jobs:
       - name: Publish to npm
         run: npm publish
 
+  # Mirrors quality-checks.yml: no registry-url / NODE_AUTH_TOKEN here.
+  # setup-node with registry-url (OIDC) sets NODE_AUTH_TOKEN for the whole job,
+  # which breaks Sonar scanner download (403 from binaries.sonarsource.com).
+  sonarcloud:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Install runtime
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install
+        run: npm ci
+
+      - name: Checks
+        run: npm run type-check
+
+      - name: Unit tests
+        run: npm run coverage
+
+      - name: Build
+        run: npm run build
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v7
         env:
