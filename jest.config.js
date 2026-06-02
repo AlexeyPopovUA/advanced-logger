@@ -1,19 +1,11 @@
+/** @type {import('jest').Config} */
 module.exports = {
-    "transform": {
-        ".(ts)": "ts-jest"
-    },
-    "collectCoverageFrom": [
-        "src/**/*.ts"
-    ],
-    "coveragePathIgnorePatterns": [
-        "/__tests__/",
-        "/node_modules/"
-    ],
-    "testEnvironment": "node",
-    "testRegex": "__tests__/.*\\.spec\\.ts$",
-    "moduleFileExtensions": [
-        "ts",
-        "js",
-        "json"
-    ]
+    preset: "ts-jest",
+    testEnvironment: "node",
+    testMatch: ["**/__tests__/**/*.spec.ts"],
+    moduleFileExtensions: ["ts", "js", "json"],
+    collectCoverageFrom: ["src/**/*.ts"],
+    coveragePathIgnorePatterns: ["/node_modules/"],
+    clearMocks: true,
+    restoreMocks: true,
 };

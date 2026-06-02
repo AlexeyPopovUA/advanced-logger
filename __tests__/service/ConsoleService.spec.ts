@@ -4,54 +4,31 @@ describe("ConsoleService", () => {
     let service: ConsoleService;
 
     afterEach(() => {
-        if (service) {
-            service.destroy();
-        }
+        service?.destroy();
     });
 
-    it("Should export service", () => {
-        expect(typeof ConsoleService).toBe("function");
-    });
-
-    it("Should be able to create a new service instance", () => {
-        expect(() => {
-            service = new ConsoleService();
-        }).not.toThrow();
-
-        expect(service).toBeTruthy();
-    });
-
-    it("Should not fail during logs sending step", done => {
-        const testLogs = [
-            {test: "test123"},
-            {test: "test321"}
-        ];
-
+    it("resolves when sending logs", async () => {
         service = new ConsoleService();
-        service.sendAllLogs(testLogs)
-            .then(() => done())
-            .catch(() => done("should not fail"));
+
+        await expect(
+            service.sendAllLogs([{test: "test123"}, {test: "test321"}])
+        ).resolves.toBeUndefined();
     });
 
-    it("'serializer' should not replace log objects", () => {
-        const testLog = {test: "test123"};
-
+    it("returns log objects unchanged from the serializer", () => {
         service = new ConsoleService();
-        const result = service.serializer(testLog);
-        expect(result).toBe(testLog);
+        const log = {test: "test123"};
+
+        expect(service.serializer(log)).toBe(log);
     });
 
-    it("Should not replace log objects on preparation step", async () => {
-        const testLogs = [
-            {test: "test123"},
-            {test: "test321"}
-        ];
-
+    it("preserves log object references in the prepared payload", async () => {
         service = new ConsoleService();
+        const testLogs = [{test: "test123"}, {test: "test321"}];
+
         const payload = await service.preparePayload(testLogs);
 
-        expect(payload).toBeInstanceOf(Array);
-        expect(payload.length).toBe(2);
+        expect(payload).toHaveLength(2);
         expect(payload[0]).toBe(testLogs[0]);
         expect(payload[1]).toBe(testLogs[1]);
     });

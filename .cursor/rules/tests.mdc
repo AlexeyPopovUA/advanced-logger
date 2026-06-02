@@ -6,17 +6,19 @@ alwaysApply: false
 
 # Testing conventions
 
-- Spec files: `__tests__/**/*.spec.ts` (see `jest.config.js`)
-- Mock remote I/O: `jest.mock("../src/util/http")` (or relative path from spec)
-- Use `wait()` from `src/util/TestUtils` after `sendAllLogs()` or interval strategies
-- **Always** call `logger.destroy()` in `afterEach` — clears `EventEmitter` listeners and lodash throttles
-- `jest.clearAllMocks()` and `jest.clearAllTimers()` in `afterEach` when using timers
+- **Jest 30** — config in `jest.config.js` (`preset: ts-jest`, `testMatch: **/__tests__/**/*.spec.ts`)
+- **Behavior first** — assert outcomes (HTTP called, payload content, grouping counts), not `typeof` export checks
+- **Helpers** — `__tests__/helpers/fixtures.ts` (`createLogger`, `minimalServiceConfig`), `flush.ts` (`flushLogger`, `wait`), `events.ts` (`onceEvent`)
+- **Integration** — logger + strategy flows live in `__tests__/integration/logger.spec.ts`
+- Mock remote I/O: `jest.mock(".../src/util/http")`; prefer partial mock (keep real `delayedRetry`) when testing retry behavior
+- Use `jest.mocked(http.request)` for mock setup and assertions
+- **Always** call `logger.destroy()` in `afterEach` — clears listeners and lodash throttles
+- `jest.clearAllTimers()` in `afterEach` when tests use real timers with short delays
 
 Example teardown:
 
 ```typescript
 afterEach(() => {
-  jest.clearAllMocks();
   jest.clearAllTimers();
   logger?.destroy();
 });

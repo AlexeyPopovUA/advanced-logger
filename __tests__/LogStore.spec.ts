@@ -2,12 +2,14 @@ import {TransformationEnum} from "../src/enums/TransformationEnum";
 import LogStore from "../src/LogStore";
 import IDefaultLogConfig from "../src/interface/config/IDefaultLogConfig";
 import ILogStoreConfig from "../src/interface/config/ILogStoreConfig";
+import {onceEvent} from "./helpers/events";
+import {wait} from "./helpers/flush";
 
 describe("LogStore", () => {
     let logStore: LogStore<IDefaultLogConfig & {test: string}>;
 
     const emptyStoreConfig: ILogStoreConfig = {
-        transformations: []
+        transformations: [],
     };
     const storeConfigWithGrouping: ILogStoreConfig = {
         transformations: [{
@@ -15,87 +17,69 @@ describe("LogStore", () => {
             configuration: {
                 interval: 10,
                 groupIdentityFields: ["test"],
-                groupFieldName: "CloneInGroupCounter"
-            }
-        }]
+                groupFieldName: "CloneInGroupCounter",
+            },
+        }],
     };
 
     afterEach(() => {
-        jest.clearAllMocks();
         jest.clearAllTimers();
-
-        if (logStore) {
-            logStore.destroy();
-        }
+        logStore?.destroy();
     });
 
-    it("Should export LogStore", () => {
-        expect(typeof LogStore).toBe("function");
-    });
-
-    it("Should be able to create a new LogStore instance", () => {
-        expect(() => {
-            logStore = new LogStore(emptyStoreConfig);
-        }).not.toThrow();
-
-        expect(logStore).toBeTruthy();
-    });
-
-    it("Should be able to emmit 'add' event when a new log is added", done => {
+    it("emits add when a log is stored", async () => {
         logStore = new LogStore(emptyStoreConfig);
 
-        logStore.eventEmitter.on("add", () => done());
-        logStore.eventEmitter.on("error", err => done(err));
-
+        const addPromise = onceEvent(logStore.eventEmitter, "add");
         logStore.add({test: "123"});
+
+        await expect(addPromise).resolves.toEqual({logCount: 1});
     });
 
-    it("Should be able to emmit 'cleared' event when all logs are removed", done => {
+    it("emits clear when the store is emptied", async () => {
         logStore = new LogStore(emptyStoreConfig);
 
-        logStore.eventEmitter.on("clear", () => done());
-        logStore.eventEmitter.on("error", err => done(err));
-
+        const clearPromise = onceEvent(logStore.eventEmitter, "clear");
         logStore.clear();
+
+        await expect(clearPromise).resolves.toBeUndefined();
     });
 
-    it("Should return logs with grouping of duplications", done => {
+    it("groups duplicate logs by identity fields after the grouping interval", async () => {
         logStore = new LogStore(storeConfigWithGrouping);
 
         logStore.add({test: "123"});
         logStore.add({test: "123"});
         logStore.add({test: "321"});
 
-        setTimeout(() => {
-            const logs = logStore.getAll();
-            expect(logs.length).toEqual(2);
-            expect(logs.find(item => item.test === "123")?.CloneInGroupCounter).toBe(2);
-            done();
-        }, 20);
+        await wait(20);
+
+        const logs = logStore.getAll();
+        expect(logs).toHaveLength(2);
+        expect(logs.find(item => item.test === "123")?.CloneInGroupCounter).toBe(2);
     });
 
-    it("Should return logs with multiple grouping iterations", done => {
+    it("applies grouping across multiple intervals", async () => {
         logStore = new LogStore(storeConfigWithGrouping);
 
         logStore.add({test: "123"});
         logStore.add({test: "123"});
         logStore.add({test: "321"});
 
-        setTimeout(() => {
-            logStore.add({test: "123"});
-            logStore.add({test: "123"});
-            logStore.add({test: "123"});
-            logStore.add({test: "321"});
+        await wait(20);
 
-            setTimeout(() => {
-                const nextLogs = logStore.getAll();
-                expect(nextLogs.length).toEqual(4);
-                done();
-            }, 20);
-        }, 20);
+        logStore.add({test: "123"});
+        logStore.add({test: "123"});
+        logStore.add({test: "123"});
+        logStore.add({test: "321"});
+
+        await wait(20);
+
+        const logs = logStore.getAll();
+        expect(logs).toHaveLength(4);
     });
 
-    it("Should finalize grouping when logs are needed", () => {
+    it("finalizes grouping immediately when logs are read", () => {
         logStore = new LogStore(storeConfigWithGrouping);
 
         logStore.add({test: "123"});
@@ -103,8 +87,7 @@ describe("LogStore", () => {
         logStore.add({test: "321"});
 
         let logs = logStore.getAll();
-
-        expect(logs.length).toEqual(2);
+        expect(logs).toHaveLength(2);
         expect(logs.find(item => item.test === "123")?.CloneInGroupCounter).toBe(2);
 
         logStore.add({test: "123"});
@@ -113,7 +96,6 @@ describe("LogStore", () => {
         logStore.add({test: "321"});
 
         logs = logStore.getAll();
-
-        expect(logs.length).toEqual(4);
+        expect(logs).toHaveLength(4);
     });
 });

@@ -4,45 +4,38 @@ describe("LogUtils", () => {
     const log = {
         name: "logName",
         category: "logCat",
-        test: "smth"
+        test: "smth",
     };
 
-    it("getLogIdByFields should return id by fields", () => {
-        const keys = Object.keys(log);
-        keys.splice(keys.indexOf("test"), 1);
+    it("builds a stable id from the configured identity fields", () => {
+        const keys = Object.keys(log).filter(key => key !== "test");
 
         const result = LogUtils.getLogIdByFields(log, keys);
+
         expect(result).toContain(log.name);
         expect(result).toContain(log.category);
         expect(result).not.toContain(log.test);
     });
 
-    it("tryJSONStringify should return empty result for circularly nested object", () => {
-        const logCirc = {
+    it("returns an empty string for circular structures", () => {
+        const circular: {name: string; logData: unknown} = {
             name: "logName",
-            category: "logCat",
-            test: "smth",
-            logData: null as unknown
+            logData: null,
         };
+        circular.logData = circular;
 
-        logCirc.logData = logCirc;
-
-        const result = LogUtils.tryJSONStringify(logCirc);
-        expect(result).toEqual("");
+        expect(LogUtils.tryJSONStringify(circular)).toBe("");
     });
 
-    it("tryJSONStringify should return stringified json for a plain object", () => {
-        const logPlain = {
+    it("stringifies plain objects as JSON", () => {
+        const plain = {
             name: "logName",
             category: "logCat",
-            test: "smth",
-            logData: {
-                testData: 123
-            }
+            logData: {testData: 123},
         };
 
-        const result = LogUtils.tryJSONStringify(logPlain);
-        expect(result).toBeTruthy();
+        const result = LogUtils.tryJSONStringify(plain);
+
         expect(result).toContain("testData");
         expect(result).toContain("category");
         expect(result).toContain("logName");

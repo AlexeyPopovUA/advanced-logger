@@ -108,16 +108,19 @@ Match existing style: minimal comments, lodash for throttle/debounce where alrea
 
 ## Testing
 
-- Specs live in `__tests__/**/*.spec.ts`, matched by `testRegex` in `jest.config.js`
-- Mock `src/util/http` for remote services; use `TestUtils.wait()` for async strategy timing
-- Always `logger.destroy()` in `afterEach` for strategies with intervals/throttles
+- **Jest 30** with `ts-jest` preset (`jest.config.js`: `testMatch`, `clearMocks`, `restoreMocks`)
+- Specs: `__tests__/**/*.spec.ts`; integration flows in `__tests__/integration/`; shared helpers in `__tests__/helpers/`
+- Prefer **behavior** assertions (flush timing, payloads, headers, retries) over export/constructor smoke tests
+- Mock `src/util/http` at the I/O boundary; use `jest.mocked(http.request)` for typed mocks
+- Use `__tests__/helpers/fixtures.ts` (`createLogger`) and `flush.ts` (`flushLogger`, `wait`) for logger integration tests
+- Always `logger.destroy()` in `afterEach` when using strategies with intervals/throttles
 
 ## What to change where
 
 | Task | Where to edit |
 |------|----------------|
 | Public exports | `src/index.ts` |
-| Send timing | `src/strategy/` + `__tests__/strategy/` |
+| Send timing | `src/strategy/` + `__tests__/integration/logger.spec.ts` |
 | Endpoint / payload | `src/service/` + `__tests__/service/` |
 | Buffering / grouping | `src/LogStore.ts`, `src/enums/TransformationEnum.ts` |
 | HTTP retries / requests | `src/util/http.ts` |
