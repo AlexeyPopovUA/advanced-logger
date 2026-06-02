@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0](https://github.com/AlexeyPopovUA/advanced-logger/compare/v3.0.6...v4.0.0) (2026-06-02)
+
+
+### ⚠ BREAKING CHANGES
+
+* import/require now return top-level named exports
+(AdvancedLogger, strategy, service, TransformationEnum) instead of the
+advancedLogger namespace wrapper. axios is no longer a (peer) dependency;
+the library uses native fetch (Node 18+/modern browsers) and non-2xx
+responses now reject. The browser window.advancedLogger global is unchanged.
+
+Co-authored-by: Cursor <cursoragent@cursor.com>
+
+### Features
+
+* bundle with tsup (ESM/CJS) and drop axios for native fetch ([ca82757](https://github.com/AlexeyPopovUA/advanced-logger/commit/ca82757a1b554bc3cc99c6eb6a966ffb0202d6da))
+
+
+### Bug Fixes
+
+* **deps:** update dependency lodash to v4.17.23 [security] ([#1391](https://github.com/AlexeyPopovUA/advanced-logger/issues/1391)) ([16538f8](https://github.com/AlexeyPopovUA/advanced-logger/commit/16538f842070784b3b306d2bec4e1b8f0100a4e4))
+
 ### [3.0.6](https://github.com/AlexeyPopovUA/advanced-logger/compare/v3.0.5...v3.0.6) (2023-05-22)
 
 
