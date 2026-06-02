@@ -7,7 +7,7 @@ Guidance for AI coding assistants working in this repository.
 **[advanced-logger](https://www.npmjs.com/package/advanced-logger)** — an isomorphic TypeScript logging library for Node.js and browsers. It batches and ships arbitrary log objects to remote endpoints using pluggable **strategies** (when to send) and **services** (where to send).
 
 - **Docs site (separate repo):** https://www.advancedlogger.com — [AlexeyPopovUA/advanced-logger-guide](https://github.com/AlexeyPopovUA/advanced-logger-guide)
-- **Package:** dual ESM + CJS + `.d.ts` and a browser IIFE global, bundled with **tsup**; HTTP uses native `fetch` (no `axios`, no runtime peer deps)
+- **Package:** dual ESM + CJS + `.d.ts` and a browser IIFE global, bundled with **tsup**; HTTP uses native `fetch` (no `axios`). Runtime deps (`lodash/throttle`, `fast-safe-stringify`) are bundled in, so the published package has **no runtime dependencies**
 - **Node.js:** 24 (via [mise](https://mise.jdx.dev/) — see `.mise.toml` and `.nvmrc`); native `fetch` needs Node 18+
 - **License:** MIT
 
@@ -58,7 +58,7 @@ mise install        # Node 24 from .mise.toml
 npm ci              # install (CI uses this)
 npm run type-check  # tsc --noEmit
 npm test            # Jest unit tests (src/, http mock)
-npm run test:integration  # built bundles: Node entry + browser UMD (needs dev build)
+npm run test:integration  # built bundles: Node CJS + browser IIFE (runs build first)
 npm run test:all    # unit + runtime integration
 npm run coverage    # Jest with coverage (SonarCloud on master)
 npm run build       # tsup: ESM + CJS + dts + browser IIFE
@@ -99,7 +99,7 @@ Log shape is generic (`T extends IDefaultLogConfig`); the library does not requi
 
 ## Code conventions
 
-- **TypeScript** with `strict: true`; compile target **ES2015** (consumers on old runtimes must transpile/polyfill)
+- **TypeScript** with `strict: true`; tsup targets **ES2020** (ESM/CJS) and **ES2015** (browser IIFE)
 - **Default exports** for classes; barrel re-exports in `src/index.ts`
 - **Event-driven** coordination — prefer emitting/listening over tight coupling
 - **Lifecycle:** call `destroy()` on loggers in tests (`afterEach`) to clear timers and listeners

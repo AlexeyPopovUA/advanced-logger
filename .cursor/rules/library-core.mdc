@@ -24,5 +24,5 @@ alwaysApply: false
 
 ## Style
 
-- Default-export classes; strict TypeScript; ES2015 target — no DOM/Node-only APIs in shared paths without guards
+- Default-export classes; strict TypeScript; build targets ES2020 (ESM/CJS) / ES2015 (browser IIFE) — no DOM/Node-only APIs in shared paths without guards
 - Call `destroy()` to remove listeners and cancel throttles/timers

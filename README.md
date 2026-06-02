@@ -54,7 +54,7 @@ It supports any format of logs via custom serializer.
 
 The package ships dual **ESM** (`dist/index.mjs`) and **CommonJS** (`dist/index.cjs`) builds plus a self-contained
 browser **IIFE** global (`dist/index.global.js`), with type declarations (`dist/index.d.ts`). HTTP uses the platform's
-native `fetch`, so there are no runtime dependencies on `axios`.
+native `fetch` and all other dependencies are bundled in, so the package has **no runtime dependencies**.
 
 :robot: NodeJS - developed and tested on Node.js 24 (see `.mise.toml`); requires Node.js 18+ for global `fetch`.
 
