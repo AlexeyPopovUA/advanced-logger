@@ -1,6 +1,6 @@
 {
   "name": "advanced-logger",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Advanced logger module extendable with plugins. Works in nodejs and browsers",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",

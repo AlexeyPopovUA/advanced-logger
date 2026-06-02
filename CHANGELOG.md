@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.0.1](https://github.com/AlexeyPopovUA/advanced-logger/compare/v4.0.0...v4.0.1) (2026-06-02)
+
+
+### Bug Fixes
+
+* **ci:** run SonarCloud in release workflow without npm OIDC env ([dab6b00](https://github.com/AlexeyPopovUA/advanced-logger/commit/dab6b00989818bd1ac6b16ad532161f8ce36e87a))
+
 ## [4.0.0](https://github.com/AlexeyPopovUA/advanced-logger/compare/v3.0.6...v4.0.0) (2026-06-02)
 
 
