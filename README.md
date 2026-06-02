@@ -54,7 +54,7 @@ It supports any format of logs via custom serializer.
 
 Builds are generated as ES2015 bundles for nodejs and browser environments.
 
-:robot: NodeJS - tested on latest lts
+:robot: NodeJS - developed and tested on Node.js 24 (see `.mise.toml`)
 
 :globe_with_meridians: Browser - all latest browsers, that support ES2015 JS.
 

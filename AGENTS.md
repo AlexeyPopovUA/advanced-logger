@@ -8,6 +8,7 @@ Guidance for AI coding assistants working in this repository.
 
 - **Docs site (separate repo):** https://www.advancedlogger.com — [AlexeyPopovUA/advanced-logger-guide](https://github.com/AlexeyPopovUA/advanced-logger-guide)
 - **Package:** ES2015 bundles for Node and browser; **axios** is a required peer dependency (not bundled)
+- **Node.js:** 24 (via [mise](https://mise.jdx.dev/) — see `.mise.toml` and `.nvmrc`)
 - **License:** MIT
 
 ## Architecture
@@ -52,18 +53,19 @@ Entry points: `main-node.js` / `main-browser.js` load prod or debug bundles from
 ## Commands
 
 ```bash
+mise install        # Node 24 from .mise.toml
 npm ci              # install (CI uses this)
 npm run type-check  # tsc --noEmit
 npm test            # Jest unit tests
 npm run coverage    # Jest with coverage (SonarCloud on master)
 npm run build       # webpack: node + browser, prod + dev
 npm run build-prod  # production bundles only
-npm run bundlesize  # size limits (bundlesize.config.js)
+npm run bundlesize  # bundle size limits (after full build; see bundlesize.config.js)
 ```
 
 **Verify changes:** `npm run type-check` → `npm test` → `npm run build` (or `build-prod` if only shipping artifacts).
 
-CI (`.github/workflows/`): feature branches run type-check, test, and full build on Node 18; `master` also runs coverage and SonarCloud on Node 16.
+CI (`.github/workflows/`): all workflows use Node 24. Feature branches run type-check, test, and full build; `master` also runs coverage and SonarCloud.
 
 ## Extending the library
 
@@ -126,7 +128,9 @@ Do **not** put Gatsby or website content in this repo — that belongs in **adva
 
 ## Pitfalls
 
+- **mise:** run `mise trust` once in the repo root if mise refuses to load `.mise.toml`
 - **axios** must be installed by consumers (`peerDependencies`); tests mock `http`, not axios directly
+- **bundlesize:** run after a full `npm run build` (all four `dist/` artifacts); `build-prod` alone is not enough
 - Clearing `LogStore` happens **before** `sendAllLogs` resolves — failed sends do not restore buffered logs
 - Browser and Node share `src/`; avoid Node-only APIs without guards if used in shared code paths
 - `dist/` and generated `.d.ts` come from build — edit `src/` only

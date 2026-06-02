@@ -9,6 +9,7 @@ Isomorphic **advanced-logger** npm package (TypeScript library for Node + browse
 
 - **Pattern:** `LogStore` → `IStrategy` (when) → `IService` (where) via `EventEmitter`
 - **Extend:** subclass `BaseRemoteService` or implement `IStrategy`; export from `src/index.ts` if public
+- **Node.js:** 24 via mise (`.mise.toml`); run `mise install` in repo root
 - **Peer dep:** axios (not bundled)
 - **Verify:** `npm run type-check` → `npm test` → `npm run build`
 - **Full guide:** root `AGENTS.md`

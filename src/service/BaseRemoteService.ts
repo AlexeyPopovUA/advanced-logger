@@ -18,7 +18,7 @@ export default class BaseRemoteService implements IService, IDestructable {
 
         // optional serializer override
         if (config.serializer) {
-            this.serializer = config.serializer;
+            this.serializer = config.serializer as <T>(log: T) => string;
         }
     }
 
