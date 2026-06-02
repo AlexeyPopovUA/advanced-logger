@@ -11,6 +11,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write  # Required for npm trusted publishing (OIDC)
 
     steps:
       - name: Checkout
@@ -22,8 +25,8 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: '24'
-          cache: 'npm'
           registry-url: 'https://registry.npmjs.org'
+          package-manager-cache: false  # recommended for release builds
 
       - name: Install
         run: npm ci
@@ -37,16 +40,10 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Verify npm authentication
-        run: npm whoami
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
+      # Authenticates via npm trusted publisher (OIDC) — no NPM_TOKEN needed.
+      # npmjs.com package settings must list workflow filename: release-tag.yml
       - name: Publish to npm
-        uses: JS-DevTools/npm-publish@v4
-        with:
-          token: ${{ secrets.NPM_TOKEN }}
-          access: public
+        run: npm publish
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v7

@@ -104,7 +104,7 @@ Log shape is generic (`T extends IDefaultLogConfig`); the library does not requi
 - **Event-driven** coordination — prefer emitting/listening over tight coupling
 - **Lifecycle:** call `destroy()` on loggers in tests (`afterEach`) to clear timers and listeners
 - **Commits:** [Conventional Commits](https://www.conventionalcommits.org/) via commitlint (`@commitlint/config-conventional`)
-- **Releases:** `npm run release` (standard-version); version script updates `sonar-project.properties`
+- **Releases:** `npm run release` (standard-version); push tag triggers `.github/workflows/release-tag.yml`, which publishes to npm via **trusted publishing (OIDC)** — workflow filename on npm must be `release-tag.yml` (no `NPM_TOKEN`)
 
 Match existing style: minimal comments, lodash for throttle/debounce where already used, no new abstractions unless the change needs them.
 
