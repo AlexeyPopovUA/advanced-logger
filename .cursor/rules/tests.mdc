@@ -1,0 +1,25 @@
+---
+description: Jest testing patterns for advanced-logger
+globs: __tests__/**/*.ts
+alwaysApply: false
+---
+
+# Testing conventions
+
+- Spec files: `__tests__/**/*.spec.ts` (see `jest.config.js`)
+- Mock remote I/O: `jest.mock("../src/util/http")` (or relative path from spec)
+- Use `wait()` from `src/util/TestUtils` after `sendAllLogs()` or interval strategies
+- **Always** call `logger.destroy()` in `afterEach` — clears `EventEmitter` listeners and lodash throttles
+- `jest.clearAllMocks()` and `jest.clearAllTimers()` in `afterEach` when using timers
+
+Example teardown:
+
+```typescript
+afterEach(() => {
+  jest.clearAllMocks();
+  jest.clearAllTimers();
+  logger?.destroy();
+});
+```
+
+Coverage is collected from `src/**/*.ts` only (not `__tests__/`).

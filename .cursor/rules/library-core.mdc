@@ -1,0 +1,28 @@
+---
+description: Strategy/service patterns and TypeScript conventions in src/
+globs: src/**/*.ts
+alwaysApply: false
+---
+
+# Library source conventions
+
+## Strategy (`src/strategy/`)
+
+- Implement `IStrategy`: `eventEmitter`, `onAdd`, `onClear`, `sendAll`, `destroy`
+- Emit `"send"` on `eventEmitter` when the store should flush to the service
+- `OnRequestStrategy`: only sends on `sendAll()`; `InstantStrategy` sends on every `onAdd`
+
+## Service (`src/service/`)
+
+- Extend `BaseRemoteService` for HTTP backends; override `preparePayload`, `serializer`, or `getHeaders` when the endpoint format differs
+- `sendAllLogs` merges each log with `defaultLogConfig`, then calls `http.request` (axios wrapper in `src/util/http.ts`)
+
+## LogStore
+
+- Optional `transformations` with `TransformationEnum.RAPID_FIRE_GROUPING` — uses lodash `throttle` and `LogUtils.getLogIdByFields`
+- `getAll()` flushes pending group counters before returning a copy
+
+## Style
+
+- Default-export classes; strict TypeScript; ES2015 target — no DOM/Node-only APIs in shared paths without guards
+- Call `destroy()` to remove listeners and cancel throttles/timers

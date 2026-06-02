@@ -1,0 +1,16 @@
+---
+description: Advanced Logger library — core context for all tasks
+alwaysApply: true
+---
+
+# Project context
+
+Isomorphic **advanced-logger** npm package (TypeScript library for Node + browser), not the docs site.
+
+- **Pattern:** `LogStore` → `IStrategy` (when) → `IService` (where) via `EventEmitter`
+- **Extend:** subclass `BaseRemoteService` or implement `IStrategy`; export from `src/index.ts` if public
+- **Peer dep:** axios (not bundled)
+- **Verify:** `npm run type-check` → `npm test` → `npm run build`
+- **Full guide:** root `AGENTS.md`
+
+Keep changes in `src/`; `dist/` is build output. Docs/marketing copy lives in the **advanced-logger-guide** repo.
