@@ -37,6 +37,12 @@ jobs:
       - name: Unit tests
         run: npm run coverage
 
+      - name: Build
+        run: npm run build
+
+      - name: Runtime integration tests
+        run: npx jest --selectProjects runtime
+
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
         env:

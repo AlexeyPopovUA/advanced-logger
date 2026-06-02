@@ -11,7 +11,7 @@ Isomorphic **advanced-logger** npm package (TypeScript library for Node + browse
 - **Extend:** subclass `BaseRemoteService` or implement `IStrategy`; export from `src/index.ts` if public
 - **Node.js:** 24 via mise (`.mise.toml`); run `mise install` in repo root
 - **Peer dep:** axios (not bundled)
-- **Verify:** `npm run type-check` → `npm test` → `npm run build`
+- **Verify:** `npm run type-check` → `npm test` → `npm run build` → `npm run test:integration` (or `test:all`)
 - **Full guide:** root `AGENTS.md`
 
 Keep changes in `src/`; `dist/` is build output. Docs/marketing copy lives in the **advanced-logger-guide** repo.

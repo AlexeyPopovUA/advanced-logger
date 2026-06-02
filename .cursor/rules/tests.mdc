@@ -6,14 +6,17 @@ alwaysApply: false
 
 # Testing conventions
 
-- **Jest 30** — config in `jest.config.js` (`preset: ts-jest`, `testMatch: **/__tests__/**/*.spec.ts`)
+- **Jest 30 projects** — `unit` (`npm test`) and `runtime` (`npm run test:integration`) in `jest.config.js`
+- **Unit tests** — import from `src/`; mock `jest.mock(".../src/util/http")`; coverage from `src/**/*.ts`
+- **Runtime integration** — `__tests__/integration/runtime/` loads built bundles after `build-dev-*`:
+  - Node: `require("main-node.js").advancedLogger`
+  - Browser: inline UMD script in jsdom → `window.advancedLogger`; set `window.axios` from mocked `axios`
 - **Behavior first** — assert outcomes (HTTP called, payload content, grouping counts), not `typeof` export checks
-- **Helpers** — `__tests__/helpers/fixtures.ts` (`createLogger`, `minimalServiceConfig`), `flush.ts` (`flushLogger`, `wait`), `events.ts` (`onceEvent`)
-- **Integration** — logger + strategy flows live in `__tests__/integration/logger.spec.ts`
-- Mock remote I/O: `jest.mock(".../src/util/http")`; prefer partial mock (keep real `delayedRetry`) when testing retry behavior
-- Use `jest.mocked(http.request)` for mock setup and assertions
-- **Always** call `logger.destroy()` in `afterEach` — clears listeners and lodash throttles
-- `jest.clearAllTimers()` in `afterEach` when tests use real timers with short delays
+- **Helpers** — `__tests__/helpers/` (`fixtures`, `flush`, `events`); runtime scenarios in `integration/runtime/scenarios.ts`
+- **Source integration** — `__tests__/integration/logger.spec.ts` (strategies via src, http mock)
+- Use `jest.mocked(...)` for mock setup and assertions
+- **Always** call `logger.destroy()` in `afterEach` when using intervals/throttles
+- `jest.clearAllTimers()` when tests use real timers with short delays
 
 Example teardown:
 
@@ -23,5 +26,3 @@ afterEach(() => {
   logger?.destroy();
 });
 ```
-
-Coverage is collected from `src/**/*.ts` only (not `__tests__/`).

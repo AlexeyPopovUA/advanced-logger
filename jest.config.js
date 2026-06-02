@@ -1,11 +1,30 @@
 /** @type {import('jest').Config} */
-module.exports = {
+const sharedConfig = {
     preset: "ts-jest",
-    testEnvironment: "node",
-    testMatch: ["**/__tests__/**/*.spec.ts"],
     moduleFileExtensions: ["ts", "js", "json"],
-    collectCoverageFrom: ["src/**/*.ts"],
-    coveragePathIgnorePatterns: ["/node_modules/"],
     clearMocks: true,
     restoreMocks: true,
+};
+
+/** @type {import('jest').Config} */
+module.exports = {
+    projects: [
+        {
+            ...sharedConfig,
+            displayName: "unit",
+            testEnvironment: "node",
+            testMatch: [
+                "**/__tests__/**/*.spec.ts",
+                "!**/__tests__/integration/runtime/**",
+            ],
+            collectCoverageFrom: ["src/**/*.ts"],
+            coveragePathIgnorePatterns: ["/node_modules/"],
+        },
+        {
+            ...sharedConfig,
+            displayName: "runtime",
+            testEnvironment: "node",
+            testMatch: ["**/__tests__/integration/runtime/**/*.spec.ts"],
+        },
+    ],
 };

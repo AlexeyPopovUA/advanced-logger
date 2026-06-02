@@ -81,10 +81,12 @@ npm i --save advanced-logger axios
 ```
 
 ```javascript
-import {AdvancedLogger, service, strategy} from 'advanced-logger';
-// or
-const {AdvancedLogger, service, strategy} = require('advanced-logger');
+// CommonJS (Node and bundlers resolving the "main" field)
+const {advancedLogger} = require('advanced-logger');
+const {AdvancedLogger, service, strategy} = advancedLogger;
 ```
+
+The built package exposes the API on the `advancedLogger` property (webpack library name). In browsers via script tag, use `window.advancedLogger` (see below).
 
 As script tags with CDN:
 
@@ -102,7 +104,7 @@ As script tags with CDN:
 Lets initiate a logger that sends all logs instantly to Sumologic service.
 
 ```javascript
-import {AdvancedLogger, service, strategy} from 'advanced-logger';
+const {AdvancedLogger, service, strategy} = window.advancedLogger;
 
 const defaultLogConfig = {
     UserAgent: window.userAgent,
@@ -135,6 +137,32 @@ logger.log({test: "instant log u1"}); // sends log message :rocket:
 logger.log({test: "instant log u2"}); // sends log message :rocket:
 logger.log({test: "instant log u3"}); // sends log message :rocket:
 ```
+
+## Development
+
+Requires **Node.js 24+** (see [`.mise.toml`](.mise.toml) / [`.nvmrc`](.nvmrc)).
+
+```bash
+mise install          # optional: install Node via mise
+npm ci
+npm run type-check
+npm test              # unit tests (import from src/, mock http)
+npm run test:integration  # build dev bundles + Node/browser runtime tests
+npm run test:all      # unit + runtime
+npm run build
+npm run coverage      # unit tests with coverage (CI on master)
+```
+
+**Jest 30** runs two projects (see [`jest.config.js`](jest.config.js)):
+
+| Project | What it checks |
+|---------|----------------|
+| `unit` | Source-level specs under `__tests__/` |
+| `runtime` | Built artifacts: Node via [`main-node.js`](main-node.js), browser UMD via jsdom + `window.advancedLogger` |
+
+CI runs unit tests, full build, then runtime integration on every branch.
+
+Contributor notes for AI-assisted work: [`AGENTS.md`](AGENTS.md).
 
 ### Upgrading between breaking changes
 

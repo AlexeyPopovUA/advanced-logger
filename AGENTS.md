@@ -56,16 +56,18 @@ Entry points: `main-node.js` / `main-browser.js` load prod or debug bundles from
 mise install        # Node 24 from .mise.toml
 npm ci              # install (CI uses this)
 npm run type-check  # tsc --noEmit
-npm test            # Jest unit tests
+npm test            # Jest unit tests (src/, http mock)
+npm run test:integration  # built bundles: Node entry + browser UMD (needs dev build)
+npm run test:all    # unit + runtime integration
 npm run coverage    # Jest with coverage (SonarCloud on master)
 npm run build       # webpack: node + browser, prod + dev
 npm run build-prod  # production bundles only
 npm run bundlesize  # bundle size limits (after full build; see bundlesize.config.js)
 ```
 
-**Verify changes:** `npm run type-check` → `npm test` → `npm run build` (or `build-prod` if only shipping artifacts).
+**Verify changes:** `npm run type-check` → `npm test` → `npm run build` → `npx jest --selectProjects runtime` (or `npm run test:all`).
 
-CI (`.github/workflows/`): all workflows use Node 24. Feature branches run type-check, test, and full build; `master` also runs coverage and SonarCloud.
+CI (`.github/workflows/`): all workflows use Node 24. Feature branches run type-check, unit tests, full build, then runtime integration; `master` also runs coverage, build, runtime tests, and SonarCloud.
 
 ## Extending the library
 
@@ -108,11 +110,12 @@ Match existing style: minimal comments, lodash for throttle/debounce where alrea
 
 ## Testing
 
-- **Jest 30** with `ts-jest` preset (`jest.config.js`: `testMatch`, `clearMocks`, `restoreMocks`)
-- Specs: `__tests__/**/*.spec.ts`; integration flows in `__tests__/integration/`; shared helpers in `__tests__/helpers/`
+- **Jest 30** projects in `jest.config.js`: `unit` (default) and `runtime`
+- **Unit** (`npm test`): import from `src/`; mock `src/util/http`; specs in `__tests__/` except `integration/runtime/`
+- **Runtime integration** (`npm run test:integration`): loads webpack output — Node via `main-node.js` → `.advancedLogger`, browser via UMD + `window.advancedLogger` (jsdom); mock `axios` (peer dep)
+- Shared runtime scenarios: `__tests__/integration/runtime/scenarios.ts`
+- Source-level integration: `__tests__/integration/logger.spec.ts`; helpers in `__tests__/helpers/`
 - Prefer **behavior** assertions (flush timing, payloads, headers, retries) over export/constructor smoke tests
-- Mock `src/util/http` at the I/O boundary; use `jest.mocked(http.request)` for typed mocks
-- Use `__tests__/helpers/fixtures.ts` (`createLogger`) and `flush.ts` (`flushLogger`, `wait`) for logger integration tests
 - Always `logger.destroy()` in `afterEach` when using strategies with intervals/throttles
 
 ## What to change where
@@ -132,7 +135,8 @@ Do **not** put Gatsby or website content in this repo — that belongs in **adva
 ## Pitfalls
 
 - **mise:** run `mise trust` once in the repo root if mise refuses to load `.mise.toml`
-- **axios** must be installed by consumers (`peerDependencies`); tests mock `http`, not axios directly
+- **axios** must be installed by consumers (`peerDependencies`); unit tests mock `src/util/http`, runtime tests mock `axios`
+- **Package export:** built bundles expose the API as `require('advanced-logger').advancedLogger` (Node) or `window.advancedLogger` (browser script tag)
 - **bundlesize:** run after a full `npm run build` (all four `dist/` artifacts); `build-prod` alone is not enough
 - Clearing `LogStore` happens **before** `sendAllLogs` resolves — failed sends do not restore buffered logs
 - Browser and Node share `src/`; avoid Node-only APIs without guards if used in shared code paths

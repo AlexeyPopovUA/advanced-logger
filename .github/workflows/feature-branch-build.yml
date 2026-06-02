@@ -35,3 +35,6 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Runtime integration tests
+        run: npx jest --selectProjects runtime
