@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.1.0](https://github.com/AlexeyPopovUA/advanced-logger/compare/v4.0.2...v4.1.0) (2026-06-27)
+
+
+### Features
+
+* **strategy:** add HybridStrategy combining bundle size and interval ([89915a5](https://github.com/AlexeyPopovUA/advanced-logger/commit/89915a525a2c9a8b72c08bb74d66c77f6e32707c))
+
+
+### Bug Fixes
+
+* **strategy:** cancel throttle in OnIntervalStrategy.destroy ([4cd045d](https://github.com/AlexeyPopovUA/advanced-logger/commit/4cd045d33ebc9973a73844574541972fe9597574))
+
 ### [4.0.2](https://github.com/AlexeyPopovUA/advanced-logger/compare/v4.0.1...v4.0.2) (2026-06-02)
 
 ### [4.0.1](https://github.com/AlexeyPopovUA/advanced-logger/compare/v4.0.0...v4.0.1) (2026-06-02)
