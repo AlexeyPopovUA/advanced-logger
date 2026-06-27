@@ -7,7 +7,7 @@ export default class OnIntervalStrategy implements IStrategy {
     public eventEmitter: EventEmitter;
     public SEND_INTERVAL = 15000;
 
-    private readonly intervalSend: () => void;
+    private readonly intervalSend: ReturnType<typeof throttle>;
 
     constructor(config: {interval?: number}) {
         this.eventEmitter = new EventEmitter();
@@ -35,6 +35,7 @@ export default class OnIntervalStrategy implements IStrategy {
     }
 
     public destroy(): void {
+        this.intervalSend.cancel();
         this.eventEmitter.removeAllListeners();
     }
 
