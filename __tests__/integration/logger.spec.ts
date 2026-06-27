@@ -9,6 +9,7 @@ import InstantStrategy from "../../src/strategy/InstantStrategy";
 import OnBundleSizeStrategy from "../../src/strategy/OnBundleSizeStrategy";
 import OnIntervalStrategy from "../../src/strategy/OnIntervalStrategy";
 import OnRequestStrategy from "../../src/strategy/OnRequestStrategy";
+import HybridStrategy from "../../src/strategy/HybridStrategy";
 import IDefaultLogConfig from "../../src/interface/config/IDefaultLogConfig";
 import {createLogger} from "../helpers/fixtures";
 import {flushLogger, wait} from "../helpers/flush";
@@ -29,6 +30,7 @@ describe("AdvancedLogger integration", () => {
         expect(strategy.OnBundleSizeStrategy).toBeDefined();
         expect(strategy.OnIntervalStrategy).toBeDefined();
         expect(strategy.OnRequestStrategy).toBeDefined();
+        expect(strategy.HybridStrategy).toBeDefined();
         expect(service.SumologicService).toBeDefined();
         expect(service.ElasticsearchService).toBeDefined();
         expect(service.LogglyService).toBeDefined();
@@ -106,6 +108,55 @@ describe("AdvancedLogger integration", () => {
 
     it("splits logs into multiple bundles when exceeding max bundle size", async () => {
         logger = createLogger({strategy: new OnBundleSizeStrategy({maxBundle: 5})});
+
+        for (let i = 0; i < 5; i++) {
+            logger.log({test: "test123"});
+        }
+        for (let i = 0; i < 5; i++) {
+            logger.log({test: "test321"});
+        }
+
+        await wait(20);
+
+        expect(jest.mocked(http.request)).toHaveBeenCalledTimes(2);
+        expect(jest.mocked(http.request).mock.calls[0][2]).toContain("test123");
+        expect(jest.mocked(http.request).mock.calls[1][2]).toContain("test321");
+    });
+
+    it("batches logs within the interval window with the hybrid strategy", async () => {
+        logger = createLogger({strategy: new HybridStrategy({maxBundle: 100, interval: 50})});
+
+        logger.log({test: "test123"});
+
+        setTimeout(() => {
+            for (let i = 0; i < 5; i++) {
+                logger.log({test: "test321"});
+            }
+        }, 10);
+
+        await wait(60);
+
+        expect(jest.mocked(http.request)).toHaveBeenCalledTimes(1);
+        const payload = jest.mocked(http.request).mock.calls[0][2];
+        expect(payload).toContain("test123");
+        expect(payload.match(/test321/g)?.length).toBe(5);
+    });
+
+    it("flushes immediately when the hybrid strategy bundle threshold is reached", async () => {
+        logger = createLogger({strategy: new HybridStrategy({maxBundle: 5, interval: 5000})});
+
+        for (let i = 0; i < 5; i++) {
+            logger.log({test: "test123"});
+        }
+
+        await wait(20);
+
+        expect(jest.mocked(http.request)).toHaveBeenCalledTimes(1);
+        expect(jest.mocked(http.request).mock.calls[0][2]).toContain("test123");
+    });
+
+    it("splits logs into multiple bundles when the hybrid strategy exceeds max bundle size", async () => {
+        logger = createLogger({strategy: new HybridStrategy({maxBundle: 5, interval: 5000})});
 
         for (let i = 0; i < 5; i++) {
             logger.log({test: "test123"});

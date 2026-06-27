@@ -9,12 +9,14 @@ import InstantStrategy from "./strategy/InstantStrategy";
 import OnBundleSizeStrategy from "./strategy/OnBundleSizeStrategy";
 import OnIntervalStrategy from "./strategy/OnIntervalStrategy";
 import OnRequestStrategy from "./strategy/OnRequestStrategy";
+import HybridStrategy from "./strategy/HybridStrategy";
 
 const strategy = {
     InstantStrategy,
     OnBundleSizeStrategy,
     OnRequestStrategy,
-    OnIntervalStrategy
+    OnIntervalStrategy,
+    HybridStrategy
 };
 
 const service = {
